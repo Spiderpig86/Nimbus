@@ -2,6 +2,7 @@
 
 import consts from './consts.json';
 
+
 var SC = require('soundcloud');
 
 class Player {
@@ -19,7 +20,7 @@ class Player {
         }
         console.log('SoundCloud API initalized!');
     }
-    
+
     /*
         Bind HTML elements to JS objects
     */
@@ -27,3 +28,5 @@ class Player {
 
     }
 }
+
+export default player;
