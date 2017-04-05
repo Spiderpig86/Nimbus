@@ -1,6 +1,6 @@
 "use strict"
 
-import consts from './consts.json';
+import consts from '../consts.json';
 
 var SC = require('soundcloud');
 
