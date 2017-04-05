@@ -17,4 +17,6 @@ const histItem = (imgurl, title, artist) => {
             </div>
         </div>
     `
-}
+};
+
+export histItem
