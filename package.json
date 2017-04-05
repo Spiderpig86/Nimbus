@@ -1,0 +1,24 @@
+{
+  "name": "nimbus",
+  "version": "0.0.1",
+  "description": "A web app powered by Express that plays random SoundCloud tracks.",
+  "main": "routes/app.js",
+  "dependencies": {
+    "express": "^4.15.2",
+    "soundcloud": "^3.1.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Spiderpig86/Nimbus.git"
+  },
+  "author": "Stanley Lim <slim679975@gmail.com> (http://stanleylim.me/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Spiderpig86/Nimbus/issues"
+  },
+  "homepage": "https://github.com/Spiderpig86/Nimbus#readme"
+}
