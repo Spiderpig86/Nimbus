@@ -51,7 +51,7 @@ class Player {
 
             SC.get('/tracks/' + id).then((track) => {
                 if (track.length > 0) {
-                    this.history.push(track.title);
+                    this.history.push(track); // Push the track so it can be replayed from history.
                     getTrackProperties(track);
                 } else {
                     // Find another track
