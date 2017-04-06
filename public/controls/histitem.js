@@ -19,4 +19,4 @@ const histItem = (imgurl, title, artist) => {
     `
 };
 
-export histItem
+export default histItem

@@ -4,6 +4,10 @@ import consts from '../consts.json';
 
 var SC = require('soundcloud');
 
+// Soundcloud Properties 
+const RAND_COUNT = 300000000;
+const OFFSET = 10000000;
+
 class Player {
 
     initialize() {
@@ -47,7 +51,7 @@ class Player {
     async getRandomTrack() {
         try {
             // Generate random value
-            let id = (Math.floor((Math.random() * 300000000) + 10000000));
+            let id = (Math.floor((Math.random() * RAND_COUNT) + OFFSET));
 
             SC.get('/tracks/' + id).then((track) => {
                 if (track.length > 0) {
