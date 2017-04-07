@@ -8,14 +8,12 @@
     "soundcloud": "^3.1.2"
   },
   "devDependencies": {
-    "babel-cli": "^6.24.0"
+    "babel-cli": "^6.24.0",
+    "express": "^4.15.2"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "babel --presets es2015 src -d dist"
-  },
-  "scripts": {
-    "build": "babel --presets es2015 public/js -d public/dist"
+    "build": "babel --presets es2015 public/js -d public/dist",
+    "start": "/routes/app.js"
   },
   "repository": {
     "type": "git",
