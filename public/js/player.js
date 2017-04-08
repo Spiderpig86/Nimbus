@@ -33,21 +33,25 @@ class Player {
             if (this.curPlayer === null)
                 this.updateStream(this.getRandomTrack());
 
-            if (!this.isPlaying) {
-                
-                this.curPlayer.play();
-                this.curPlayer.pause();
-                this.curPlayer.play();
-                console.log('isPlaying = true');
-                this.isPlaying = true;
-            } else {
-                this.curPlayer.pause();
-                this.curPlayer.play();
-                this.curPlayer.pause();
-                console.log('isPlaying = false');
-                this.isPlaying = false;
+            try {
+                if (!this.isPlaying) {
+                    
+                    this.curPlayer.play();
+                    this.curPlayer.pause();
+                    this.curPlayer.play();
+                    console.log('isPlaying = true');
+                    this.isPlaying = true;
+                } else {
+                    this.curPlayer.pause();
+                    this.curPlayer.play();
+                    this.curPlayer.pause();
+                    console.log('isPlaying = false');
+                    this.isPlaying = false;
+                }
+                console.log('playing');
+            } catch(e) {
+                this.updateStream(this.getRandomTrack());
             }
-            console.log('playing');
         }
     }
 
@@ -73,23 +77,23 @@ class Player {
     /**
      * This function is designed to get a random track from SoundCloud
      */
-    getRandomTrack() {
+     getRandomTrack() {
         try {
             // Generate random value
             let id = (Math.floor((Math.random() * RAND_COUNT) + OFFSET));
-            //id = 6754569;
+            //id = 5740357;
 
-            // SC.get('/tracks/' + id).then((track) => { // Check if there are results
-            //     if (track.length > 0) {
-            //         this.history.push(track); // Push the track so it can be replayed from history.
-            //         this.getTrackProperties(track);
-            //         return id;
-            //     } else {
-            //         // Find another track
-            //         this.getRandomTrack();
-            //         //console.log("no good");
-            //     }
-            // });
+            SC.get('/tracks/' + id).then((track) => { // Check if there are results
+                if (track.length > 0) {
+                    this.history.push(track); // Push the track so it can be replayed from history.
+                    this.getTrackProperties(track);
+                    return id;
+                } else {
+                    // Find another track
+                    this.getRandomTrack();
+                    //console.log("no good");
+                }
+            });
             return id;
         } catch(e) {
             alert("error");
@@ -116,9 +120,9 @@ class Player {
         // Get more info later...
     }
 
-    startSong(id) {
+    async startSong(id) {
         if (!this.isPlaying) {
-            this.updateStream(id);
+            await this.updateStream(id);
             console.log('startSong');
 
             // Add event listeners to stream object.
@@ -128,7 +132,7 @@ class Player {
         }
     }
 
-    updateStream(id) {
+    async updateStream(id) {
         let stream = this.getTrackById(id);
         console.log(id);
         this.curPlayer = stream;
