@@ -8,7 +8,7 @@
         <meta charset="UTF-8">
 
         <!-- CSS -->
-        <link href="https://unpkg.com/cirrus-ui@0.4.6/dist/cirrus.min.css" type="text/css" rel="stylesheet">
+        <link href="public/css/cirrus.min.css" type="text/css" rel="stylesheet">
 
         <!-- JS -->
         <script async src="https://connect.soundcloud.com/sdk/sdk-3.1.2.js"></script>
@@ -17,18 +17,18 @@
     </head>
 
     <body>
-        <!-- Where we will place the player --> ddd
+        <!-- Where we will place the player -->
         <section class="fullscreen hero panel">
             <!--top-->
             <div class="header header-fixed unselectable">
                 <div class="header-left">
                     <div class="header-item">
-                        <a href="#"><h6 class="light">Nimbus</h6></a>
+                        <a href="https://github.com/Spiderpig86/Nimbus" target="_blank"><i class="fa fa-github" aria-hidden="true"></i></a>
                     </div>
                 </div>
                 <div class="header-center">
-                    <!-- Social links -->
-
+                    <!-- Logo -->
+                    <a href="#"><h6 class="light uppercase">Nimbus</h6></a>
                 </div>
                 <div class="header-right">
                     <!-- Find new track button -->
@@ -41,10 +41,10 @@
                 <!-- Place history on right side -->
                 <div class="content">
                     <div class="row">
-                        <div class="col-fluid">
+                        <div class="col-fluid" id="mainPlayer">
 
                         </div>
-                        <div class="col-4">
+                        <div class="col-4" id="histContainer">
                             
                         </div>
                     </div>

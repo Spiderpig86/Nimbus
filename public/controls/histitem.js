@@ -7,7 +7,7 @@ const histItem = (imgurl, title, artist) => {
             <div class="content">
                 <div class="row">
                     <div class="col-3">
-                        <img src=""/>
+                        <img src="${imgurl}"/>
                     </div>
                     <div class="col-9">
                         <p class="title">${title}</p>
