@@ -8,12 +8,12 @@
         <meta charset="UTF-8">
 
         <!-- CSS -->
-        <link href="public/css/cirrus.min.css" type="text/css" rel="stylesheet">
+        <link href="css/cirrus.min.css" type="text/css" rel="stylesheet">
 
         <!-- JS -->
         <script async src="https://connect.soundcloud.com/sdk/sdk-3.1.2.js"></script>
-        <script async src="https://www.soundcloud.com/player/api.js"></script>
-        <script async src="public/js/app.js"></script>
+        <script async src="https://w.soundcloud.com/player/api.js"></script>
+        <script src="js/app.min.js"></script> <!-- Use Webpack JS for modules -->
     </head>
 
     <body>
@@ -42,7 +42,7 @@
                 <div class="content">
                     <div class="row">
                         <div class="col-fluid" id="mainPlayer">
-
+                            <button class="btn-accent" id="play-btn">Play</button>
                         </div>
                         <div class="col-4" id="histContainer">
                             

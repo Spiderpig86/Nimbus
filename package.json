@@ -2,14 +2,15 @@
   "name": "nimbus",
   "version": "0.0.1",
   "description": "A web app powered by Express that plays random SoundCloud tracks.",
-  "main": "routes/app.js",
+  "main": "index.js",
   "dependencies": {
     "express": "^4.15.2",
     "soundcloud": "^3.1.2"
   },
   "devDependencies": {
     "babel-cli": "^6.24.0",
-    "express": "^4.15.2"
+    "express": "^4.15.2",
+    "webpack": "^2.3.3"
   },
   "scripts": {
     "build": "babel --presets es2015 public/js -d public/dist",
