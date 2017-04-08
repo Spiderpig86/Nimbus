@@ -30,7 +30,7 @@ class Player {
         this.bindElements();
 
         this.playBtn.onclick = (e) => {
-            if (this.curPlayer === null)
+            if (this.curPlayer === null && !this.isPlaying)
                 this.updateStream(this.getRandomTrack());
 
             try {
@@ -43,12 +43,18 @@ class Player {
                     this.isPlaying = true;
                 } else {
                     this.curPlayer.pause();
-                    this.curPlayer.play();
-                    this.curPlayer.pause();
+                    //this.curPlayer.play();
+                    
+                    // Give the timeout enough time to avoid the race conflict.
+                    var waitTime = 150;
+                    setTimeout(function () {      
+                        // Resume play if the element if is paused.
+                        this.curPlayer.play();
+                        this.curPlayer.pause();
+                    }, waitTime);
                     console.log('isPlaying = false');
                     this.isPlaying = false;
                 }
-                console.log('playing');
             } catch(e) {
                 this.updateStream(this.getRandomTrack());
             }
@@ -83,15 +89,18 @@ class Player {
             let id = (Math.floor((Math.random() * RAND_COUNT) + OFFSET));
             //id = 5740357;
 
-            SC.get('/tracks/' + id).then((track) => { // Check if there are results
-                if (track.length > 0) {
+            SC.get('/tracks/' + id).then((tracks) => { // Check if there are results
+                console.log(tracks + "ggu");
+                if (tracks.length !== undefined) {
                     this.history.push(track); // Push the track so it can be replayed from history.
                     this.getTrackProperties(track);
+                    
                     return id;
                 } else {
                     // Find another track
                     this.getRandomTrack();
                     //console.log("no good");
+                    console.log(tracks.length + " rg");
                 }
             });
             return id;
@@ -117,6 +126,8 @@ class Player {
         this.artwork_url = track.artwork_url;
         this.aritst = track.user.username;
 
+        console.log(track);
+
         // Get more info later...
     }
 
@@ -127,7 +138,7 @@ class Player {
 
             // Add event listeners to stream object.
             this.curPlayer.on('finish', () => {
-                this.startSong(this.getRandomTrack);
+                this.startSong(this.getRandomTrack());
             });
         }
     }
@@ -143,27 +154,28 @@ class Player {
     /**
      * Returns track promise object given id.
      */
-    getTrackById(id) {
+    async getTrackById(id) {
         // Create a stream call to the SoundCloud object.
         try {
             // Use await to obtain promise from server
             //let player = await SC.stream(`/tracks/${id}?client_id=${consts.client_id}`);
 
-            SC.stream(`/tracks/${id}?client_id=${consts.client_id}`).then((player) => {
+            await SC.stream(`/tracks/${id}?client_id=${consts.client_id}`).then((player) => {
                 this.curPlayer = player;
                  // Add event listeners to stream object.
                 this.curPlayer.on('finish', () => {
                     this.startSong(this.getRandomTrack);
                 });
-                curPlayer.play();
+                this.curPlayer.play();
+                this.isPlaying = true;
             });
             console.log('getTrackById');
 
             // rtmp fix on Chrome (Mar 24 2017)
             // Reference: http://stackoverflow.com/questions/34203097/soundcloud-api-v3-stream-not-working-in-chrome
-            if (curPlayer.options.protocols[0] === 'rtmp')
-                curPlayer.options.protocols = curPlayer.options.protocols.reverse();
-
+            //if (this.curPlayer.options.protocols[0] === 'rtmp')
+                this.curPlayer.options.protocols = this.curPlayer.options.protocols.reverse();
+            return this.curPlayer;
         } catch (e) {
             console.log('Unable to play current song.' + e.toString());
         }
