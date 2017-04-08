@@ -8,7 +8,11 @@
         <meta charset="UTF-8">
 
         <!-- CSS -->
+        <!-- Google Fonts -->
+        <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:200,300,400,600,700" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
         <link href="css/cirrus.min.css" type="text/css" rel="stylesheet">
+        <link href="css/app.css" type="text/css" rel="stylesheet">
 
         <!-- JS -->
         <script async src="https://connect.soundcloud.com/sdk/sdk-3.1.2.js"></script>
@@ -20,7 +24,7 @@
         <!-- Where we will place the player -->
         <section class="fullscreen hero panel">
             <!--top-->
-            <div class="header header-fixed unselectable">
+            <div class="header header-fixed unselectable level">
                 <div class="header-left">
                     <div class="header-item">
                         <a href="https://github.com/Spiderpig86/Nimbus" target="_blank"><i class="fa fa-github" aria-hidden="true"></i></a>
@@ -39,14 +43,19 @@
             <!-- maybe add a button that drops down a playlist history when clicked -->
             <div class="hero-body">
                 <!-- Place history on right side -->
-                <div class="content">
-                    <div class="row">
-                        <div class="col-fluid" id="mainPlayer">
+                <div class="row" id="playerInfoContainer">
+                    <div class="col-7" id="mainPlayer">
+                        <div id="songContainer">
+
+                        </div>
+                        <div class="level center">
+                            <button class="btn-accent" id="prev-btn">Prev</button>
                             <button class="btn-accent" id="play-btn">Play</button>
+                            <button class="btn-accent" id="next-btn">Next</button>
                         </div>
-                        <div class="col-4" id="histContainer">
-                            
-                        </div>
+                    </div>
+                    <div class="col-5" id="histContainer">
+                        
                     </div>
                 </div>
             </div>

@@ -1,0 +1,30 @@
+#playerInfoContainer {
+    width: 100%;
+}
+
+.card .title, .card .subtitle {
+    font-size: 0.8rem;
+}
+
+.subtitle + .subtitle {
+    margin-top: -1.25rem;
+}
+
+.player-content {
+    max-width: 60em;
+    margin: 0 auto 2.2833%;;
+    width: 90%;
+}
+
+.card {
+    margin: 1rem;
+}
+
+.card:first {
+    margin-top: 0;
+}
+
+#histContainer {
+    overflow-y: scroll;
+    max-height: 80%;
+}
