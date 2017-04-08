@@ -133,7 +133,7 @@ class Player {
                     if (this.artwork_url === null)
                         this.artwork_url = "../img/cd.png";
                     
-                    if (tracks.genre === 'null')
+                    if (tracks.genre === null)
                         tracks.genre === 'N/A';
                     
                     this.histContainer.innerHTML += HistItem(this.artwork_url, this.title, this.artist, tracks);
