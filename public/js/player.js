@@ -1,6 +1,6 @@
 import consts from '../../consts.json';
 import HistItem from '../controls/HistItem';
-import openExtBtn from '../controls/openExternalBtn';
+import SongInfo from '../controls/songinfo';
 
 let SC = require('soundcloud');
 
@@ -9,8 +9,12 @@ const RAND_COUNT = 4000000;
 const OFFSET = 3000000;
 
 // IDs to get to get newer tracks
-const RAND_COUNT_2 = 10000000;
-const OFFSET_2 = 300000000;
+const RAND_COUNT_2 = 30000000;
+const OFFSET_2 = 10000000;
+
+// IDs to get to get newer tracks
+const RAND_COUNT_3 = 300000000;
+const OFFSET_3 = 100000000;
 
 class Player {
 
@@ -45,7 +49,7 @@ class Player {
     }
 
     bindElements() {
-        this.mainPlayer = document.getElementById('mainPlayer');
+        this.mainPlayer = document.getElementById('songContainer');
         this.playBtn = document.getElementById('play-btn');
         this.nextBtn = document.getElementById('next-btn');
         this.histContainer = document.getElementById('histContainer');
@@ -127,40 +131,47 @@ class Player {
     getRandomTrack() {
         try {
             // Choose to use old track ids or new track ids
-            let chooseId = (Math.floor(Math.random() * 2));
+            let chooseId = (Math.floor(Math.random() * 3));
+            let id = 0;
 
             // Generate random song id
-            let id = chooseId > 0 ? (Math.floor((Math.random() * RAND_COUNT) + OFFSET)) : (Math.floor((Math.random() * RAND_COUNT_2) + OFFSET_2));
+            switch (chooseId) {
+                case 0:
+                    id = Math.floor((Math.random() * RAND_COUNT) + OFFSET);
+                    break;
+                case 1:
+                    id = Math.floor((Math.random() * RAND_COUNT_2) + OFFSET_2);
+                    break;
+                case 2:
+                    id = Math.floor((Math.random() * RAND_COUNT_3) + OFFSET_3);
+                    break;
+            }
             //id = 5740357;
-            console.log(id);
+            console.log(id + 'test');
 
-            SC.get('/tracks/' + id).then((tracks) => { // Check if there are results
-                    this.history.push(tracks); // Push the track so it can be replayed from history.
-                    this.getTrackProperties(tracks);
-                    console.log(tracks);
+            SC.get('/tracks/' + id).then((track) => { // Check if there are results
+                    this.history.push(track); // Push the track so it can be replayed from history.
+                    this.getTrackProperties(track);
+                    console.log(track);
 
                     // Error image in case artist has no cover art
                     if (this.artwork_url === null)
                         this.artwork_url = "../img/cd.png";
                     
-                    if (tracks.genre === null)
-                        tracks.genre === 'N/A';
+                    if (track.genre === null)
+                        track.genre === 'N/A';
                     
-                    this.histContainer.innerHTML += HistItem(this.artwork_url, this.title, this.artist, tracks);
+                    this.histContainer.innerHTML += HistItem(this.artwork_url, track.title, track.artist, track); // Append to history
+
+                    // Update main player info
+                    this.mainPlayer.innerHTML = SongInfo(this.artwork_url, track);
                     //console.log(HistItem(this.artwork_url, this.title, this.artist, tracks));
                     //return id;
-
             }, (err) => {
+                // If there is no song with the associated ID, fetch a new one.
+                console.log('getRandomTrack() - fetch');
                 this.updateStream(this.getRandomTrack());
             });
-            
-            // Check if the response is 2 (meaning that there is no track with that ID)
-            // if (respCode.V._state === 2) {
-            //     // Find another track
-            //     return this.getRandomTrack();
-            //     console.log("no good");
-            // }
-
             return id;
         } catch(e) {
             console.log('getRandomTrack() - ' + e.toString());
@@ -180,7 +191,7 @@ class Player {
         this.curDuration = track.duration; // Duration in ms
         this.description = track.description; // HTML description
         this.url = track.permalink_url;
-        this.artwork_url = track.artwork_url;
+        this.artwork_url = track.artwork_url.replace('large', 't500x500');
         this.artist = track.user.username;
 
         console.log(track + "getTrackProperties");
@@ -215,31 +226,30 @@ class Player {
      */
     async getTrackById(id) {
         // Create a stream call to the SoundCloud object.
-        try {
             // Use await to obtain promise from server
-            //let player = await SC.stream(`/tracks/${id}?client_id=${consts.client_id}`);
-
             await SC.stream(`/tracks/${id}?client_id=${consts.client_id}`).then((player) => {
                 this.curPlayer = player;
                  // Add event listeners to stream object.
                 this.curPlayer.on('finish', () => {
-                    this.startSong(this.getRandomTrack);
-                    console.log('finis event added');
+                    this.updateStream(this.getRandomTrack());
+                    console.log('finish event added');
                 });
-                this.curPlayer.play();
+                try {
+                    this.curPlayer.play();
+                } catch (e) {
+                    console.log('Unable to play current song.' + e.toString());
+                }
                 this.isPlaying = true;
                 this.hasFinished = false;
-            });
-            console.log('getTrackById');
 
-            // rtmp fix on Chrome (Mar 24 2017)
-            // Reference: http://stackoverflow.com/questions/34203097/soundcloud-api-v3-stream-not-working-in-chrome
-            //if (this.curPlayer.options.protocols[0] === 'rtmp')
+                // rtmp fix on Chrome (Mar 24 2017)
+                // Reference: http://stackoverflow.com/questions/34203097/soundcloud-api-v3-stream-not-working-in-chrome
+                //if (this.curPlayer.options.protocols[0] === 'rtmp')
                 this.curPlayer.options.protocols = this.curPlayer.options.protocols.reverse();
-            return this.curPlayer;
-        } catch (e) {
-            console.log('Unable to play current song.' + e.toString());
-        }
+                return player;
+            });
+            
+            //return this.curPlayer;
     }
 
 
