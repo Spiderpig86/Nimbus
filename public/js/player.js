@@ -8,6 +8,7 @@ let SC = require('soundcloud');
 const RAND_COUNT = 4000000;
 const OFFSET = 3000000;
 
+// IDs to get to get newer tracks
 const RAND_COUNT_2 = 10000000;
 const OFFSET_2 = 300000000;
 
@@ -36,6 +37,10 @@ class Player {
 
         // Bind page elements 
         this.bindElements();
+        this.bindEventHandlers();
+
+        // Load a track 
+        this.updateStream(this.getRandomTrack());
 
     }
 
@@ -54,32 +59,35 @@ class Player {
                 this.updateStream(this.getRandomTrack());
 
             try {
-                if (!this.isPlaying) {
-                    // Nuanced but adds that 'break' in the sound so you know it was pressed just in case isPlaying is the wrong value
-                    this.curPlayer.play();
-                    this.curPlayer.pause();
-                    this.curPlayer.play();
-                    console.log('isPlaying = true');
-                    this.isPlaying = true;
-                } else {
-                    
-                    this.curPlayer.pause();
-                    this.curPlayer.play();
-                    this.curPlayer.pause();
-                    
-                    // Give the timeout enough time to avoid the race conflict.
-                    var waitTime = 150;
-                    // setTimeout(function () {      
-                    //     // Resume play if the element if is paused.
-                    //     this.curPlayer.play();
-                    //     this.curPlayer.pause();
-                    // }, waitTime);
-                    console.log('isPlaying = false');
-                    this.isPlaying = false;
-                }
+                //if (curPlayer !== undefined) {
+                    if (!this.isPlaying) {
+                        // Nuanced but adds that 'break' in the sound so you know it was pressed just in case isPlaying is the wrong value
+                        this.curPlayer.play();
+                        this.curPlayer.pause();
+                        this.curPlayer.play();
+                        console.log('isPlaying = true');
+                        this.isPlaying = true;
+                    } else {
+                        
+                        this.curPlayer.pause();
+                        this.curPlayer.play();
+                        this.curPlayer.pause();
+                        
+                        // Give the timeout enough time to avoid the race conflict.
+                        //var waitTime = 150;
+                        // setTimeout(function () {      
+                        //     // Resume play if the element if is paused.
+                        //     this.curPlayer.play();
+                        //     this.curPlayer.pause();
+                        // }, waitTime);
+                        console.log('isPlaying = false');
+                        this.isPlaying = false;
+                    }
+                  //}
                
             } catch(e) {
                 this.updateStream(this.getRandomTrack());
+                console.log(e.toString());
             }
         }
 
@@ -95,7 +103,6 @@ class Player {
                 // Shoddy way to catch error just buffer to next track
                 this.updateStream(this.getRandomTrack());
             }
-
                 // Autoplay
                 this.curPlayer.play();
                 this.curPlayer.pause();
@@ -117,22 +124,20 @@ class Player {
     /**
      * This function is designed to get a random track from SoundCloud
      */
-     getRandomTrack() {
+    getRandomTrack() {
         try {
             // Choose to use old track ids or new track ids
             let chooseId = (Math.floor(Math.random() * 2));
-            // Generate random value
-            let id = (Math.floor((Math.random() * RAND_COUNT) + OFFSET));
 
-            if (chooseId === 1)
-                id = (Math.floor((Math.random() * RAND_COUNT_2) + OFFSET_2));
+            // Generate random song id
+            let id = chooseId > 0 ? (Math.floor((Math.random() * RAND_COUNT) + OFFSET)) : (Math.floor((Math.random() * RAND_COUNT_2) + OFFSET_2));
             //id = 5740357;
             console.log(id);
 
             SC.get('/tracks/' + id).then((tracks) => { // Check if there are results
-                if (tracks !== undefined) {
                     this.history.push(tracks); // Push the track so it can be replayed from history.
                     this.getTrackProperties(tracks);
+                    console.log(tracks);
 
                     // Error image in case artist has no cover art
                     if (this.artwork_url === null)
@@ -143,17 +148,22 @@ class Player {
                     
                     this.histContainer.innerHTML += HistItem(this.artwork_url, this.title, this.artist, tracks);
                     //console.log(HistItem(this.artwork_url, this.title, this.artist, tracks));
-                    return id;
-                } else {
-                    // Find another track
-                    this.getRandomTrack();
-                    //console.log("no good");
-                    console.log(tracks.length + " rg");
-                }
+                    //return id;
+
+            }, (err) => {
+                this.updateStream(this.getRandomTrack());
             });
+            
+            // Check if the response is 2 (meaning that there is no track with that ID)
+            // if (respCode.V._state === 2) {
+            //     // Find another track
+            //     return this.getRandomTrack();
+            //     console.log("no good");
+            // }
+
             return id;
         } catch(e) {
-            alert("error");
+            console.log('getRandomTrack() - ' + e.toString());
         }
     }
 
@@ -187,7 +197,7 @@ class Player {
             this.curPlayer.on('finish', () => {
                 console.log('finished song');
                 this.hasFinished = true;
-                this.startSong(this.getRandomTrack());
+                this.updateStream(this.getRandomTrack());
             });
         }
     }
@@ -214,6 +224,7 @@ class Player {
                  // Add event listeners to stream object.
                 this.curPlayer.on('finish', () => {
                     this.startSong(this.getRandomTrack);
+                    console.log('finis event added');
                 });
                 this.curPlayer.play();
                 this.isPlaying = true;
