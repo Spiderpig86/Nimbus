@@ -13,26 +13,42 @@ const OFFSET_2 = 300000000;
 
 class Player {
 
+    /**
+     * Sets up the the application variables and hooking events to controls.
+     */
     constructor() {
         // Initialize variables
         this.history = [];
         this.isPlaying = false;
         this.curPlayer = null;
-        this.curTrack = null;
-        this.curTrackId = 0;
 
-        // Current track properties
-        this.title = '';
-        this.curDuration = 0;
-        this.description = '';
-        this.url = '';
-        this.artwork_url = '';
-        this.artist = '';
-        this.hasFinished = false;
+        // Track object
+        this.curTrack = {
+            id: 0,
+            title: '',
+            duration: 0,
+            description: '',
+            url: '',
+            artwork_url: '',
+            artist: '',
+            hasFinished: false
+        };
 
         // Bind page elements 
         this.bindElements();
 
+    }
+
+    bindElements() {
+        this.mainPlayer = document.getElementById('mainPlayer');
+        this.playBtn = document.getElementById('play-btn');
+        this.nextBtn = document.getElementById('next-btn');
+        this.histContainer = document.getElementById('histContainer');
+    }
+
+    bindEventHandlers() {
+
+        // Bind the play button
         this.playBtn.onclick = (e) => {
             if (this.curPlayer === null && !this.isPlaying)
                 this.updateStream(this.getRandomTrack());
@@ -67,6 +83,7 @@ class Player {
             }
         }
 
+        // Bind the skip button
          this.nextBtn.onclick = (e) => {
             try {
                 this.curPlayer.pause();
@@ -85,18 +102,6 @@ class Player {
                 this.curPlayer.play();
             
         }
-
-    }
-
-    bindFunctions() {
-        this.start = this.start.bind(this);
-    }
-
-    bindElements() {
-        this.mainPlayer = document.getElementById('mainPlayer');
-        this.playBtn = document.getElementById('play-btn');
-        this.nextBtn = document.getElementById('next-btn');
-        this.histContainer = document.getElementById('histContainer');
     }
 
 
@@ -137,7 +142,7 @@ class Player {
                         tracks.genre === 'N/A';
                     
                     this.histContainer.innerHTML += HistItem(this.artwork_url, this.title, this.artist, tracks);
-                    console.log(HistItem(this.artwork_url, this.title, this.artist, tracks));
+                    //console.log(HistItem(this.artwork_url, this.title, this.artist, tracks));
                     return id;
                 } else {
                     // Find another track
