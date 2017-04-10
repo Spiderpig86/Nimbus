@@ -17,6 +17,10 @@
     width: 90%;
 }
 
+.content {
+    width: 90%;
+}
+
 .card {
     margin: 1rem;
 }
@@ -26,8 +30,18 @@
 }
 
 #histContainer {
-    overflow-y: scroll;
+    overflow-y: auto;
     height: 100%;
+}
+
+.song-desc {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.song-desc p {
+    font-size: .8rem;
+    line-height: 1.3rem;
 }
 
 /* Mobile Stuff */

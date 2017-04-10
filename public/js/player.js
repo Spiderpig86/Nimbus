@@ -36,7 +36,8 @@ class Player {
             url: '',
             artwork_url: '',
             artist: '',
-            hasFinished: false
+            hasFinished: false,
+            track: null
         };
 
         // Bind page elements 
@@ -62,7 +63,7 @@ class Player {
             if (this.curPlayer === null && !this.isPlaying)
                 this.updateStream(this.getRandomTrack());
 
-            try {
+            //try {
                 //if (curPlayer !== undefined) {
                     if (!this.isPlaying) {
                         // Nuanced but adds that 'break' in the sound so you know it was pressed just in case isPlaying is the wrong value
@@ -71,6 +72,11 @@ class Player {
                         this.curPlayer.play();
                         console.log('isPlaying = true');
                         this.isPlaying = true;
+                        this.mainPlayer.innerHTML = SongInfo((this.curTrack.track.artwork_url === null ? '../img/cd.png' : this.curTrack.track.artwork_url.replace('large', 't500x500')), this.curTrack.track);
+                        if (!this.history.includes(this.curTrack.track)) {
+                            this.histContainer.innerHTML += HistItem((this.curTrack.track.artwork_url === null ? '../img/cd.png' : this.curTrack.track.artwork_url), this.curTrack.track.title, this.curTrack.track.artist, this.curTrack.track); // Append to history
+                            this.history.push(this.curTrack.track); // This adds it to the history so we don't add more song cards thant needed
+                        }
                     } else {
                         
                         this.curPlayer.pause();
@@ -89,10 +95,10 @@ class Player {
                     }
                   //}
                
-            } catch(e) {
-                this.updateStream(this.getRandomTrack());
-                console.log(e.toString());
-            }
+            // } catch(e) {
+            //     this.updateStream(this.getRandomTrack());
+            //     console.log('playbtn - ' + e.toString());
+            // }
         }
 
         // Bind the skip button
@@ -108,9 +114,9 @@ class Player {
                 this.updateStream(this.getRandomTrack());
             }
                 // Autoplay
-                this.curPlayer.play();
-                this.curPlayer.pause();
-                this.curPlayer.play();
+                // this.curPlayer.play();
+                // this.curPlayer.pause();
+                // this.curPlayer.play();
             
         }
     }
@@ -131,45 +137,50 @@ class Player {
     getRandomTrack() {
         try {
             // Choose to use old track ids or new track ids
-            let chooseId = (Math.floor(Math.random() * 3));
+            let chooseId = (Math.floor(Math.random() * 10));
             let id = 0;
 
-            // Generate random song id
+            // Generate random song id. Give slight preference to newer tracks
             switch (chooseId) {
                 case 0:
+                case 1:
+                case 2:
                     id = Math.floor((Math.random() * RAND_COUNT) + OFFSET);
                     break;
-                case 1:
+                case 3:
+                case 4:
+                case 5:
                     id = Math.floor((Math.random() * RAND_COUNT_2) + OFFSET_2);
                     break;
-                case 2:
+                case 6:
+                case 7:
+                case 8:
+                case 9:
                     id = Math.floor((Math.random() * RAND_COUNT_3) + OFFSET_3);
                     break;
             }
             //id = 5740357;
-            console.log(id + 'test');
 
             SC.get('/tracks/' + id).then((track) => { // Check if there are results
-                    this.history.push(track); // Push the track so it can be replayed from history.
-                    this.getTrackProperties(track);
-                    console.log(track);
+                    // this.history.push(track);
+                    console.log('SC.get()');
+                    this.history.push(track); // Push the track so it can be replayed from history. 
 
-                    // Error image in case artist has no cover art
-                    if (this.artwork_url === null)
-                        this.artwork_url = "../img/cd.png";
-                    
-                    if (track.genre === null)
-                        track.genre === 'N/A';
-                    
-                    this.histContainer.innerHTML += HistItem(this.artwork_url, track.title, track.artist, track); // Append to history
+                    this.histContainer.innerHTML += HistItem((track.artwork_url === null ? '../img/cd.png' : track.artwork_url), track.title, track.artist, track); // Append to history
 
                     // Update main player info
-                    this.mainPlayer.innerHTML = SongInfo(this.artwork_url, track);
+                    this.mainPlayer.innerHTML = SongInfo((track.artwork_url === null ? '../img/cd.png' : track.artwork_url.replace('large', 't500x500')), track);
+                    this.curTrack.track = track;
+                     if (track.genre === null)
+                        track.genre === 'N/A';
+
+                    this.getTrackProperties(track); // This is a trouble spot
+                   
                     //console.log(HistItem(this.artwork_url, this.title, this.artist, tracks));
                     //return id;
             }, (err) => {
                 // If there is no song with the associated ID, fetch a new one.
-                console.log('getRandomTrack() - fetch');
+                console.log('getRandomTrack() - (err)');
                 this.updateStream(this.getRandomTrack());
             });
             return id;
@@ -185,7 +196,7 @@ class Player {
     getTrackProperties(track) {
         // Refer to https://developers.soundcloud.com/docs/api/reference#tracks
 
-        this.curTrack = track;
+        this.curTrack.track = track;
         this.curTrackId = track.id;
         this.title = track.title;
         this.curDuration = track.duration; // Duration in ms
@@ -194,8 +205,7 @@ class Player {
         this.artwork_url = track.artwork_url.replace('large', 't500x500');
         this.artist = track.user.username;
 
-        console.log(track + "getTrackProperties");
-
+        console.log('getTrackProperties');
         // Get more info later...
     }
 
@@ -227,7 +237,7 @@ class Player {
     async getTrackById(id) {
         // Create a stream call to the SoundCloud object.
             // Use await to obtain promise from server
-            await SC.stream(`/tracks/${id}?client_id=${consts.client_id}`).then((player) => {
+            return await SC.stream(`/tracks/${id}?client_id=${consts.client_id}`).then((player) => {
                 this.curPlayer = player;
                  // Add event listeners to stream object.
                 this.curPlayer.on('finish', () => {
@@ -236,6 +246,7 @@ class Player {
                 });
                 try {
                     this.curPlayer.play();
+                    document.title = `&#9658; Nimbus - ${this.curTrack.title}`;
                 } catch (e) {
                     console.log('Unable to play current song.' + e.toString());
                 }
@@ -246,10 +257,8 @@ class Player {
                 // Reference: http://stackoverflow.com/questions/34203097/soundcloud-api-v3-stream-not-working-in-chrome
                 //if (this.curPlayer.options.protocols[0] === 'rtmp')
                 this.curPlayer.options.protocols = this.curPlayer.options.protocols.reverse();
-                return player;
+                //return player;
             });
-            
-            //return this.curPlayer;
     }
 
 

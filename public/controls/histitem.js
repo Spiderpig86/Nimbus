@@ -10,7 +10,7 @@ const HistItem = (imgurl, title, artist, track) => (
                     <div class="col-7">
                         <p class="title">${title}</p>
                         <p class="subtitle">${artist}</p>
-                        <p class="subtitle">${track.genre}</p>
+                        <p class="subtitle">${track.genre === undefined ? 'N/A' : track.genre}</p>
                     </div>
                 </div>
             </div>

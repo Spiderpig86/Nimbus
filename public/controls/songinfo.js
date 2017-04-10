@@ -8,6 +8,9 @@ const SongInfo = (largeArt, track) => (
                             <img src="${largeArt}">
                             <h6 class="light">${track.title}</h6>
                             <p class="title">${track.user.username}</p>
+                            <div class="song-desc">
+                                <p><pre>${track.description}</pre></p>
+                            </div>
                         </div>
                     </div>
                 </div>
