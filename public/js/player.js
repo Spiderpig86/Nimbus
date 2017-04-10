@@ -195,7 +195,7 @@ class Player {
                     //return id;
             }, (err) => {
                 // If there is no song with the associated ID, fetch a new one.
-                console.log('getRandomTrack() - (err)');
+                //console.log('getRandomTrack() - (err)');
                 this.updateStream(this.getRandomTrack());
             });
             return id;
@@ -225,9 +225,7 @@ class Player {
 
     async updateStream(id) {
         let stream = this.getTrackById(id);
-        console.log(id);
         this.curPlayer = stream;
-        console.log('updateStream');
         // Other commands done later
     }
 
@@ -267,6 +265,9 @@ class Player {
                 //if (this.curPlayer.options.protocols[0] === 'rtmp')
                 this.curPlayer.options.protocols = this.curPlayer.options.protocols.reverse();
                 //return player;
+            }).catch(e => {
+                // Handle 404 responses
+                console.log(e.message);
             });
     }
 
