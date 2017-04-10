@@ -41,6 +41,14 @@ Although it may sound very simple, it was something that was not apparent at fir
 Unfortunately I was unable to learn and implement unit tests on time. I did look into some potential frameworks like MochaJS.
 
 # Future
+## Playing and Saving Previous Tracks
+Currently there is a structure in place to store the past tracks that the user has played but there is no actual way to be able to play previous tracks with a rewind button. When the user moves to the previous track, there would be a way to pop from the history queue and play the track stored in the object.
+
+## Syncing with SoundCloud
+Another feature that can be implemented is to sync with the user's account to be able to save information and preferences such as past tracks so they can be added to their playlists. Users would be able to login to their accounts with an OAuth2 request through a login page in the menu.
+
+## Selecting Specific Types of Tracks
+Although this is for finding random tracks in SoundCloud, sometimes users would like to specialize what they want to listen to down the genres, artists, songs, podcasts, and other content from SoundCloud. 
 
 # Conclusion
 Overall Nimbus was quite an ambitious project for me given all the steps I needed to take before being able to start working on the actual functionality itself in the span of a few days. This was a great challenge since I have learned a lot more than I had expected in ES6 standards, npm packages, modularity in JS, and working with APIs. The idea of making a SoundCloud Randomizer was to have something that would really build and play a list of tracks that I would not have searched for myself. Given that SoundCloud is a platform where a lot of budding artists show off their creation, I thought it was appropriate to design something that would reflect the freshness that the platform had. A track that a person had never listened to before that was published a decade ago is still a new song to them.
