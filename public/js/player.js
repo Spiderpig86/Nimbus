@@ -182,10 +182,9 @@ class Player {
                     //console.log('SC.get()');
                     this.history.push(track); // Push the track so it can be replayed from history. 
 
-                    this.histContainer.innerHTML += HistItem((track.artwork_url === null ? '../img/cd.png' : track.artwork_url), track.title, track.artist, track); // Append to history
-
                     // Update main player info
                     this.mainPlayer.innerHTML = SongInfo((track.artwork_url === null ? '../img/cd.png' : track.artwork_url.replace('large', 't500x500')), track);
+                    this.histContainer.innerHTML += HistItem((track.artwork_url === null ? '../img/cd.png' : track.artwork_url), track.title, track.user.username === undefined ? 'N/A' : track.user.username, track); // Append to history
                     this.curTrack.track = track;
                      if (track.genre === null)
                         track.genre === 'N/A';
