@@ -44,11 +44,14 @@ class Player {
         this.bindElements();
         this.bindEventHandlers();
 
-        // Load a track 
+        // Load a track when the app is laded.
         this.updateStream(this.getRandomTrack());
 
     }
 
+    /**
+     * Binds the page elements to JS objects so we can access them in other functions.
+     */
     bindElements() {
         this.mainPlayer = document.getElementById('songContainer');
         this.playBtn = document.getElementById('play-btn');
@@ -58,9 +61,10 @@ class Player {
         this.btnBk = document.getElementById('seek-bk-btn');
     }
 
+    /**
+     * Binds components on the page to commands on action.
+     */
     bindEventHandlers() {
-
-        // Bind the play button
         this.playBtn.onclick = (e) => {
             if (this.curPlayer === null && !this.isPlaying)
                 this.updateStream(this.getRandomTrack());
@@ -131,7 +135,9 @@ class Player {
         }
     }
 
-
+    /**
+     * The starting point of the application called by app.js. This initalizes the SoundCloud API.
+     */
     start() {
         try {
             SC.initialize({client_id: consts.client_id});

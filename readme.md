@@ -38,7 +38,7 @@ Although it may sound very simple, it was something that was not apparent at fir
 ```
 
 # Testing
-Unfortunately I was unable to learn and implement unit tests on time. I did look into some potential frameworks like MochaJS.
+Unfortunately I was unable to learn and implement unit tests on time. I did look into some potential frameworks like MochaJS. Regarding testing, even if I choose not to use a framework, I can try to load the app and then trigger certain commands to see if the actions are performed or if it runs into an exception. In the near future, one of the things I would like to do with Nimbus is to be able to test the app through scripts.
 
 # Future
 ## Playing and Saving Previous Tracks
