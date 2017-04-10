@@ -96,7 +96,7 @@ class Player {
                         //     this.curPlayer.play();
                         //     this.curPlayer.pause();
                         // }, waitTime);
-                        console.log('isPlaying = false');
+                        //console.log('isPlaying = false');
                         this.isPlaying = false;
                     }
                   //}
@@ -173,7 +173,7 @@ class Player {
 
             SC.get('/tracks/' + id).then((track) => { // Check if there are results
                     // this.history.push(track);
-                    console.log('SC.get()');
+                    //console.log('SC.get()');
                     this.history.push(track); // Push the track so it can be replayed from history. 
 
                     this.histContainer.innerHTML += HistItem((track.artwork_url === null ? '../img/cd.png' : track.artwork_url), track.title, track.artist, track); // Append to history
@@ -238,7 +238,7 @@ class Player {
                  // Add event listeners to stream object.
                 this.curPlayer.on('finish', () => {
                     this.updateStream(this.getRandomTrack());
-                    console.log('finish event added');
+                    //console.log('finish event added');
                 });
 
                 // Add event listener for updating time
