@@ -79,17 +79,15 @@ class Player {
                             this.histContainer.innerHTML += HistItem((this.curTrack.track.artwork_url === null ? '../img/cd.png' : this.curTrack.track.artwork_url), this.curTrack.track.title, this.curTrack.track.artist, this.curTrack.track); // Append to history
                             this.history.push(this.curTrack.track); // This adds it to the history so we don't add more song cards thant needed
                         }
-                         // Update title
-                        document.title = `\u25B6   Nimbus - ${this.curTrack.track.title}`;
-                        this.playBtn.innerHTML = '<i class="fa fa-pause" aria-hidden="true"></i>';
+                         // Update play state
+                        this.togglePlayState(true);
                     } else {    
                         this.curPlayer.pause();
                         this.curPlayer.play();
                         this.curPlayer.pause();
 
-                        // Update title
-                        document.title = `\u23F8   Nimbus - ${this.curTrack.track.title}`;
-                        this.playBtn.innerHTML = '<i class="fa fa-play" aria-hidden="true"></i>';
+                        // Update play state
+                        this.togglePlayState(false);
                         
                         // Give the timeout enough time to avoid the race conflict.
                         //var waitTime = 150;
@@ -116,7 +114,6 @@ class Player {
                 this.curPlayer.play();
                 this.curPlayer.pause();
                 this.updateStream(this.getRandomTrack());
-
             } catch(e) {
                 // Shoddy way to catch error just buffer to next track
                 this.updateStream(this.getRandomTrack());
@@ -276,6 +273,16 @@ class Player {
         let minutes = Math.floor(millis / 60000);
         let seconds = ((millis % 60000) / 1000).toFixed(0);
         return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
+    }
+
+    togglePlayState(playing) {
+        if (playing) {
+            this.playBtn.innerHTML = '<i class="fa fa-pause" aria-hidden="true"></i>';
+            document.title = `\u25B6   Nimbus - ${this.curTrack.track.title}`;
+        } else {
+            this.playBtn.innerHTML = '<i class="fa fa-play" aria-hidden="true"></i>';
+            document.title = `\u23F8   Nimbus - ${this.curTrack.track.title}`;
+        }
     }
 
 
