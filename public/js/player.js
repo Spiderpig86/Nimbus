@@ -54,6 +54,8 @@ class Player {
         this.playBtn = document.getElementById('play-btn');
         this.nextBtn = document.getElementById('next-btn');
         this.histContainer = document.getElementById('histContainer');
+        this.btnFf = document.getElementById('seek-fw-btn');
+        this.btnBk = document.getElementById('seek-bk-btn');
     }
 
     bindEventHandlers() {
@@ -77,11 +79,17 @@ class Player {
                             this.histContainer.innerHTML += HistItem((this.curTrack.track.artwork_url === null ? '../img/cd.png' : this.curTrack.track.artwork_url), this.curTrack.track.title, this.curTrack.track.artist, this.curTrack.track); // Append to history
                             this.history.push(this.curTrack.track); // This adds it to the history so we don't add more song cards thant needed
                         }
-                    } else {
-                        
+                         // Update title
+                        document.title = `\u25B6   Nimbus - ${this.curTrack.track.title}`;
+                        this.playBtn.innerHTML = '<i class="fa fa-pause" aria-hidden="true"></i>';
+                    } else {    
                         this.curPlayer.pause();
                         this.curPlayer.play();
                         this.curPlayer.pause();
+
+                        // Update title
+                        document.title = `\u23F8   Nimbus - ${this.curTrack.track.title}`;
+                        this.playBtn.innerHTML = '<i class="fa fa-play" aria-hidden="true"></i>';
                         
                         // Give the timeout enough time to avoid the race conflict.
                         //var waitTime = 150;
@@ -113,11 +121,16 @@ class Player {
                 // Shoddy way to catch error just buffer to next track
                 this.updateStream(this.getRandomTrack());
             }
-                // Autoplay
-                // this.curPlayer.play();
-                // this.curPlayer.pause();
-                // this.curPlayer.play();
-            
+        }
+
+        // Event handler for seeking forward
+        this.btnFf.onclick = (e) => {
+            this.curPlayer.seek(this.curPlayer.currentTime() + 10000);
+        }
+
+        // Event handler for seeking back
+        this.btnBk.onclick = (e) => {
+            this.curPlayer.seek(this.curPlayer.currentTime() - 10000);
         }
     }
 
@@ -144,14 +157,14 @@ class Player {
             switch (chooseId) {
                 case 0:
                 case 1:
-                case 2:
                     id = Math.floor((Math.random() * RAND_COUNT) + OFFSET);
                     break;
+                case 2:
                 case 3:
                 case 4:
-                case 5:
                     id = Math.floor((Math.random() * RAND_COUNT_2) + OFFSET_2);
                     break;
+                case 5:
                 case 6:
                 case 7:
                 case 8:
@@ -197,6 +210,7 @@ class Player {
         // Refer to https://developers.soundcloud.com/docs/api/reference#tracks
 
         this.curTrack.track = track;
+        console.log('getTrackProperties');
         this.curTrackId = track.id;
         this.title = track.title;
         this.curDuration = track.duration; // Duration in ms
@@ -204,23 +218,7 @@ class Player {
         this.url = track.permalink_url;
         this.artwork_url = track.artwork_url.replace('large', 't500x500');
         this.artist = track.user.username;
-
-        console.log('getTrackProperties');
         // Get more info later...
-    }
-
-    async startSong(id) {
-        if (!this.isPlaying) {
-            await this.updateStream(id);
-            console.log('startSong');
-
-            // Add event listeners to stream object.
-            this.curPlayer.on('finish', () => {
-                console.log('finished song');
-                this.hasFinished = true;
-                this.updateStream(this.getRandomTrack());
-            });
-        }
     }
 
     async updateStream(id) {
@@ -239,14 +237,23 @@ class Player {
             // Use await to obtain promise from server
             return await SC.stream(`/tracks/${id}?client_id=${consts.client_id}`).then((player) => {
                 this.curPlayer = player;
+
                  // Add event listeners to stream object.
                 this.curPlayer.on('finish', () => {
                     this.updateStream(this.getRandomTrack());
                     console.log('finish event added');
                 });
+
+                // Add event listener for updating time
+                this.curPlayer.on('time', () => {
+                    let curTimeStr = this.millisToMinutesAndSeconds(this.curPlayer.currentTime());
+                    let totalTimeStr = this.millisToMinutesAndSeconds(this.curTrack.track.duration);
+                    document.getElementById('curTime').innerText = `${curTimeStr} / ${totalTimeStr}`;
+                });
+                
                 try {
                     this.curPlayer.play();
-                    document.title = `&#9658; Nimbus - ${this.curTrack.title}`;
+                    document.title = `\u25B6   Nimbus - ${this.curTrack.track.title}`;
                 } catch (e) {
                     console.log('Unable to play current song.' + e.toString());
                 }
@@ -259,6 +266,16 @@ class Player {
                 this.curPlayer.options.protocols = this.curPlayer.options.protocols.reverse();
                 //return player;
             });
+    }
+
+    /**
+     * Simple function to convert milliseconds to a string with minutes and seconds
+     * @param {*} millis - time in milliseconds
+     */
+    millisToMinutesAndSeconds(millis) {
+        let minutes = Math.floor(millis / 60000);
+        let seconds = ((millis % 60000) / 1000).toFixed(0);
+        return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
     }
 
 
