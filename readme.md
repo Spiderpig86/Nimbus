@@ -1,6 +1,13 @@
 # Nimbus
 A simple web application powered by Express and NodeJS that fetches random songs from the SoundCloud library using the SoundCloud API.
 
+| Command       | Keyboard Combo|
+| ------------- |:-------------:|
+| Play/Pause    | Space         |
+| Arrow-Right   | Find New Song |
+| Volume Up     | Shift + Arrow-Up |
+| Volume Down     | Shift + Arrow-Down |
+
 # Dependencies
 Nimbus uses a few packages to help this run on a machine. Some of the dependencies includes:
 * [Express](https://expressjs.com/) - it is a web application after all.
