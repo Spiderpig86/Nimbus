@@ -215,10 +215,12 @@ class Player {
 
                 // Add event listener for updating time
                 this.curPlayer.on('time', () => {
-                    if (this.curPlayer !== undefined) {
+                    try {
                         let curTimeStr = this.millisToMinutesAndSeconds(this.curPlayer.currentTime());
                         let totalTimeStr = this.millisToMinutesAndSeconds(this.curTrack.track.duration);
                         document.getElementById('curTime').innerText = `${curTimeStr} / ${totalTimeStr}`;
+                    } catch(e) {
+                        // Usually error is thrown when skipping tracks.
                     }
                 });
                 
