@@ -68,70 +68,39 @@ class Player {
         this.playBtn.onclick = (e) => {
             if (this.curPlayer === null && !this.isPlaying)
                 this.updateStream(this.getRandomTrack());
-
-            //try {
-                //if (curPlayer !== undefined) {
-                    if (!this.isPlaying) {
-                        // Nuanced but adds that 'break' in the sound so you know it was pressed just in case isPlaying is the wrong value
-                        this.curPlayer.play();
-                        this.curPlayer.pause();
-                        this.curPlayer.play();
-                        console.log('isPlaying = true');
-                        this.isPlaying = true;
-                        this.mainPlayer.innerHTML = SongInfo((this.curTrack.track.artwork_url === null ? '../img/cd.png' : this.curTrack.track.artwork_url.replace('large', 't500x500')), this.curTrack.track);
-                        if (!this.history.includes(this.curTrack.track)) {
-                            this.histContainer.innerHTML += HistItem((this.curTrack.track.artwork_url === null ? '../img/cd.png' : this.curTrack.track.artwork_url), this.curTrack.track.title, this.curTrack.track.artist, this.curTrack.track); // Append to history
-                            this.history.push(this.curTrack.track); // This adds it to the history so we don't add more song cards thant needed
-                        }
-                         // Update play state
-                        this.togglePlayState(true);
-                    } else {    
-                        this.curPlayer.pause();
-                        this.curPlayer.play();
-                        this.curPlayer.pause();
-
-                        // Update play state
-                        this.togglePlayState(false);
-                        
-                        // Give the timeout enough time to avoid the race conflict.
-                        //var waitTime = 150;
-                        // setTimeout(function () {      
-                        //     // Resume play if the element if is paused.
-                        //     this.curPlayer.play();
-                        //     this.curPlayer.pause();
-                        // }, waitTime);
-                        //console.log('isPlaying = false');
-                        this.isPlaying = false;
-                    }
-                  //}
-               
-            // } catch(e) {
-            //     this.updateStream(this.getRandomTrack());
-            //     console.log('playbtn - ' + e.toString());
-            // }
+                this.togglePlay();
         }
 
         // Bind the skip button
          this.nextBtn.onclick = (e) => {
-            try {
-                this.curPlayer.pause();
-                this.curPlayer.play();
-                this.curPlayer.pause();
-                this.updateStream(this.getRandomTrack());
-            } catch(e) {
-                // Shoddy way to catch error just buffer to next track
-                this.updateStream(this.getRandomTrack());
-            }
+            this.fetchNext();
         }
 
         // Event handler for seeking forward
         this.btnFf.onclick = (e) => {
-            this.curPlayer.seek(this.curPlayer.currentTime() + 10000);
+            this.seekForward(10);
         }
 
         // Event handler for seeking back
         this.btnBk.onclick = (e) => {
-            this.curPlayer.seek(this.curPlayer.currentTime() - 10000);
+            this.seekBack(10);
+        }
+
+        // Bind keyboard shortcuts
+        document.onkeyup = (e) => {
+            if (e.keyCode == 39) {
+                // right arrow key pressed, play next
+                this.fetchNext();
+            } else if (e.keyCode == 32) {
+                // space key to toggle playback
+                this.togglePlay();
+            } else if (e.shiftKey && e.keyCode == 38) {
+                // shift up
+                this.volumeUp(0.1);
+            } else if (e.shiftKey && e.keyCode == 40) {
+                // shift down
+                this.volumeDown(0.1);
+            }
         }
     }
 
@@ -246,9 +215,11 @@ class Player {
 
                 // Add event listener for updating time
                 this.curPlayer.on('time', () => {
-                    let curTimeStr = this.millisToMinutesAndSeconds(this.curPlayer.currentTime());
-                    let totalTimeStr = this.millisToMinutesAndSeconds(this.curTrack.track.duration);
-                    document.getElementById('curTime').innerText = `${curTimeStr} / ${totalTimeStr}`;
+                    if (this.curPlayer !== undefined) {
+                        let curTimeStr = this.millisToMinutesAndSeconds(this.curPlayer.currentTime());
+                        let totalTimeStr = this.millisToMinutesAndSeconds(this.curTrack.track.duration);
+                        document.getElementById('curTime').innerText = `${curTimeStr} / ${totalTimeStr}`;
+                    }
                 });
                 
                 try {
@@ -288,6 +259,70 @@ class Player {
         } else {
             this.playBtn.innerHTML = '<i class="fa fa-play" aria-hidden="true"></i>';
             document.title = `\u23F8   Nimbus - ${this.curTrack.track.title}`;
+        }
+    }
+
+    // UTIL functions
+    seekForward(seconds) {
+        this.curPlayer.seek(this.curPlayer.currentTime() + (1000 * seconds));
+    }
+
+    seekBack(seconds) {
+        this.curPlayer.seek(this.curPlayer.currentTime() - (1000 * seconds));
+    }
+
+    volumeUp(offset) {
+        this.curPlayer.setVolume(Math.min(100, this.curPlayer.getVolume() + offset));
+    }
+
+    volumeDown(offset) {
+        this.curPlayer.setVolume(Math.max(0, this.curPlayer.getVolume() - offset));
+    }
+
+    togglePlay() {
+        if (!this.isPlaying) {
+            // Nuanced but adds that 'break' in the sound so you know it was pressed just in case isPlaying is the wrong value
+            this.curPlayer.play();
+            this.curPlayer.pause();
+            this.curPlayer.play();
+            console.log('isPlaying = true');
+            this.isPlaying = true;
+            this.mainPlayer.innerHTML = SongInfo((this.curTrack.track.artwork_url === null ? '../img/cd.png' : this.curTrack.track.artwork_url.replace('large', 't500x500')), this.curTrack.track);
+            if (!this.history.includes(this.curTrack.track)) {
+                this.histContainer.innerHTML += HistItem((this.curTrack.track.artwork_url === null ? '../img/cd.png' : this.curTrack.track.artwork_url), this.curTrack.track.title, this.curTrack.track.artist, this.curTrack.track); // Append to history
+                this.history.push(this.curTrack.track); // This adds it to the history so we don't add more song cards thant needed
+            }
+                // Update play state
+            this.togglePlayState(true);
+        } else {    
+            this.curPlayer.pause();
+            this.curPlayer.play();
+            this.curPlayer.pause();
+
+            // Update play state
+            this.togglePlayState(false);
+            
+            // Give the timeout enough time to avoid the race conflict.
+            //var waitTime = 150;
+            // setTimeout(function () {      
+            //     // Resume play if the element if is paused.
+            //     this.curPlayer.play();
+            //     this.curPlayer.pause();
+            // }, waitTime);
+            //console.log('isPlaying = false');
+            this.isPlaying = false;
+        }
+    }
+
+    fetchNext() {
+        try {
+            this.curPlayer.pause();
+            this.curPlayer.play();
+            this.curPlayer.pause();
+            this.updateStream(this.getRandomTrack());
+        } catch(e) {
+            // Shoddy way to catch error just buffer to next track
+            this.updateStream(this.getRandomTrack());
         }
     }
 
