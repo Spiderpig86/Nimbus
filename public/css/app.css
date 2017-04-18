@@ -1,3 +1,16 @@
+body {
+    color: #fff;
+}
+
+.hero-body h1,
+.hero-body h2,
+.hero-body h3,
+.hero-body h4,
+.hero-body h5,
+.hero-body h6 {
+    color: #fff;
+}
+
 a {
     padding: 0;
 }
@@ -8,6 +21,7 @@ pre {
 
 .header {
     box-shadow: 0 0 32px rgba(0,0,0,.15);
+    opacity: .9;
 }
 
 .header-item {
@@ -15,13 +29,53 @@ pre {
     height: 60px;
 }
 
+#background {
+    /*background-image: url(https://i1.sndcdn.com/artworks-000207924605-hq5874-t500x500.jpg);*/
+    position: fixed;
+}
+
+#histItemBg {
+    position: absolute;
+}
+
+.overlay {
+    position: relative; /* Keeps the content above the background */
+}
+
+.bg-image {
+    height: 100%;
+    width: 100%;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    background-size: 150% 150%;
+    filter: blur(15px) brightness(.5);
+    -webkit-filter: blur(15px) brightness(.5);
+    transform: scale(1.07); /* Removes the white edges from the player image */
+}
+
 #playerInfoContainer {
     width: 100%;
     height: 80%;
 }
 
+#songArt {
+    box-shadow: 0 0 60px rgba(0, 0, 0, 0.4);
+}
+
+.title {
+    font-weight: normal;
+}
+
+.card {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
 .card .title, .card .subtitle {
     font-size: 0.8rem;
+}
+
+.card .action-bar {
+    border: none;
 }
 
 .subtitle + .subtitle {

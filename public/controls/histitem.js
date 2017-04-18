@@ -1,8 +1,9 @@
-const HistItem = (imgurl, title, artist, track) => (
+const HistItem = (imgurl, bg, title, artist, track) => (
     // Using string literals
     `
         <div class="card">
-            <div class="player-content">
+            <div id="histItemBg" class="bg-image" style="background-image: url('${bg}')"></div>
+            <div class="player-content overlay">
                 <div class="row level">
                     <div class="col-4">
                         <img src="${imgurl}">
@@ -14,7 +15,7 @@ const HistItem = (imgurl, title, artist, track) => (
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <div class="row overlay">
                 <div class="action-bar center">
                     <a href="${track.download_url}" target="_blank"><button class="btn">Download</button></a>
                     <a href="${track.permalink_url}" target="_blank"><button class="btn">View</button></a>

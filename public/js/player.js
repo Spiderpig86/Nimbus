@@ -153,8 +153,9 @@ class Player {
 
                     // Update main player info
                     this.mainPlayer.innerHTML = SongInfo((track.artwork_url === null ? '../img/cd.png' : track.artwork_url.replace('large', 't500x500')), track);
-                    this.histContainer.innerHTML += HistItem((track.artwork_url === null ? '../img/cd.png' : track.artwork_url), track.title, track.user.username === undefined ? 'N/A' : track.user.username, track); // Append to history
+                    this.histContainer.innerHTML += HistItem((track.artwork_url === null ? '../img/cd.png' : track.artwork_url), (track.artwork_url === null ? 'https://images.unsplash.com/photo-1466853817435-05b43fe45b39?dpr=1&auto=format&fit=crop&w=1500&h=1090&q=80&cs=tinysrgb&crop=&bg=' : track.artwork_url), track.title, track.user.username === undefined ? 'N/A' : track.user.username, track); // Append to history
                     this.curTrack.track = track;
+                    document.getElementById('background').style.backgroundImage = 'url(' +(track.artwork_url === null ? 'https://images.unsplash.com/photo-1466853817435-05b43fe45b39?dpr=1&auto=format&fit=crop&w=1500&h=1090&q=80&cs=tinysrgb&crop=&bg=' : track.artwork_url.replace('large', 't500x500')) + ')';
                      if (track.genre === null)
                         track.genre === 'N/A';
 
