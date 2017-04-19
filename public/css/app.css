@@ -21,7 +21,21 @@ pre {
 
 .header {
     box-shadow: 0 0 32px rgba(0,0,0,.15);
+    opacity: .5;
+    transition: all .3s;
+    -webkit-transition: all .3s;
+    -moz-transition: all .3s;
+    -ms-transition: all .3s;
+    -o-transition: all .3s;
+}
+
+.header:hover {
     opacity: .9;
+    transition: all .3s;
+    -webkit-transition: all .3s;
+    -moz-transition: all .3s;
+    -ms-transition: all .3s;
+    -o-transition: all .3s;
 }
 
 .header-item {
@@ -47,7 +61,7 @@ pre {
     width: 100%;
     background-repeat: no-repeat;
     background-position: 50% 50%;
-    background-size: 150% 150%;
+    background-size: 120% 120%;
     filter: blur(15px) brightness(.5);
     -webkit-filter: blur(15px) brightness(.5);
     transform: scale(1.07); /* Removes the white edges from the player image */
@@ -68,7 +82,8 @@ pre {
 }
 
 .card {
-    background-color: rgba(255, 255, 255, 0.3);
+    background-color: rgba(97, 97, 97, 0.2);
+    box-shadow: none;
 }
 
 .card .title, .card .subtitle {
