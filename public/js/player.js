@@ -1,4 +1,4 @@
-import consts from '../../consts.json';
+import consts from '../../consts-sec.json';
 import HistItem from '../controls/HistItem';
 import SongInfo from '../controls/songinfo';
 

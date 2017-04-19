@@ -51,6 +51,7 @@ pre {
     filter: blur(15px) brightness(.5);
     -webkit-filter: blur(15px) brightness(.5);
     transform: scale(1.07); /* Removes the white edges from the player image */
+    z-index: -1; /* Make the scrollbar visible */
 }
 
 #playerInfoContainer {
