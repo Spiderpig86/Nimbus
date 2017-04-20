@@ -94,7 +94,7 @@ img {
 }
 
 .card {
-    background-color: rgba(140, 140, 140, 0.2);
+    background-color: rgba(140, 140, 140, 0.05);
     box-shadow: none;
     backface-visibility: hidden;
     -webkit-transition: all 1.0s cubic-bezier(0,0,0.3,1);
