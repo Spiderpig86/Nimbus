@@ -20,8 +20,8 @@ pre {
     font-family: 'Nunito Sans';
 }
 
-img {
-    max-width: 450px;
+.player-content .row img {
+    max-width: 100%;
 }
 
 .header {
@@ -82,7 +82,7 @@ img {
 
 #songArt {
     box-shadow: 0 0 60px rgba(0, 0, 0, 0.4);
-    max-width: 100%;
+    max-width: 450px;
 }
 
 #songContainer .card {
