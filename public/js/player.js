@@ -151,11 +151,13 @@ class Player {
                     //console.log('SC.get()');
                     this.history.push(track); // Push the track so it can be replayed from history. 
 
+                    let rndImg = this.fetchRandomImage();
+
                     // Update main player info
                     this.mainPlayer.innerHTML = SongInfo((track.artwork_url === null ? '../img/cd.png' : track.artwork_url.replace('large', 't500x500')), track);
-                    this.histContainer.innerHTML += HistItem((track.artwork_url === null ? '../img/cd.png' : track.artwork_url), (track.artwork_url === null ? 'https://images.unsplash.com/photo-1466853817435-05b43fe45b39?dpr=1&auto=format&fit=crop&w=1500&h=1090&q=80&cs=tinysrgb&crop=&bg=' : track.artwork_url), track.title, track.user.username === undefined ? 'N/A' : track.user.username, track); // Append to history
+                    this.histContainer.innerHTML += HistItem((track.artwork_url === null ? '../img/cd.png' : track.artwork_url), (track.artwork_url === null ? rndImg : track.artwork_url), track.title, track.user.username === undefined ? 'N/A' : track.user.username, track); // Append to history
                     this.curTrack.track = track;
-                    document.getElementById('background').style.backgroundImage = 'url(' +(track.artwork_url === null ? 'https://images.unsplash.com/photo-1466853817435-05b43fe45b39?dpr=1&auto=format&fit=crop&w=1500&h=1090&q=80&cs=tinysrgb&crop=&bg=' : track.artwork_url.replace('large', 't500x500')) + ')';
+                    document.getElementById('background').style.backgroundImage = 'url(' + (track.artwork_url === null ? rndImg : track.artwork_url.replace('large', 't500x500')) + ')';
                      if (track.genre === null)
                         track.genre === 'N/A';
 
@@ -323,12 +325,17 @@ class Player {
             this.curPlayer.play();
             this.curPlayer.pause();
             this.updateStream(this.getRandomTrack());
+            this.togglePlayState(true);
         } catch(e) {
             // Shoddy way to catch error just buffer to next track
             this.updateStream(this.getRandomTrack());
         }
     }
 
+    fetchRandomImage() {
+        let i = Math.floor(Math.random() * 4050) + 1;
+        return `http://img.infinitynewtab.com/wallpaper/${i}.jpg`;
+    }
 
 }
 

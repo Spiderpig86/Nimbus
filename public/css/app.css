@@ -1,5 +1,6 @@
 body {
     color: #fff;
+    background-color: #000;
 }
 
 .hero-body h1,
@@ -17,6 +18,10 @@ a {
 
 pre {
     font-family: 'Nunito Sans';
+}
+
+img {
+    max-width: 450px;
 }
 
 .header {
@@ -44,8 +49,9 @@ pre {
 }
 
 #background {
-    /*background-image: url(https://i1.sndcdn.com/artworks-000207924605-hq5874-t500x500.jpg);*/
     position: fixed;
+    opacity: .5;
+    backface-visibility: hidden;
 }
 
 #histItemBg {
@@ -64,7 +70,8 @@ pre {
     background-size: 120% 120%;
     filter: blur(15px) brightness(.5);
     -webkit-filter: blur(15px) brightness(.5);
-    transform: scale(1.07); /* Removes the white edges from the player image */
+    -webkit-transform: scale(1.07);
+            transform: scale(1.07); /* Removes the white edges from the player image */
     z-index: -1; /* Make the scrollbar visible */
 }
 
@@ -75,6 +82,11 @@ pre {
 
 #songArt {
     box-shadow: 0 0 60px rgba(0, 0, 0, 0.4);
+    max-width: 100%;
+}
+
+#songContainer .card {
+    min-height: 100%;
 }
 
 .title {
@@ -82,8 +94,11 @@ pre {
 }
 
 .card {
-    background-color: rgba(97, 97, 97, 0.2);
+    background-color: rgba(140, 140, 140, 0.2);
     box-shadow: none;
+    backface-visibility: hidden;
+    -webkit-transition: all 1.0s cubic-bezier(0,0,0.3,1);
+    transition: all 1.0s cubic-bezier(0,0,0.3,1);
 }
 
 .card .title, .card .subtitle {
@@ -92,6 +107,17 @@ pre {
 
 .card .action-bar {
     border: none;
+    -webkit-transition: all 1.0s cubic-bezier(0,0,0.3,1);
+    transition: all 1.0s cubic-bezier(0,0,0.3,1);
+    max-height: 0;
+    opacity: 0;
+}
+
+.card:hover .row .action-bar {
+    max-height: 500px;
+    opacity: 1;
+    -webkit-transition: all 1.0s cubic-bezier(0,0,0.3,1);
+    transition: all 1.0s cubic-bezier(0,0,0.3,1);
 }
 
 .subtitle + .subtitle {
