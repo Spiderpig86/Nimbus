@@ -230,6 +230,7 @@ class Player {
     async getTrackById(id) {
         // Create a stream call to the SoundCloud object.
             // Use await to obtain promise from server
+            let playerTemp = this.curPlayer;
             return await SC.stream(`/tracks/${id}?client_id=${consts.client_id}`).then((player) => {
                 this.curPlayer = player;
 
@@ -267,6 +268,9 @@ class Player {
             }).catch(e => {
                 // Handle 404 responses
                 console.log(e.message);
+
+                // Restore past stream so it won't break the current stream for 403 errors.
+                this.curPlayer = playerTemp;
             });
     }
 
