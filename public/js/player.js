@@ -100,6 +100,29 @@ class Player {
             } else if (e.shiftKey && e.keyCode == 40) {
                 // shift down
                 this.volumeDown(0.1);
+            } else if (e.shiftKey && e.keyCode == 65) {
+                let id = prompt("Enter song id.");
+                SC.get('/tracks/' + id).then((track) => { // Check if there are results
+                    // this.history.push(track);
+                    //console.log('SC.get()');
+                    this.history.push(track); // Push the track so it can be replayed from history. 
+
+                    let rndImg = this.fetchRandomImage();
+
+                    // Update main player info
+                    this.mainPlayer.innerHTML = SongInfo((track.artwork_url === null ? '../img/cd.png' : track.artwork_url.replace('large', 't500x500')), track);
+                    this.histContainer.innerHTML += HistItem((track.artwork_url === null ? '../img/cd.png' : track.artwork_url), (track.artwork_url === null ? rndImg : track.artwork_url), track.title, track.user.username === undefined ? 'N/A' : track.user.username, track); // Append to history
+                    this.curTrack.track = track;
+                    document.getElementById('background').style.backgroundImage = 'url(' + (track.artwork_url === null ? rndImg : track.artwork_url.replace('large', 't500x500')) + ')';
+                     if (track.genre === null)
+                        track.genre === 'N/A';
+
+                    this.getTrackProperties(track); // This is a trouble spot
+                    
+                        //console.log(HistItem(this.artwork_url, this.title, this.artist, tracks));
+                        //return id;
+                });
+                this.updateStream(id);
             }
         }
     }

@@ -101,7 +101,12 @@ pre {
     transition: all 1.0s cubic-bezier(0,0,0.3,1);
 }
 
-.card .title, .card .subtitle {
+.card .title {
+    font-size: 1rem;
+    font-weight: 200;
+}
+
+.card .subtitle {
     font-size: 0.8rem;
 }
 
