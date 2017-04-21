@@ -6,7 +6,7 @@ A simple web application powered by Express and NodeJS that fetches random songs
 | Play/Pause    | Space         |
 | Arrow-Right   | Find New Song |
 | Volume Up     | Shift + Arrow-Up |
-| Volume Down     | Shift + Arrow-Down |
+| Volume Down   | Shift + Arrow-Down |
 
 # Dependencies
 Nimbus uses a few packages to help this run on a machine. Some of the dependencies includes:
@@ -14,6 +14,9 @@ Nimbus uses a few packages to help this run on a machine. Some of the dependenci
 * [Babel](https://babeljs.io/) - mainly to support older browsers if you need it.
 * [Webpack](https://webpack.github.io/) - bundles modules together to make imports work.
 * [Cirrus](https://github.com/Spiderpig86/Cirrus) - a CSS framework I developed.
+
+# Screenshots
+![Early Stages](http://i.imgur.com/V95oIeC.png "Nimbus Player")
 
 # How to Run
 First obtain all the dependencies:
