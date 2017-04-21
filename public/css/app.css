@@ -26,7 +26,7 @@ pre {
 
 .header {
     box-shadow: 0 0 32px rgba(0,0,0,.15);
-    opacity: .5;
+    opacity: .7;
     transition: all .3s;
     -webkit-transition: all .3s;
     -moz-transition: all .3s;
