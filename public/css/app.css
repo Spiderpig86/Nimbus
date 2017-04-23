@@ -57,6 +57,9 @@ pre {
 
 #histItemBg {
     position: absolute;
+    -webkit-transform: translateZ(0);
+    -webkit-perspective: 1000;
+    -webkit-backface-visibility: hidden;
 }
 
 .overlay {
@@ -74,6 +77,8 @@ pre {
     -webkit-transform: scale(1.07);
             transform: scale(1.07); /* Removes the white edges from the player image */
     z-index: -1; /* Make the scrollbar visible */
+-webkit-perspective: 1000;
+-webkit-backface-visibility: hidden;
 }
 
 #playerInfoContainer {
