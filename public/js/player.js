@@ -236,6 +236,7 @@ class Player {
 
                  // Add event listeners to stream object.
                 this.curPlayer.on('finish', () => {
+                    this.restartSong(); // Fix for when the user wants to play a song again so the song being at the end doesn't trigger the app to look for new songs.
                     this.updateStream(this.getRandomTrack());
                     //console.log('finish event added');
                 });
@@ -303,6 +304,10 @@ class Player {
         this.curPlayer.seek(this.curPlayer.currentTime() - (1000 * seconds));
     }
 
+    restartSong() {
+        this.curPlayer.seek(0);
+    }
+
     volumeUp(offset) {
         this.curPlayer.setVolume(Math.min(100, this.curPlayer.getVolume() + offset));
     }
@@ -320,10 +325,10 @@ class Player {
             console.log('isPlaying = true');
             this.isPlaying = true;
             this.mainPlayer.innerHTML = SongInfo((this.curTrack.track.artwork_url === null ? '../img/cd.png' : this.curTrack.track.artwork_url.replace('large', 't500x500')), this.curTrack.track);
-            if (!this.history.includes(this.curTrack.track)) {
-                this.histContainer.innerHTML += HistItem((this.curTrack.track.artwork_url === null ? '../img/cd.png' : this.curTrack.track.artwork_url), this.curTrack.track.title, this.curTrack.track.artist, this.curTrack.track); // Append to history
-                this.history.push(this.curTrack.track); // This adds it to the history so we don't add more song cards thant needed
-            }
+            // if (!this.history.includes(this.curTrack.track)) {
+            //     this.histContainer.innerHTML += HistItem((this.curTrack.track.artwork_url === null ? '../img/cd.png' : this.curTrack.track.artwork_url), this.curTrack.track.title, this.curTrack.track.artist, this.curTrack.track); // Append to history
+            //     this.history.push(this.curTrack.track); // This adds it to the history so we don't add more song cards thant needed
+            // }
                 // Update play state
             this.togglePlayState(true);
         } else {    
@@ -351,10 +356,12 @@ class Player {
             this.curPlayer.pause();
             this.curPlayer.play();
             this.curPlayer.pause();
+            this.restartSong();
             this.updateStream(this.getRandomTrack());
             this.togglePlayState(true);
         } catch(e) {
             // Shoddy way to catch error just buffer to next track
+            // issue where streaming the same track triggers this error
             this.updateStream(this.getRandomTrack());
         }
     }
