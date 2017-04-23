@@ -9,7 +9,7 @@ const RAND_COUNT = 4000000;
 const OFFSET = 3000000;
 
 // IDs to get to get newer tracks
-const RAND_COUNT_2 = 30000000;
+const RAND_COUNT_2 = 90000000;
 const OFFSET_2 = 10000000;
 
 // IDs to get to get newer tracks

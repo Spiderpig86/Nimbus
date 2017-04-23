@@ -5,10 +5,10 @@ const HistItem = (imgurl, bg, title, artist, track) => (
             <div id="histItemBg" class="bg-image" style="background-image: url('${bg}')"></div>
             <div class="player-content overlay">
                 <div class="row level">
-                    <div class="col-4">
+                    <div class="level-left">
                         <img src="${imgurl}">
                     </div>
-                    <div class="col-7">
+                    <div class="desc">
                         <p class="title">${title}</p>
                         <p class="subtitle">${artist}</p>
                         <p class="subtitle">${track.genre === undefined ? 'N/A' : track.genre}</p>

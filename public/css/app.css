@@ -87,6 +87,7 @@ pre {
 
 #songContainer .card {
     min-height: 100%;
+    min-width: 100px;
 }
 
 .title {
@@ -116,6 +117,14 @@ pre {
     transition: all 1.0s cubic-bezier(0,0,0.3,1);
     max-height: 0;
     opacity: 0;
+}
+
+.card .desc {
+    flex-grow: 1;
+}
+
+.card p {
+    margin: inherit;
 }
 
 .card:hover .row .action-bar {
