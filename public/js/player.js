@@ -5,7 +5,7 @@ import SongInfo from '../controls/songinfo';
 let SC = require('soundcloud');
 
 // Soundcloud Properties 
-const RAND_COUNT = 4000000;
+const RAND_COUNT = 7000000;
 const OFFSET = 3000000;
 
 // IDs to get to get newer tracks
