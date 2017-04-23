@@ -1,7 +1,7 @@
 let express = require('express')
 let app = express()
 let path = require('path')
-const port = process.env.port || 3000
+const port = process.env.port || 8000
 
 // Set up static file paths
 app.use(express.static(path.join(__dirname, '../public/')));
