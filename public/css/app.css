@@ -14,6 +14,11 @@ body {
 
 a {
     padding: 0;
+    color: #c5c5c5;
+}
+
+a:hover {
+    color: #b7b7b7;
 }
 
 pre {
@@ -26,6 +31,7 @@ pre {
 }
 
 .header {
+    background-color: rgba(105, 105, 105, 0.4);
     box-shadow: 0 0 32px rgba(0,0,0,.15);
     opacity: .7;
     transition: all .3s;
