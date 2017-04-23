@@ -14,7 +14,7 @@
   },
   "scripts": {
     "build": "babel --presets es2015 public/js -d public/dist",
-    "start": "/routes/app.js"
+    "start": "node ./routes/app.js"
   },
   "repository": {
     "type": "git",
