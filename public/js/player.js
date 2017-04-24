@@ -40,6 +40,18 @@ class Player {
             track: null
         };
 
+        // Widget Props (BETA)
+        this.widgetTrack = {
+            cover: '',
+            title: '',
+            artist: '',
+            permalink_url: '',
+            description: '',
+            created_at: '',
+            duration: 0,
+            currentPosition: 0
+        };
+
         // Bind page elements 
         this.bindElements();
         this.bindEventHandlers();
@@ -102,6 +114,9 @@ class Player {
                 this.volumeDown(0.1);
             } else if (e.shiftKey && e.keyCode == 65) {
                 let id = prompt("Enter song id.");
+                if (id == null) 
+                    return;
+
                 SC.get('/tracks/' + id).then((track) => { // Check if there are results
                     // this.history.push(track);
                     //console.log('SC.get()');
@@ -123,8 +138,37 @@ class Player {
                         //return id;
                 });
                 this.updateStream(id);
+
+
+            } else if (e.shiftKey && e.keyCode == 66) {
+                let id = prompt("Enter song id.");
+                if (id == null) {
+                    alert("test");
+                    return;}
+                document.getElementById('widgettest').setAttribute('src', `https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/${id}`);
+                let iframeID = document.getElementById('widgettest');
+                let widget = SC.Widget(iframeID);
+                setTimeout(() => this.loadWidgetSong(widget), 1000);
             }
         }
+    }
+
+    loadWidgetSong(widget) {
+        widget.play();
+        widget.getCurrentSound((song) => {
+            this.widgetTrack.cover = song.artwork_url;
+            this.widgetTrack.title = song.title;
+            this.widgetTrack.artist = song.user.username;
+            this.widgetTrack.permalink_url = song.permalink_url;
+            this.widgetTrack.description = song.description;
+            this.widgetTrack.created_at = song.created_at;
+            this.widgetTrack.duration = song.duration;
+            this.widgetTrack.currentPosition = 0;
+
+            this.mainPlayer.innerHTML = SongInfo((song.artwork_url === null ? '../img/cd.png' : song.artwork_url.replace('large', 't500x500')), song);
+            this.histContainer.innerHTML += HistItem((song.artwork_url === null ? '../img/cd.png' : song.artwork_url), (song.artwork_url === null ? rndImg : song.artwork_url), song.title, song.user.username === undefined ? 'N/A' : song.user.username, song); // Append to history
+            //this.curTrack.track = track;
+        });
     }
 
     /**
@@ -229,50 +273,50 @@ class Player {
      */
     async getTrackById(id) {
         // Create a stream call to the SoundCloud object.
-            // Use await to obtain promise from server
-            let playerTemp = this.curPlayer;
-            return await SC.stream(`/tracks/${id}?client_id=${consts.client_id}`).then((player) => {
-                this.curPlayer = player;
+        // Use await to obtain promise from server
+        let playerTemp = this.curPlayer;
+        return await SC.stream(`/tracks/${id}?client_id=${consts.client_id}`).then((player) => {
+            this.curPlayer = player;
 
-                 // Add event listeners to stream object.
-                this.curPlayer.on('finish', () => {
-                    this.restartSong(); // Fix for when the user wants to play a song again so the song being at the end doesn't trigger the app to look for new songs.
-                    this.updateStream(this.getRandomTrack());
-                    //console.log('finish event added');
-                });
-
-                // Add event listener for updating time
-                this.curPlayer.on('time', () => {
-                    try {
-                        let curTimeStr = this.millisToMinutesAndSeconds(this.curPlayer.currentTime());
-                        let totalTimeStr = this.millisToMinutesAndSeconds(this.curTrack.track.duration);
-                        document.getElementById('curTime').innerText = `${curTimeStr} / ${totalTimeStr}`;
-                    } catch(e) {
-                        // Usually error is thrown when skipping tracks.
-                    }
-                });
-                
-                try {
-                    this.curPlayer.play();
-                    document.title = `\u25B6   Nimbus - ${this.curTrack.track.title}`;
-                } catch (e) {
-                    console.log('Unable to play current song.' + e.toString());
-                }
-                this.isPlaying = true;
-                this.hasFinished = false;
-
-                // rtmp fix on Chrome (Mar 24 2017)
-                // Reference: http://stackoverflow.com/questions/34203097/soundcloud-api-v3-stream-not-working-in-chrome
-                //if (this.curPlayer.options.protocols[0] === 'rtmp')
-                this.curPlayer.options.protocols = this.curPlayer.options.protocols.reverse();
-                //return player;
-            }).catch(e => {
-                // Handle 404 responses
-                console.log(e.message);
-
-                // Restore past stream so it won't break the current stream for 403 errors.
-                this.curPlayer = playerTemp;
+                // Add event listeners to stream object.
+            this.curPlayer.on('finish', () => {
+                this.restartSong(); // Fix for when the user wants to play a song again so the song being at the end doesn't trigger the app to look for new songs.
+                this.updateStream(this.getRandomTrack());
+                //console.log('finish event added');
             });
+
+            // Add event listener for updating time
+            this.curPlayer.on('time', () => {
+                try {
+                    let curTimeStr = this.millisToMinutesAndSeconds(this.curPlayer.currentTime());
+                    let totalTimeStr = this.millisToMinutesAndSeconds(this.curTrack.track.duration);
+                    document.getElementById('curTime').innerText = `${curTimeStr} / ${totalTimeStr}`;
+                } catch(e) {
+                    // Usually error is thrown when skipping tracks.
+                }
+            });
+            
+            try {
+                this.curPlayer.play();
+                document.title = `\u25B6   Nimbus - ${this.curTrack.track.title}`;
+            } catch (e) {
+                console.log('Unable to play current song.' + e.toString());
+            }
+            this.isPlaying = true;
+            this.hasFinished = false;
+
+            // rtmp fix on Chrome (Mar 24 2017)
+            // Reference: http://stackoverflow.com/questions/34203097/soundcloud-api-v3-stream-not-working-in-chrome
+            //if (this.curPlayer.options.protocols[0] === 'rtmp')
+            this.curPlayer.options.protocols = this.curPlayer.options.protocols.reverse();
+            //return player;
+        }).catch(e => {
+            // Handle 404 responses
+            console.log(e.message);
+
+            // Restore past stream so it won't break the current stream for 403 errors.
+            this.curPlayer = playerTemp;
+        });
     }
 
     /**

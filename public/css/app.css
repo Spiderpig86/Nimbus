@@ -183,6 +183,12 @@ pre {
     line-height: 1.3rem;
 }
 
+#widgettest {
+    visibility: hidden; /* Hide the widget from user */
+    height: 1px;
+    width: 1px;
+}
+
 /* Mobile Stuff */
 @media screen and (max-width: 768px) {
     .card {
