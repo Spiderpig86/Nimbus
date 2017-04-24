@@ -31,9 +31,9 @@ pre {
 }
 
 .header {
-    background-color: rgba(105, 105, 105, 0.4);
+    background-color: rgb(105, 105, 105);
     box-shadow: 0 0 32px rgba(0,0,0,.15);
-    opacity: .7;
+    opacity: .6;
     transition: all .3s;
     -webkit-transition: all .3s;
     -moz-transition: all .3s;
@@ -95,6 +95,7 @@ pre {
 #songArt {
     box-shadow: 0 0 60px rgba(0, 0, 0, 0.4);
     max-width: 450px;
+    width: 100%;
 }
 
 #songContainer .card {
