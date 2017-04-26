@@ -1,3 +1,7 @@
+/**
+ * NOTE: THIS IS NOW DEPRECATED. THIS USES THE SOUNDCLOUD STREAMING API RATHER THAN THE WIDGET API
+ */
+
 import consts from '../../consts-sec.json';
 import HistItem from '../controls/HistItem';
 import SongInfo from '../controls/songinfo';
@@ -26,20 +30,19 @@ class Player {
         this.history = [];
         this.isPlaying = false;
         this.curPlayer = null;
-        this.curPosition = 0;
 
         // Track object
-        // this.curTrack = {
-        //     id: 0,
-        //     title: '',
-        //     duration: 0,
-        //     description: '',
-        //     url: '',
-        //     artwork_url: '',
-        //     artist: '',
-        //     hasFinished: false,
-        //     track: null
-        // };
+        this.curTrack = {
+            id: 0,
+            title: '',
+            duration: 0,
+            description: '',
+            url: '',
+            artwork_url: '',
+            artist: '',
+            hasFinished: false,
+            track: null
+        };
 
         // Widget Props (BETA)
         this.widgetTrack = {
@@ -54,18 +57,18 @@ class Player {
         };
 
         // Bind page elements 
-        this.bindControlElements();
-        this.bindControlEvents();
+        this.bindElements();
+        this.bindEventHandlers();
 
         // Load a track when the app is laded.
-        //this.updateStream(this.getRandomTrack());
+        this.updateStream(this.getRandomTrack());
 
     }
 
     /**
      * Binds the page elements to JS objects so we can access them in other functions.
      */
-    bindControlElements() {
+    bindElements() {
         this.mainPlayer = document.getElementById('songContainer');
         this.playBtn = document.getElementById('play-btn');
         this.nextBtn = document.getElementById('next-btn');
@@ -77,11 +80,11 @@ class Player {
     /**
      * Binds components on the page to commands on action.
      */
-    bindControlEvents() {
+    bindEventHandlers() {
         this.playBtn.onclick = (e) => {
-            // if (this.curPlayer === null && !this.isPlaying)
-            //     this.updateStream(this.getRandomTrack());
-            this.togglePlay();
+            if (this.curPlayer === null && !this.isPlaying)
+                this.updateStream(this.getRandomTrack());
+                this.togglePlay();
         }
 
         // Bind the skip button
@@ -109,30 +112,53 @@ class Player {
                 this.togglePlay();
             } else if (e.shiftKey && e.keyCode == 38) {
                 // shift up
-                this.volumeUp(10);
+                this.volumeUp(0.1);
             } else if (e.shiftKey && e.keyCode == 40) {
                 // shift down
-                this.volumeDown(10);
-
-            } else if (e.shiftKey && e.keyCode == 66) {
+                this.volumeDown(0.1);
+            } else if (e.shiftKey && e.keyCode == 65) {
                 let id = prompt("Enter song id.");
                 if (id == null) 
                     return;
 
+                SC.get('/tracks/' + id).then((track) => { // Check if there are results
+                    // this.history.push(track);
+                    //console.log('SC.get()');
+                    this.history.push(track); // Push the track so it can be replayed from history. 
+
+                    let rndImg = this.fetchRandomImage();
+
+                    // Update main player info
+                    this.mainPlayer.innerHTML = SongInfo((track.artwork_url === null ? '../img/cd.png' : track.artwork_url.replace('large', 't500x500')), track);
+                    this.histContainer.innerHTML += HistItem((track.artwork_url === null ? '../img/cd.png' : track.artwork_url), (track.artwork_url === null ? rndImg : track.artwork_url), track.title, track.user.username === undefined ? 'N/A' : track.user.username, track); // Append to history
+                    this.curTrack.track = track;
+                    document.getElementById('background').style.backgroundImage = 'url(' + (track.artwork_url === null ? rndImg : track.artwork_url.replace('large', 't500x500')) + ')';
+                     if (track.genre === null)
+                        track.genre === 'N/A';
+
+                    this.getTrackProperties(track); // This is a trouble spot
+                    
+                        //console.log(HistItem(this.artwork_url, this.title, this.artist, tracks));
+                        //return id;
+                });
+                this.updateStream(id);
+
+
+            } else if (e.shiftKey && e.keyCode == 66) {
+                let id = prompt("Enter song id.");
+                if (id == null) {
+                    alert("test");
+                    return;}
                 document.getElementById('widgettest').setAttribute('src', `https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/${id}`);
                 let iframeID = document.getElementById('widgettest');
-                this.curPlayer = SC.Widget(iframeID);
-                // Update the player
-                this.bindWidgetEvents(this.curPlayer); // Bind event handlers for widget.
-                setTimeout(() => this.loadWidgetSong(this.curPlayer), 1000);
+                let widget = SC.Widget(iframeID);
+                setTimeout(() => this.loadWidgetSong(widget), 1000);
             }
         }
     }
 
     loadWidgetSong(widget) {
-
         widget.play();
-        this.isPlaying = true;
         widget.getCurrentSound((song) => {
             this.widgetTrack.cover = song.artwork_url;
             this.widgetTrack.title = song.title;
@@ -141,15 +167,11 @@ class Player {
             this.widgetTrack.description = song.description;
             this.widgetTrack.created_at = song.created_at;
             this.widgetTrack.duration = song.duration;
-            console.log(this.widgetTrack.duration);
             this.widgetTrack.currentPosition = 0;
 
             this.mainPlayer.innerHTML = SongInfo((song.artwork_url === null ? '../img/cd.png' : song.artwork_url.replace('large', 't500x500')), song);
             this.histContainer.innerHTML += HistItem((song.artwork_url === null ? '../img/cd.png' : song.artwork_url), (song.artwork_url === null ? rndImg : song.artwork_url), song.title, song.user.username === undefined ? 'N/A' : song.user.username, song); // Append to history
             //this.curTrack.track = track;
-            document.getElementById('background').style.backgroundImage = 'url(' + (song.artwork_url === null ? rndImg : song.artwork_url.replace('large', 't500x500')) + ')';
-
-            console.log('getcurrentsound done');
         });
     }
 
@@ -163,22 +185,6 @@ class Player {
             console.log('Error initializing SoundCloud API. Stack trace: ' + e.toString());
         }
         console.log('SoundCloud API initalized!');
-    }
-
-    bindWidgetEvents(widget) {
-        // if (this.curPlayer === null)
-        //     return; // We don't want any accidents
-
-        console.log("cool");
-        this.curPlayer = widget;
-        widget.bind(SC.Widget.Events.READY, (e) => {
-            widget.bind(SC.Widget.Events.PLAY_PROGRESS, (e) => {
-                this.curPosition = e.currentPosition;
-                let curTimeStr = this.millisToMinutesAndSeconds(e.currentPosition);
-                let totalTimeStr = this.millisToMinutesAndSeconds(this.widgetTrack.duration);
-                document.getElementById('curTime').innerText = `${curTimeStr} / ${totalTimeStr}`;
-            });
-        });
     }
 
     /**
@@ -222,7 +228,7 @@ class Player {
                     this.mainPlayer.innerHTML = SongInfo((track.artwork_url === null ? '../img/cd.png' : track.artwork_url.replace('large', 't500x500')), track);
                     this.histContainer.innerHTML += HistItem((track.artwork_url === null ? '../img/cd.png' : track.artwork_url), (track.artwork_url === null ? rndImg : track.artwork_url), track.title, track.user.username === undefined ? 'N/A' : track.user.username, track); // Append to history
                     this.curTrack.track = track;
-                    
+                    document.getElementById('background').style.backgroundImage = 'url(' + (track.artwork_url === null ? rndImg : track.artwork_url.replace('large', 't500x500')) + ')';
                      if (track.genre === null)
                         track.genre === 'N/A';
 
@@ -239,6 +245,25 @@ class Player {
         } catch(e) {
             console.log('getRandomTrack() - ' + e.toString());
         }
+    }
+
+    /**
+     * Extract properties of the track.
+     * @param 
+     */
+    getTrackProperties(track) {
+        // Refer to https://developers.soundcloud.com/docs/api/reference#tracks
+
+        this.curTrack.track = track;
+        console.log('getTrackProperties');
+        this.curTrackId = track.id;
+        this.title = track.title;
+        this.curDuration = track.duration; // Duration in ms
+        this.description = track.description; // HTML description
+        this.url = track.permalink_url;
+        this.artwork_url = track.artwork_url.replace('large', 't500x500');
+        this.artist = track.user.username;
+        // Get more info later...
     }
 
     async updateStream(id) {
@@ -311,31 +336,24 @@ class Player {
     togglePlayState(playing) {
         if (playing) {
             this.playBtn.innerHTML = '<i class="fa fa-pause" aria-hidden="true"></i>';
-            document.title = `\u25B6   Nimbus - ${this.widgetTrack.title}`;
+            document.title = `\u25B6   Nimbus - ${this.curTrack.track.title}`;
         } else {
             this.playBtn.innerHTML = '<i class="fa fa-play" aria-hidden="true"></i>';
-            document.title = `\u23F8   Nimbus - ${this.widgetTrack.title}`;
+            document.title = `\u23F8   Nimbus - ${this.curTrack.track.title}`;
         }
     }
 
     // UTIL functions
     seekForward(seconds) {
-        // Now handled in binded event of widget above.
-        // this.curPlayer.getPosition((position) => {
-        //     this.curPosition = position;
-        // });
-        // We need to store the seek value in a temp var, doing it inline causes error
-        let seekVal = this.curPosition + (1000 * seconds);
-        this.curPlayer.seekTo(Math.floor(seekVal));
+        this.curPlayer.seek(this.curPlayer.currentTime() + (1000 * seconds));
     }
 
     seekBack(seconds) {
-        let seekVal = this.curPosition - (1000 * seconds);
-        this.curPlayer.seekTo(Math.floor(seekVal));
+        this.curPlayer.seek(this.curPlayer.currentTime() - (1000 * seconds));
     }
 
     restartSong() {
-        this.curPlayer.seekTo(0);
+        this.curPlayer.seek(0);
     }
 
     volumeUp(offset) {
@@ -350,23 +368,41 @@ class Player {
         if (!this.isPlaying) {
             // Nuanced but adds that 'break' in the sound so you know it was pressed just in case isPlaying is the wrong value
             this.curPlayer.play();
+            this.curPlayer.pause();
+            this.curPlayer.play();
             console.log('isPlaying = true');
             this.isPlaying = true;
-            // this.mainPlayer.innerHTML = SongInfo((this.curTrack.track.artwork_url === null ? '../img/cd.png' : this.curTrack.track.artwork_url.replace('large', 't500x500')), this.curTrack.track);
+            this.mainPlayer.innerHTML = SongInfo((this.curTrack.track.artwork_url === null ? '../img/cd.png' : this.curTrack.track.artwork_url.replace('large', 't500x500')), this.curTrack.track);
+            // if (!this.history.includes(this.curTrack.track)) {
+            //     this.histContainer.innerHTML += HistItem((this.curTrack.track.artwork_url === null ? '../img/cd.png' : this.curTrack.track.artwork_url), this.curTrack.track.title, this.curTrack.track.artist, this.curTrack.track); // Append to history
+            //     this.history.push(this.curTrack.track); // This adds it to the history so we don't add more song cards thant needed
+            // }
                 // Update play state
-                this.isPlaying = true;
             this.togglePlayState(true);
         } else {    
+            this.curPlayer.pause();
+            this.curPlayer.play();
             this.curPlayer.pause();
 
             // Update play state
             this.togglePlayState(false);
+            
+            // Give the timeout enough time to avoid the race conflict.
+            //var waitTime = 150;
+            // setTimeout(function () {      
+            //     // Resume play if the element if is paused.
+            //     this.curPlayer.play();
+            //     this.curPlayer.pause();
+            // }, waitTime);
+            //console.log('isPlaying = false');
             this.isPlaying = false;
         }
     }
 
     fetchNext() {
         try {
+            this.curPlayer.pause();
+            this.curPlayer.play();
             this.curPlayer.pause();
             this.restartSong();
             this.updateStream(this.getRandomTrack());

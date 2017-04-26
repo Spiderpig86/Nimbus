@@ -185,8 +185,7 @@ pre {
 
 #widgettest {
     visibility: hidden; /* Hide the widget from user */
-    height: 1px;
-    width: 1px;
+    position: fixed;
 }
 
 /* Mobile Stuff */
