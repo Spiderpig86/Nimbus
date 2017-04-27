@@ -179,12 +179,21 @@ class Player {
         console.log("cool");
         this.curPlayer = widget;
         widget.bind(SC.Widget.Events.READY, (e) => {
+
+            // Bind when the song is playing
             widget.bind(SC.Widget.Events.PLAY_PROGRESS, (e) => {
                 this.curPosition = e.currentPosition;
                 let curTimeStr = this.millisToMinutesAndSeconds(e.currentPosition);
                 let totalTimeStr = this.millisToMinutesAndSeconds(this.widgetTrack.duration);
                 document.getElementById('curTime').innerText = `${curTimeStr} / ${totalTimeStr}`;
             });
+
+            // Bind when the song has finished
+            widget.bind(SC.Widget.FINISHED, (e) => {
+                // When the song finishes, we need to find a new song to play.
+                this.fetchNext();
+            });
+
         });
     }
 
@@ -382,8 +391,7 @@ class Player {
         } catch(e) {
             // Shoddy way to catch error just buffer to next track
             // issue where streaming the same track triggers this error
-            this.curPlayer.load(`https%3A//api.soundcloud.com/tracks/${id}`);
-            this.togglePlayState(true);
+            fetchNext();
         }
     }
 
