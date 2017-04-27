@@ -135,6 +135,7 @@ class Player {
             widget.play();
             this.isPlaying = true;
             widget.getCurrentSound((song) => {
+                let rndImg = this.fetchRandomImage();
                 this.widgetTrack.cover = song.artwork_url;
                 this.widgetTrack.title = song.title;
                 this.widgetTrack.artist = song.user.username;
@@ -189,9 +190,15 @@ class Player {
             });
 
             // Bind when the song has finished
-            widget.bind(SC.Widget.FINISHED, (e) => {
+            widget.bind(SC.Widget.Events.FINISHED, (e) => {
                 // When the song finishes, we need to find a new song to play.
                 this.fetchNext();
+            });
+
+            // Handle errors
+            widget.bind(SC.Widget.Events.ERROR, (e) => {
+                this.fetchNext();
+                return;
             });
 
         });
@@ -227,30 +234,34 @@ class Player {
             }
             //id = 5740357;
 
-            SC.get('/tracks/' + id).then((track) => { // Check if there are results
-                    // this.history.push(track);
-                    //console.log('SC.get()');
-                    this.history.push(track); // Push the track so it can be replayed from history. 
+            // SC.get('/tracks/' + id).then((track) => { // Check if there are results
+            //         // this.history.push(track);
+            //         //console.log('SC.get()');
+            //         this.history.push(track); // Push the track so it can be replayed from history. 
 
-                    let rndImg = this.fetchRandomImage();
+            //         let rndImg = this.fetchRandomImage();
 
-                    // Update main player info
-                    this.mainPlayer.innerHTML = SongInfo((track.artwork_url === null ? '../img/cd.png' : track.artwork_url.replace('large', 't500x500')), track);
-                    this.histContainer.innerHTML += HistItem((track.artwork_url === null ? '../img/cd.png' : track.artwork_url), (track.artwork_url === null ? rndImg : track.artwork_url), track.title, track.user.username === undefined ? 'N/A' : track.user.username, track); // Append to history
-                    this.curTrack.track = track;
+            //         // // Update main player info
+            //         // this.mainPlayer.innerHTML = SongInfo((track.artwork_url === null ? '../img/cd.png' : track.artwork_url.replace('large', 't500x500')), track);
+            //         // this.histContainer.innerHTML += HistItem((track.artwork_url === null ? '../img/cd.png' : track.artwork_url), (track.artwork_url === null ? rndImg : track.artwork_url), track.title, track.user.username === undefined ? 'N/A' : track.user.username, track); // Append to history
+            //         // this.curTrack.track = track;
                     
-                     if (track.genre === null)
-                        track.genre === 'N/A';
+            //         //  if (track.genre === null)
+            //         //     track.genre === 'N/A';
 
-                    this.getTrackProperties(track); // This is a trouble spot
+            //         // this.getTrackProperties(track); // This is a trouble spot
                    
-                    //console.log(HistItem(this.artwork_url, this.title, this.artist, tracks));
-                    //return id;
+            //         //console.log(HistItem(this.artwork_url, this.title, this.artist, tracks));
+            //         //return id;
+
+            //         this.loadWidgetSong(id);
+            //         console.log('Working - ' + id);
             // }, (err) => {
             //     // If there is no song with the associated ID, fetch a new one.
             //     //console.log('getRandomTrack() - (err)');
-            //     this.updateStream(this.getRandomTrack());
-            });
+            //     console.log(id);
+            //     return this.getRandomTrack();
+            // });
             return id;
         } catch(e) {
             console.log('getRandomTrack() - ' + e.toString());
@@ -388,10 +399,13 @@ class Player {
             let id = this.getRandomTrack();
             this.curPlayer.load(`https%3A//api.soundcloud.com/tracks/${id}`);
             this.togglePlayState(true);
+            this.curPlayer.play();
+            setTimeout(() => this.loadWidgetSong(this.curPlayer), 1000);
         } catch(e) {
             // Shoddy way to catch error just buffer to next track
             // issue where streaming the same track triggers this error
-            fetchNext();
+            //this.fetchNext();
+            console.log(e.toString());
         }
     }
 
