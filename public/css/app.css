@@ -152,7 +152,7 @@ pre {
 
 .player-content {
     max-width: 60em;
-    margin: 0 auto 2.2833%;;
+    margin: 1rem auto 2.2833%;;
     width: 90%;
 }
 
@@ -192,5 +192,11 @@ pre {
 @media screen and (max-width: 768px) {
     .card {
         text-align: center;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .player-content {
+        margin-top: 0;
     }
 }

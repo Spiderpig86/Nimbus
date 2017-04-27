@@ -122,6 +122,7 @@ class Player {
                 document.getElementById('widgettest').setAttribute('src', `https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/${id}`);
                 let iframeID = document.getElementById('widgettest');
                 this.curPlayer = SC.Widget(iframeID);
+                this.curPlayer.load(`https%3A//api.soundcloud.com/tracks/${id}`);
                 // Update the player
                 this.bindWidgetEvents(this.curPlayer); // Bind event handlers for widget.
                 setTimeout(() => this.loadWidgetSong(this.curPlayer), 1000);
@@ -130,27 +131,33 @@ class Player {
     }
 
     loadWidgetSong(widget) {
+        try {
+            widget.play();
+            this.isPlaying = true;
+            widget.getCurrentSound((song) => {
+                this.widgetTrack.cover = song.artwork_url;
+                this.widgetTrack.title = song.title;
+                this.widgetTrack.artist = song.user.username;
+                this.widgetTrack.permalink_url = song.permalink_url;
+                this.widgetTrack.description = song.description;
+                this.widgetTrack.created_at = song.created_at;
+                this.widgetTrack.duration = song.duration;
+                console.log(this.widgetTrack.duration);
+                this.widgetTrack.currentPosition = 0;
 
-        widget.play();
-        this.isPlaying = true;
-        widget.getCurrentSound((song) => {
-            this.widgetTrack.cover = song.artwork_url;
-            this.widgetTrack.title = song.title;
-            this.widgetTrack.artist = song.user.username;
-            this.widgetTrack.permalink_url = song.permalink_url;
-            this.widgetTrack.description = song.description;
-            this.widgetTrack.created_at = song.created_at;
-            this.widgetTrack.duration = song.duration;
-            console.log(this.widgetTrack.duration);
-            this.widgetTrack.currentPosition = 0;
+                this.mainPlayer.innerHTML = SongInfo((song.artwork_url === null ? '../img/cd.png' : song.artwork_url.replace('large', 't500x500')), song);
+                this.histContainer.innerHTML += HistItem((song.artwork_url === null ? '../img/cd.png' : song.artwork_url), (song.artwork_url === null ? rndImg : song.artwork_url), song.title, song.user.username === undefined ? 'N/A' : song.user.username, song); // Append to history
+                //this.curTrack.track = track;
+                document.getElementById('background').style.backgroundImage = 'url(' + (song.artwork_url === null ? rndImg : song.artwork_url.replace('large', 't500x500')) + ')';
 
-            this.mainPlayer.innerHTML = SongInfo((song.artwork_url === null ? '../img/cd.png' : song.artwork_url.replace('large', 't500x500')), song);
-            this.histContainer.innerHTML += HistItem((song.artwork_url === null ? '../img/cd.png' : song.artwork_url), (song.artwork_url === null ? rndImg : song.artwork_url), song.title, song.user.username === undefined ? 'N/A' : song.user.username, song); // Append to history
-            //this.curTrack.track = track;
-            document.getElementById('background').style.backgroundImage = 'url(' + (song.artwork_url === null ? rndImg : song.artwork_url.replace('large', 't500x500')) + ')';
+                console.log('getcurrentsound done');
+            });
 
-            console.log('getcurrentsound done');
-        });
+            // Update the play state
+            this.togglePlayState(true);
+        } catch(ex) {
+            console.log(ex.toString());
+        }
     }
 
     /**
@@ -230,10 +237,10 @@ class Player {
                    
                     //console.log(HistItem(this.artwork_url, this.title, this.artist, tracks));
                     //return id;
-            }, (err) => {
-                // If there is no song with the associated ID, fetch a new one.
-                //console.log('getRandomTrack() - (err)');
-                this.updateStream(this.getRandomTrack());
+            // }, (err) => {
+            //     // If there is no song with the associated ID, fetch a new one.
+            //     //console.log('getRandomTrack() - (err)');
+            //     this.updateStream(this.getRandomTrack());
             });
             return id;
         } catch(e) {
@@ -369,12 +376,14 @@ class Player {
         try {
             this.curPlayer.pause();
             this.restartSong();
-            this.updateStream(this.getRandomTrack());
+            let id = this.getRandomTrack();
+            this.curPlayer.load(`https%3A//api.soundcloud.com/tracks/${id}`);
             this.togglePlayState(true);
         } catch(e) {
             // Shoddy way to catch error just buffer to next track
             // issue where streaming the same track triggers this error
-            this.updateStream(this.getRandomTrack());
+            this.curPlayer.load(`https%3A//api.soundcloud.com/tracks/${id}`);
+            this.togglePlayState(true);
         }
     }
 
