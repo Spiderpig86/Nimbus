@@ -109,10 +109,10 @@ class Player {
                 this.togglePlay();
             } else if (e.shiftKey && e.keyCode == 38) {
                 // shift up
-                this.volumeUp(10);
+                this.volumeUp(0.1);
             } else if (e.shiftKey && e.keyCode == 40) {
                 // shift down
-                this.volumeDown(10);
+                this.volumeDown(0.1);
 
             } else if (e.shiftKey && e.keyCode == 66) {
                 let id = prompt("Enter song id.");
@@ -353,11 +353,15 @@ class Player {
     }
 
     volumeUp(offset) {
-        this.curPlayer.setVolume(Math.min(100, this.curPlayer.getVolume() + offset));
+        this.curPlayer.getVolume((vol) => {
+            this.curPlayer.setVolume(Math.min(1, vol + offset));
+        });
     }
 
     volumeDown(offset) {
-        this.curPlayer.setVolume(Math.max(0, this.curPlayer.getVolume() - offset));
+        this.curPlayer.getVolume((vol) => {
+            this.curPlayer.setVolume(Math.min(1, vol - offset));
+        });
     }
 
     togglePlay() {
