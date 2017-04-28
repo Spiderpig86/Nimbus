@@ -132,19 +132,22 @@ class Player {
 
     loadWidgetSong(widget) {
         try {
-            widget.play();
-            this.isPlaying = true;
+            console.log('loadwidgetsong called');
             widget.getCurrentSound((song) => {
+                console.log('getcurrentsound start');
+                widget.play();
+                this.isPlaying = true;
                 let rndImg = this.fetchRandomImage();
                 this.widgetTrack.cover = song.artwork_url;
                 this.widgetTrack.title = song.title;
-                this.widgetTrack.artist = song.user.username;
+                this.widgetTrack.artist = song.user.username || 'N/A'; // Some tracks don't have a usernme associated
                 this.widgetTrack.permalink_url = song.permalink_url;
                 this.widgetTrack.description = song.description;
                 this.widgetTrack.created_at = song.created_at;
                 this.widgetTrack.duration = song.duration;
-                console.log(this.widgetTrack.duration);
                 this.widgetTrack.currentPosition = 0;
+
+                console.log(song.title);
 
                 this.mainPlayer.innerHTML = SongInfo((song.artwork_url === null ? '../img/cd.png' : song.artwork_url.replace('large', 't500x500')), song);
                 this.histContainer.innerHTML += HistItem((song.artwork_url === null ? '../img/cd.png' : song.artwork_url), (song.artwork_url === null ? rndImg : song.artwork_url), song.title, song.user.username === undefined ? 'N/A' : song.user.username, song); // Append to history
@@ -156,6 +159,7 @@ class Player {
 
             // Update the play state
             this.togglePlayState(true);
+            return;
         } catch(ex) {
             console.log(ex.toString());
         }
@@ -190,15 +194,16 @@ class Player {
             });
 
             // Bind when the song has finished
-            widget.bind(SC.Widget.Events.FINISHED, (e) => {
+            widget.bind(SC.Widget.Events.FINISH, (e) => {
                 // When the song finishes, we need to find a new song to play.
+                console.log('finished');
                 this.fetchNext();
             });
 
             // Handle errors
             widget.bind(SC.Widget.Events.ERROR, (e) => {
+                console.log('Unable to fetch song. No resource at URL');
                 this.fetchNext();
-                return;
             });
 
         });
@@ -232,36 +237,14 @@ class Player {
                     id = Math.floor((Math.random() * RAND_COUNT_3) + OFFSET_3);
                     break;
             }
-            //id = 5740357;
 
-            // SC.get('/tracks/' + id).then((track) => { // Check if there are results
-            //         // this.history.push(track);
-            //         //console.log('SC.get()');
-            //         this.history.push(track); // Push the track so it can be replayed from history. 
-
-            //         let rndImg = this.fetchRandomImage();
-
-            //         // // Update main player info
-            //         // this.mainPlayer.innerHTML = SongInfo((track.artwork_url === null ? '../img/cd.png' : track.artwork_url.replace('large', 't500x500')), track);
-            //         // this.histContainer.innerHTML += HistItem((track.artwork_url === null ? '../img/cd.png' : track.artwork_url), (track.artwork_url === null ? rndImg : track.artwork_url), track.title, track.user.username === undefined ? 'N/A' : track.user.username, track); // Append to history
-            //         // this.curTrack.track = track;
-                    
-            //         //  if (track.genre === null)
-            //         //     track.genre === 'N/A';
-
-            //         // this.getTrackProperties(track); // This is a trouble spot
-                   
-            //         //console.log(HistItem(this.artwork_url, this.title, this.artist, tracks));
-            //         //return id;
-
-            //         this.loadWidgetSong(id);
-            //         console.log('Working - ' + id);
-            // }, (err) => {
-            //     // If there is no song with the associated ID, fetch a new one.
-            //     //console.log('getRandomTrack() - (err)');
-            //     console.log(id);
-            //     return this.getRandomTrack();
-            // });
+            SC.get('/tracks/' + id).then((track) => { // Check if there are results
+                    // Really just designed to check if the song actually exists
+                    this.history.push(track); // Push the track so it can be replayed from history. 
+            }, (err) => {
+                // If there is no song with the associated ID, fetch a new one.
+                throw 'Unable to fetch song. No resource at URL';
+            });
             return id;
         } catch(e) {
             console.log('getRandomTrack() - ' + e.toString());
@@ -358,7 +341,7 @@ class Player {
 
     seekBack(seconds) {
         let seekVal = this.curPosition - (1000 * seconds);
-        this.curPlayer.seekTo(Math.floor(seekVal));
+        this.curPlayer.seekTo(Math.max(Math.floor(seekVal), 0));
     }
 
     restartSong() {
@@ -397,15 +380,23 @@ class Player {
             this.curPlayer.pause();
             this.restartSong();
             let id = this.getRandomTrack();
-            this.curPlayer.load(`https%3A//api.soundcloud.com/tracks/${id}`);
-            this.togglePlayState(true);
-            this.curPlayer.play();
-            setTimeout(() => this.loadWidgetSong(this.curPlayer), 1000);
+            // Check if song is valid first (prevents extra recursion)
+            fetch(`https%3A//api.soundcloud.com/tracks/${id}`).then(function(response) {
+                var test = this.curPlayer.load(`https%3A//api.soundcloud.com/tracks/${id}`);
+                this.togglePlayState(true);
+                setTimeout(() => this.loadWidgetSong(this.curPlayer), 1000);
+            }).then(function(data) {
+                console.log(data);
+            }).catch(function() {
+                console.log("Booo");
+                this.fetchNext();
+                return;
+            });
         } catch(e) {
             // Shoddy way to catch error just buffer to next track
             // issue where streaming the same track triggers this error
             //this.fetchNext();
-            console.log(e.toString());
+            console.log('fetchNext' + e.toString());
         }
     }
 
