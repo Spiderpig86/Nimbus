@@ -150,9 +150,13 @@ class Player {
                 console.log(song.title);
 
                 this.mainPlayer.innerHTML = SongInfo((song.artwork_url === null ? '../img/cd.png' : song.artwork_url.replace('large', 't500x500')), song);
-                this.histContainer.innerHTML += HistItem((song.artwork_url === null ? '../img/cd.png' : song.artwork_url), (song.artwork_url === null ? rndImg : song.artwork_url), song.title, song.user.username === undefined ? 'N/A' : song.user.username, song); // Append to history
                 //this.curTrack.track = track;
                 document.getElementById('background').style.backgroundImage = 'url(' + (song.artwork_url === null ? rndImg : song.artwork_url.replace('large', 't500x500')) + ')';
+
+                if (!this.history.includes(song)) { // Do not add if it already exists
+                    this.history.push(song); // Push the track so it can be replayed from history. 
+                    this.histContainer.innerHTML += HistItem((song.artwork_url === null ? '../img/cd.png' : song.artwork_url), (song.artwork_url === null ? rndImg : song.artwork_url), song.title, song.user.username === undefined ? 'N/A' : song.user.username, song); // Append to history
+                }
 
                 console.log('getcurrentsound done');
             });
@@ -382,16 +386,16 @@ class Player {
             let id = this.getRandomTrack();
             // Check if song is valid first (prevents extra recursion)
             fetch(`https%3A//api.soundcloud.com/tracks/${id}`).then(function(response) {
-                var test = this.curPlayer.load(`https%3A//api.soundcloud.com/tracks/${id}`);
-                this.togglePlayState(true);
-                setTimeout(() => this.loadWidgetSong(this.curPlayer), 1000);
+                return response.json();
             }).then(function(data) {
                 console.log(data);
             }).catch(function() {
                 console.log("Booo");
-                this.fetchNext();
                 return;
             });
+            var test = this.curPlayer.load(`https%3A//api.soundcloud.com/tracks/${id}`);
+            this.togglePlayState(true);
+            setTimeout(() => this.loadWidgetSong(this.curPlayer), 1000);
         } catch(e) {
             // Shoddy way to catch error just buffer to next track
             // issue where streaming the same track triggers this error
