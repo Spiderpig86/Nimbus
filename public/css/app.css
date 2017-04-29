@@ -183,10 +183,7 @@ pre {
     line-height: 1.3rem;
 }
 
-#widgettest {
-    visibility: hidden; /* Hide the widget from user */
-    position: fixed;
-}
+
 
 /* Mobile Stuff */
 @media screen and (max-width: 768px) {
