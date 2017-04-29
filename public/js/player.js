@@ -27,7 +27,6 @@ class Player {
         this.isPlaying = false;
         this.curPlayer = null;
         this.curPosition = 0;
-        this.curId = 0;
 
         // Widget Props (BETA)
         this.widgetTrack = {
@@ -46,14 +45,13 @@ class Player {
         this.bindControlEvents();
 
         // Load a track when the app is laded.
-        let id = this.getRandomTrack();
-        console.log('construct - ' + id);
-        document.getElementById('widgettest').setAttribute('src', `https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/${id}`);
+        document.getElementById('widgettest').setAttribute('src', `https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/170202151`);
         let iframeID = document.getElementById('widgettest');
         this.curPlayer = SC.Widget(iframeID);
+        // Update the player
         this.bindWidgetEvents(this.curPlayer); // Bind event handlers for widget.
-        //this.fetchNext();
-        //setTimeout(() => this.loadWidgetSong(this.curPlayer), 1000);
+        this.fetchNext();
+        console.log('construct done');
     }
 
     /**
@@ -79,7 +77,7 @@ class Player {
         }
 
         // Bind the skip button
-         this.nextBtn.onclick = (e) => {
+        this.nextBtn.onclick = (e) => {
             this.fetchNext();
         }
 
@@ -110,7 +108,7 @@ class Player {
 
             } else if (e.shiftKey && e.keyCode == 66) {
                 let id = prompt("Enter song id.");
-                if (id == null) 
+                if (id == null)
                     return;
 
                 document.getElementById('widgettest').setAttribute('src', `https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/${id}`);
@@ -158,7 +156,7 @@ class Player {
             // Update the play state
             this.togglePlayState(true);
             return;
-        } catch(ex) {
+        } catch (ex) {
             console.log(ex.toString());
         }
     }
@@ -168,8 +166,10 @@ class Player {
      */
     start() {
         try {
-            SC.initialize({client_id: consts.client_id});
-        } catch(e) {
+            SC.initialize({
+                client_id: consts.client_id
+            });
+        } catch (e) {
             console.log('Error initializing SoundCloud API. Stack trace: ' + e.toString());
         }
         console.log('SoundCloud API initalized!');
@@ -198,11 +198,11 @@ class Player {
                 this.fetchNext();
             });
 
-            // Handle errors
-            widget.bind(SC.Widget.Events.ERROR, (e) => {
-                console.log('Unable to fetch song. No resource at URL');
-                this.fetchNext();
-            });
+            // // Handle errors
+            // widget.bind(SC.Widget.Events.ERROR, (e) => {
+            //     console.log('Unable to fetch song. No resource at URL');
+            //     //this.fetchNext();
+            // });
 
         });
     }
@@ -214,24 +214,25 @@ class Player {
         try {
             // Choose to use old track ids or new track ids
             let chooseId = (Math.floor(Math.random() * 10));
-            let id = 0
+            let trackId = 0;
+
             // Generate random song id. Give slight preference to newer tracks
             switch (chooseId) {
                 case 0:
                 case 1:
-                    id = Math.floor((Math.random() * RAND_COUNT) + OFFSET);
+                    trackId = Math.floor((Math.random() * RAND_COUNT) + OFFSET);
                     break;
                 case 2:
                 case 3:
                 case 4:
-                    id= Math.floor((Math.random() * RAND_COUNT_2) + OFFSET_2);
+                    trackId = Math.floor((Math.random() * RAND_COUNT_2) + OFFSET_2);
                     break;
                 case 5:
                 case 6:
                 case 7:
                 case 8:
                 case 9:
-                    id = Math.floor((Math.random() * RAND_COUNT_3) + OFFSET_3);
+                    trackId = Math.floor((Math.random() * RAND_COUNT_3) + OFFSET_3);
                     break;
             }
             console.log('in id');
@@ -242,17 +243,8 @@ class Player {
             //     id = this.getRandomTrack();
             // }
 
-            SC.get('/tracks/' + id).then((track) => { // Check if there are results
-                    // Really just designed to check if the song actually exists
-                    this.history.push(track); // Push the track so it can be replayed from history. 
-                    console.log('track fetch success' + id);
-                    return id;
-            }, (err) => {
-                // If there is no song with the associated ID, fetch a new one.
-                console.log('track fetch fail' + id);
-                return this.getRandomTrack();
-            });
-        } catch(e) {
+            return trackId;
+        } catch (e) {
             console.log('getRandomTrack() - ' + e.toString());
         }
     }
@@ -316,10 +308,10 @@ class Player {
             console.log('isPlaying = true');
             this.isPlaying = true;
             // this.mainPlayer.innerHTML = SongInfo((this.curTrack.track.artwork_url === null ? '../img/cd.png' : this.curTrack.track.artwork_url.replace('large', 't500x500')), this.curTrack.track);
-                // Update play state
-                this.isPlaying = true;
+            // Update play state
+            this.isPlaying = true;
             this.togglePlayState(true);
-        } else {    
+        } else {
             this.curPlayer.pause();
 
             // Update play state
@@ -332,27 +324,41 @@ class Player {
         try {
             this.curPlayer.pause();
             this.restartSong();
-            console.log('pre-id');
-            let id = this.getRandomTrack();
-            console.log(`id - ${id}`)
-            this.curPlayer.load(`https%3A//api.soundcloud.com/tracks/${id}`);
-            this.togglePlayState(true);
-            setTimeout(() => this.loadWidgetSong(this.curPlayer), 1000);
-        } catch(e) {
+        } catch (e) {
             // Shoddy way to catch error just buffer to next track
             // issue where streaming the same track triggers this error
             //this.fetchNext();
             console.log('fetchNext' + e.toString());
         }
+        console.log('pre-id');
+        let id = this.getRandomTrack(); // Works for tracks with 403 errors in other API
+        console.log(`id - ${id}`);
+
+        SC.get('/tracks/' + id).then((track) => { // Check if there are results
+            // Really just designed to check if the song actually exists
+           this.streamSong(id);
+        }, (err) => {
+            console.log(err.status);
+            if (err.status === 403) { // Play the song anyway even if this API requiest returns a forbidden request (Soundcloud problem)
+                this.streamSong(id);
+                return;
+            }
+            // If there is no song with the associated ID, fetch a new one.
+            console.log('track fetch fail' + id);
+            this.fetchNext();
+            console.log('track fetch fail post' + id);
+        });
     }
 
-    songExists(id) {
-        fetch(`https%3A//api.soundcloud.com/tracks/${id}`).then((response) => {
-            return true;
-        }).catch(() => {
-            console.log("Booo");
-            return false;
-        });
+    /**
+     * Stream the song when a valid id is found
+     * @param {*} id 
+     */
+    streamSong(id) {
+        console.log('track fetch success' + id);
+        this.curPlayer.load(`https%3A//api.soundcloud.com/tracks/${id}`);
+        this.togglePlayState(true);
+        setTimeout(() => this.loadWidgetSong(this.curPlayer), 1000);
     }
 
     fetchRandomImage() {
