@@ -64,6 +64,7 @@ class Player {
         this.histContainer = document.getElementById('histContainer');
         this.btnFf = document.getElementById('seek-fw-btn');
         this.btnBk = document.getElementById('seek-bk-btn');
+        this.btnCustom = document.getElementById('custom-btn');
     }
 
     /**
@@ -90,6 +91,22 @@ class Player {
         this.btnBk.onclick = (e) => {
             this.seekBack(10);
         }
+
+        // Event handler to play custom song
+        this.btnCustom.onclick = (e) => {
+            let id = prompt("Enter song id.");
+            if (id == null)
+                return;
+
+            document.getElementById('widgettest').setAttribute('src', `https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/${id}`);
+            let iframeID = document.getElementById('widgettest');
+            this.curPlayer = SC.Widget(iframeID);
+            this.curPlayer.load(`https%3A//api.soundcloud.com/tracks/${id}`);
+            // Update the player
+            this.bindWidgetEvents(this.curPlayer); // Bind event handlers for widget.
+            setTimeout(() => this.loadWidgetSong(this.curPlayer), 1000);
+        }
+
         // Bind keyboard shortcuts
         document.onkeyup = (e) => {
             if (e.keyCode == 39) {

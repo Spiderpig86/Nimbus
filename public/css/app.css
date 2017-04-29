@@ -103,6 +103,8 @@ pre {
     -o-transform-style: preserve-3d;
     transform-style: preserve-3d;
     -webkit-transform-origin: 50% 50%;
+    max-width: 450px;
+    margin: 0 auto;
 }
 
 .flipContainer div, .flipContainer img {

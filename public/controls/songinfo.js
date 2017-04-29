@@ -8,7 +8,7 @@ const SongInfo = (largeArt, track) => (
                             <div class="flipContainer" id="flipContainer">
                                 <img id="songArt" src="${largeArt}">
                                 <div class="song-desc">
-                                    <p>${track.description}</p>
+                                    <pre>${track.description}</pre>
                                 </div>
                             </div>
                             <h6 class="light">${track.title}</h6>
