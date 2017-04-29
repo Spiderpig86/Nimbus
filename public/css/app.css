@@ -92,10 +92,46 @@ pre {
     height: 80%;
 }
 
+.flipContainer {
+    position: relative;
+    -webkit-transition: -webkit-transform 1s;
+    -moz-transition: -moz-transform 1s;
+    -o-transition: -o-transform 1s;
+    transition: transform 1s;
+    -webkit-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+    -o-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+    -webkit-transform-origin: 50% 50%;
+}
+
+.flipContainer div, .flipContainer img {
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    -o-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+
+/* Flipped state of container */
+.flipContainer.flipped {
+    -webkit-transform: rotateY( 180deg );
+    -moz-transform: rotateY( 180deg );
+    -o-transform: rotateY( 180deg );
+    transform: rotateY( 180deg );
+}
+
+.flipContainer.flipped .song-desc {
+    overflow-y: auto;
+}
+
 #songArt {
     box-shadow: 0 0 60px rgba(0, 0, 0, 0.4);
     max-width: 450px;
     width: 100%;
+    -webkit-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+    -o-transform-style: preserve-3d;
+    transform-style: preserve-3d;
 }
 
 #songContainer .card {
@@ -175,15 +211,29 @@ pre {
 
 .song-desc {
     max-height: 200px;
-    overflow-y: auto;
+    overflow-y: none;
+    position: absolute;
+    display: block;
+    top: 0;
+    max-width: 450px;
+    -webkit-transform: rotateY( 180deg );
+    -moz-transform: rotateY( 180deg );
+    -o-transform: rotateY( 180deg );
+    transform: rotateY( 180deg );
+    width: 100%;
+    text-align: center;
 }
 
 .song-desc p {
     font-size: .8rem;
     line-height: 1.3rem;
+    margin: .2rem;
 }
 
-
+#widgettest {
+    visibility: hidden; /* Hide the widget from user */
+    position: fixed;
+}
 
 /* Mobile Stuff */
 @media screen and (max-width: 768px) {

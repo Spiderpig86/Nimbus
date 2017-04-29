@@ -90,7 +90,6 @@ class Player {
         this.btnBk.onclick = (e) => {
             this.seekBack(10);
         }
-
         // Bind keyboard shortcuts
         document.onkeyup = (e) => {
             if (e.keyCode == 39) {
@@ -144,6 +143,12 @@ class Player {
                 this.mainPlayer.innerHTML = SongInfo((song.artwork_url === null ? '../img/cd.png' : song.artwork_url.replace('large', 't500x500')), song);
                 //this.curTrack.track = track;
                 document.getElementById('background').style.backgroundImage = 'url(' + (song.artwork_url === null ? rndImg : song.artwork_url.replace('large', 't500x500')) + ')';
+
+                // Add listener for flipContainer
+                this.flipContainer = document.getElementById('flipContainer');
+                this.flipContainer.onclick = (e) => {
+                    $('#flipContainer').toggleClass('flipped');
+                }
 
                 if (!this.history.includes(song)) { // Do not add if it already exists
                     this.history.push(song); // Push the track so it can be replayed from history. 
