@@ -210,7 +210,8 @@ pre {
 }
 
 .song-desc {
-    max-height: 200px;
+    max-height: 450px;
+    height: 100%;
     overflow-y: none;
     position: absolute;
     display: block;
