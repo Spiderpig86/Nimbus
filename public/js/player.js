@@ -138,6 +138,10 @@ class Player {
         }
     }
 
+    /**
+     * Attempts to load information associated to the widget to local vars and displays them
+     * @param {SoundCloudWidget} widget - widget loaded by API
+     */
     loadWidgetSong(widget) {
         try {
             console.log('loadwidgetsong called');
@@ -197,6 +201,10 @@ class Player {
         console.log('SoundCloud API initalized!');
     }
 
+    /**
+     * Bind event handlers to the widget
+     * @param {SoundCloudWidget} widget - widget loaded from API
+     */
     bindWidgetEvents(widget) {
         // if (this.curPlayer === null)
         //     return; // We don't want any accidents
@@ -273,7 +281,7 @@ class Player {
 
     /**
      * Simple function to convert milliseconds to a string with minutes and seconds
-     * @param {*} millis - time in milliseconds
+     * @param {*int} millis - time in milliseconds
      */
     millisToMinutesAndSeconds(millis) {
         let minutes = Math.floor(millis / 60000);
@@ -281,6 +289,10 @@ class Player {
         return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
     }
 
+    /**
+     * Update the UI controls for when the song is playing
+     * @param {boolean} playing - if the song is playing or not
+     */
     togglePlayState(playing) {
         if (playing) {
             this.playBtn.innerHTML = '<i class="fa fa-pause" aria-hidden="true"></i>';
@@ -292,6 +304,10 @@ class Player {
     }
 
     // UTIL functions
+    /**
+     * Fast foward song by offset
+     * @param {int} seconds - offset to fast foward song
+     */
     seekForward(seconds) {
         // Now handled in binded event of widget above.
         // this.curPlayer.getPosition((position) => {
@@ -302,27 +318,45 @@ class Player {
         this.curPlayer.seekTo(Math.floor(seekVal));
     }
 
+    /**
+     * Rewind song by offset
+     * @param {int} seconds - offset to rewind the song
+     */
     seekBack(seconds) {
         let seekVal = this.curPosition - (1000 * seconds);
         this.curPlayer.seekTo(Math.max(Math.floor(seekVal), 0));
     }
 
+    /**
+     * Resets the song back to 0
+     */
     restartSong() {
         this.curPlayer.seekTo(0);
     }
 
+    /**
+     * Increases the volume with the maximum bound being 1.
+     * @param {float} offset - how much to increase the volume by
+     */
     volumeUp(offset) {
         this.curPlayer.getVolume((vol) => {
             this.curPlayer.setVolume(Math.min(1, vol + offset));
         });
     }
 
+    /**
+     * Lowers the volume by offset with the minimum bound being 0.
+     * @param {float} offset - how much to lower the volume by
+     */
     volumeDown(offset) {
         this.curPlayer.getVolume((vol) => {
             this.curPlayer.setVolume(Math.min(1, vol - offset));
         });
     }
 
+    /**
+     * Updates controls to show that the song is in progress.
+     */
     togglePlay() {
         if (!this.isPlaying) {
             // Nuanced but adds that 'break' in the sound so you know it was pressed just in case isPlaying is the wrong value
@@ -342,6 +376,9 @@ class Player {
         }
     }
 
+    /**
+     * Fetch the next song and verify that the song exists (non 404).
+     */
     fetchNext() {
         try {
             this.curPlayer.pause();
@@ -374,7 +411,7 @@ class Player {
 
     /**
      * Stream the song when a valid id is found
-     * @param {*} id 
+     * @param {int} id - holds the song id
      */
     streamSong(id) {
         console.log('track fetch success' + id);
@@ -383,6 +420,9 @@ class Player {
         setTimeout(() => this.loadWidgetSong(this.curPlayer), 1000);
     }
 
+    /**
+     * Grab a random image when a song does not have cover art.
+     */
     fetchRandomImage() {
         let i = Math.floor(Math.random() * 4050) + 1;
         return `http://img.infinitynewtab.com/wallpaper/${i}.jpg`;
