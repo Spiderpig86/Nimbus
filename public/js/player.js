@@ -94,14 +94,15 @@ class Player {
 
         // Event handler to play custom song
         this.btnCustom.onclick = (e) => {
-            let id = prompt("Enter song id.");
-            if (id == null)
+            let url = prompt("Enter song url.");
+            if (url == null)
                 return;
 
-            document.getElementById('widgettest').setAttribute('src', `https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/${id}`);
+            //document.getElementById('widgettest').setAttribute('src', `https://w.soundcloud.com/player/?url=${url}`);
             let iframeID = document.getElementById('widgettest');
             this.curPlayer = SC.Widget(iframeID);
-            this.curPlayer.load(`https%3A//api.soundcloud.com/tracks/${id}`);
+            //this.curPlayer.load(`https%3A//api.soundcloud.com/tracks/${id}`); // For id
+            this.curPlayer.load(`${url}`);
             // Update the player
             this.bindWidgetEvents(this.curPlayer); // Bind event handlers for widget.
             setTimeout(() => this.loadWidgetSong(this.curPlayer), 1000);
@@ -398,6 +399,10 @@ class Player {
            this.streamSong(id);
         }, (err) => {
             console.log(err.status);
+            // if (err.status === 0) { // Invalid API key
+            //     console.log('0/401 Unauthorized. Possible Invalid SoundCloud key')
+            //     throw '0/401 Unauthorized. Possible Invalid SoundCloud key'
+            // }
             if (err.status === 403) { // Play the song anyway even if this API requiest returns a forbidden request (Soundcloud problem)
                 this.streamSong(id);
                 return;
