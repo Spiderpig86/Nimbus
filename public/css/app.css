@@ -245,8 +245,8 @@ pre {
 }
 
 #widgettest {
-    visibility: hidden; /* Hide the widget from user */
-    position: fixed;
+    /*visibility: hidden;  Hide the widget from user */
+    /*position: fixed;*/
 }
 
 .action-bar-item {
