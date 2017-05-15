@@ -1,6 +1,8 @@
 body {
     color: #fff;
     background-color: #000;
+    -webkit-font-smoothing: antialiased;
+-moz-osx-font-smoothing: grayscale;
 }
 
 .hero-body h1,
@@ -63,9 +65,10 @@ pre {
 
 #histItemBg {
     position: absolute;
-    -webkit-transform: translateZ(0);
+    /*-webkit-transform: translateZ(0);*/
     -webkit-perspective: 1000;
     -webkit-backface-visibility: hidden;
+    z-index: 0;
 }
 
 .overlay {
@@ -80,8 +83,8 @@ pre {
     background-size: 120% 120%;
     filter: blur(15px) brightness(.5);
     -webkit-filter: blur(15px) brightness(.5);
-    -webkit-transform: scale(1.07);
-            transform: scale(1.07); /* Removes the white edges from the player image */
+    -webkit-transform: scale(1.2);
+            transform: scale(1.2); /* Removes the white edges from the player image */
     z-index: -1; /* Make the scrollbar visible */
 -webkit-perspective: 1000;
 -webkit-backface-visibility: hidden;
@@ -89,7 +92,8 @@ pre {
 
 #playerInfoContainer {
     width: 100%;
-    height: 80%;
+    /*height: 80%;*/
+    padding-right: 0;
 }
 
 .flipContainer {
@@ -138,6 +142,11 @@ pre {
 
 #songContainer .card {
     min-height: 100%;
+    background: transparent;
+}
+
+#songContainer .card:hover {
+    box-shadow: none;
 }
 
 .title {
@@ -182,6 +191,7 @@ pre {
     opacity: 1;
     -webkit-transition: all 1.0s cubic-bezier(0,0,0.3,1);
     transition: all 1.0s cubic-bezier(0,0,0.3,1);
+    z-index: 10;
 }
 
 .subtitle + .subtitle {
@@ -198,10 +208,6 @@ pre {
     width: 90%;
 }
 
-.card {
-    margin: 1rem;
-}
-
 .card:first {
     margin-top: 0;
 }
@@ -209,6 +215,11 @@ pre {
 #histContainer {
     overflow-y: auto;
     height: 100%;
+    background-color: rgba(148, 148, 148, .1);
+}
+
+#histContainer .card {
+    border-radius: 0;
 }
 
 .song-desc {
@@ -243,10 +254,26 @@ pre {
     .card {
         text-align: center;
     }
+
+    .header-fixed {
+        position: fixed;
+    }
+
+    #playerHero {
+        padding-top: 60px;
+    }   
 }
 
 @media screen and (min-width: 768px) {
     .player-content {
         margin-top: 0;
+    }
+
+    .header-fixed {
+        position: relative;
+    }
+
+    #histContainer {
+        box-shadow: -10px 0px 10px 1px rgba(0, 0, 0, 0.1); /* Left shadow */
     }
 }

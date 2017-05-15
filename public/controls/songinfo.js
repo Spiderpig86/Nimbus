@@ -1,6 +1,6 @@
 const SongInfo = (largeArt, track) => (
     `
-        <div class="card">
+        <div class="card level">
             <div class="content text-center">
                 <div class="content text-center">
                     <div class="row">

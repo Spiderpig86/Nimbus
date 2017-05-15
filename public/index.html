@@ -26,51 +26,55 @@
 
     <body>
         <!-- Where we will place the player -->
-        <section class="fullscreen hero">
             <div id="background" class="bg-image"></div>
-            <!--top-->
-            <div class="header header-fixed unselectable level">
-                <div class="header-left">
-                    <a><div class="header-item" id="seek-bk-btn"><i class="fa fa-step-backward" aria-hidden="true"></i></div></a>
-                    <a><div class="header-item" id="play-btn"><i class="fa fa-pause" aria-hidden="true"></i></div></a>
-                    <a><div class="header-item" id="seek-fw-btn"><i class="fa fa-step-forward" aria-hidden="true"></i></div></a>
-                    <a><div class="header-item" id="next-btn"><i class="fa fa-search" aria-hidden="true"></i></div></a>
-                </div>
-                <div class="header-center">
-                    <!-- Logo -->
-                    <a href="#"><h6 class="light uppercase">Nimbus</h6></a>
-                </div>
-                <div class="header-right">
-                    <div class="header-item">
-                        <a href="https://github.com/Spiderpig86/Nimbus" target="_blank"><i class="fa fa-github" aria-hidden="true"></i></a>
-                    </div>
-                    <div class="header-item">
-                        <a class="header-item" id="custom-btn"><i class="fa fa-star" aria-hidden="true"></i></a>
-                    </div>
-                </div>
-            </div>
 
             <!-- maybe add a button that drops down a playlist history when clicked -->
-            <div class="hero-body">
-                <!-- Place history on right side -->
-                <div class="row no-padding no-margin" id="playerInfoContainer">
-                    <div class="col-8" id="mainPlayer">
-                        <div id="songContainer">
-
-                        </div>
-                        <div class="level center">
-                            
-                        </div>
-                        <iframe id="widgettest">
-
-                        </iframe>
+            <section class="hero fullscreen" id="playerHero">
+                <!--top-->
+                <div class="header header-fixed unselectable level">
+                    <div class="header-left">
+                        <a><div class="header-item" id="seek-bk-btn"><i class="fa fa-step-backward" aria-hidden="true"></i></div></a>
+                        <a><div class="header-item" id="play-btn"><i class="fa fa-pause" aria-hidden="true"></i></div></a>
+                        <a><div class="header-item" id="seek-fw-btn"><i class="fa fa-step-forward" aria-hidden="true"></i></div></a>
+                        <a><div class="header-item" id="next-btn"><i class="fa fa-search" aria-hidden="true"></i></div></a>
                     </div>
-                    <div class="col-4" id="histContainer">
-                        
+                    <div class="header-center">
+                        <!-- Logo -->
+                        <a href="#"><h6 class="light uppercase">Nimbus</h6></a>
+                    </div>
+                    <div class="header-right">
+                        <div class="header-item">
+                            <a href="https://github.com/Spiderpig86/Nimbus" target="_blank"><i class="fa fa-github" aria-hidden="true"></i></a>
+                        </div>
+                        <div class="header-item">
+                            <a class="header-item" id="custom-btn"><i class="fa fa-star" aria-hidden="true"></i></a>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </section>
+                <div class="hero-body no-padding">
+                    <!-- Place history on right side -->
+                    <div class="row no-padding no-margin" id="playerInfoContainer">
+                        <div class="col-8" id="mainPlayer">
+                            <div id="songContainer">
+
+                            </div>
+                            <div class="level center">
+                                
+                            </div>
+                            <iframe id="widgettest">
+
+                            </iframe>
+                        </div>
+                        <div class="col-4" id="histContainer">
+                            <div class="">
+                                <div class="content">
+                                    <h6 class="text-center uppercase">History</h6>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
     </body>
 
 </html>
