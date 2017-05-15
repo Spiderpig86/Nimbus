@@ -2,6 +2,8 @@
  * Draws the waveform component of the player.
  */
 
+let SC = require('soundcloud');
+
 class WaveForm {
 
     /**
@@ -34,7 +36,7 @@ class WaveForm {
         }
      */
     constructor(params) {
-        this.curTime = 0;
+        this.currentPosition = 0;
         this.duration = 0;
         this.mouseOver = false;
         this.canvas = null;
@@ -74,7 +76,7 @@ class WaveForm {
 
         this.buildCanvas();
         this.bindEvents();
-        this.drawWave(); // Draw the wave
+        this.drawWaveForm(); // Draw the waveform
     }
 
     /**
@@ -88,13 +90,102 @@ class WaveForm {
         this.ctx.lineWidth = this.config.peakWidth; // Sets the width of each vertical line in the canvas.
     }
 
+    /**
+     * Bind waveform events
+     */
     bindEvents() {
         if (this.config.responsive) // If waveform is responsive, resize with parent.
             this.onResizeHandler();
 
-        if (this.config.mouseOverEvents) {
+        if (this.config.mouseOverEvents) { // Enable mouse over/leave events
             this.onMouseMoveHandler();
             this.onMouseLeaveHandler();
         }
+
+        if (this.config.mouseClickEvents) // Enable mouse click handling
+            this.onMouseClickHandler();
+        
+        if (this.config.audio) { // TODO: Need to figure out how to bind with widget API, not regular API.
+            this.onTimeUpdateHandler();
+            this.onCanPlayHandler();
+        }
+    }
+
+    /**
+     * EVENT HANDLERS
+     */
+
+     /**
+      * This fires when the widget is ready and updates the waveform by duration and current time.
+      */
+    onCanPlayHandler() {
+        // READY signal might not be needed
+        this.config.audio.addEventListener(SC.Widget.Events.READY, () => {
+            this.currentPosition = this.config.audio.currentPosition;
+            this.duration = this.config.duration;
+        });
+    }
+
+    /**
+     * Event fired when time updates in the widget object
+     */
+    onTimeUpdate() {
+        this.config.audio.addEventListener(SC.Widget.Events.PLAY_PROGRESS, () => {
+            this.currentPosition = this.config.audio.currentPosition;
+            this.duration = this.config.duration;
+        });
+    }
+
+    /**
+     * Update waveform colors based on mouse location
+     */
+    onMouseMove() {
+        this.canvas.addEventListener('mousemove', event => {
+            this.mouseOver = this.getMousePosition(event); // Assign coords to mouseOver
+            this.drawWaveForm(); // Update waveform
+        });
+    }
+
+    /**
+     * Handles when the mouse leaves the waveform area
+     */
+    onMouseLeave() {
+        this.canvas.addEventListener('mouseleave'), () => {
+            this.mouseOver = null;
+            this.drawWaveForm(); // Update waveform
+        }
+    }
+
+    /**
+     * Handles the mouse click
+     */
+    onMouseClickHandler() {
+        this.canvas.addEventListener('click', event => {
+            // Get left click and time > 0
+            if (event.button === 0 && this.duration) {
+                let x = event.offsetX || event.layerX;
+
+                if (this.config.audio) { // Audio is not null
+                    this.config.currentPosition = parseInt(this.duration / 100 * (x / (this.config.container.clientWidth / 100))); // Update the track position
+                } else {
+                    this.currentTime = parseInt(this.duration / 100 * (x / (this.config.container.clientWidth / 100)));
+                }
+
+                this.drawWaveForm();
+            }
+        });
+    }
+
+    /**
+     * Get the mouse position relative to canvas location.
+     * @param {MouseEvent} event
+     * @return {{x: number, y: number}}
+     */
+    getMousePosition(e) {
+        let rect = this.canvas.getBoundingClientRect();
+        return {
+            x: event.clientX - rect.left, // Get x position relative to canvas left border
+            y: event.clientY - rect.top // Get y position relative to canvas top border
+        };
     }
 }
