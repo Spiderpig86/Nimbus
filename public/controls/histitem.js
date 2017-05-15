@@ -16,9 +16,13 @@ const HistItem = (imgurl, bg, title, artist, track) => (
                 </div>
             </div>
             <div class="row overlay">
-                <div class="action-bar center">
-                    <a href="${track.download_url}" target="_blank"><button class="btn">Download</button></a>
-                    <a href="${track.permalink_url}" target="_blank"><button class="btn">View</button></a>
+                <div class="action-bar center no-padding">
+                    <div class="action-bar-item">
+                        <a href="${track.download_url}" target="_blank"><button class="btn-transparent">Download</button></a>
+                    </div>
+                    <div class="action-bar-item">
+                        <a href="${track.permalink_url}" target="_blank"><button class="btn-transparent">View</button></a>
+                    </div>
                 </div>
             </div>
         </div>

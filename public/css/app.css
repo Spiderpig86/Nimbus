@@ -249,6 +249,33 @@ pre {
     position: fixed;
 }
 
+.action-bar-item {
+        -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-preferred-size: 0;
+    flex-basis: 0;
+    -webkit-box-flex: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+}
+
+.action-bar-item a , .action-bar-item a > button {
+    width: 100%;
+}
+
+.action-bar-item a > button {
+    margin: .4rem 0;
+}
+
 /* Mobile Stuff */
 @media screen and (max-width: 768px) {
     .card {
@@ -262,6 +289,10 @@ pre {
     #playerHero {
         padding-top: 60px;
     }   
+
+    #histContainer .action-bar {
+        max-width: 250px;
+    }
 }
 
 @media screen and (min-width: 768px) {
