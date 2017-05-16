@@ -218,8 +218,16 @@ pre {
     background-color: rgba(148, 148, 148, .1);
 }
 
+#histContainer:hover .card {
+    opacity: .3;
+}
+
 #histContainer .card {
     border-radius: 0;
+}
+
+#histContainer .card:hover {
+    opacity: 1;
 }
 
 .song-desc {
