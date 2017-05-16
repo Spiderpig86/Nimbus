@@ -300,10 +300,6 @@ pre {
         margin-top: 0;
     }
 
-    .header-fixed {
-        position: relative;
-    }
-
     #histContainer {
         box-shadow: -10px 0px 10px 1px rgba(0, 0, 0, 0.1); /* Left shadow */
     }
