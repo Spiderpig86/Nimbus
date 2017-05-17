@@ -188,4 +188,31 @@ class WaveForm {
             y: event.clientY - rect.top // Get y position relative to canvas top border
         };
     }
+
+    /**
+     * Handles when the window object resizes to redraw the waveform according to the container size. This is only redrawn when sizes are different.
+     */
+    onResizeHandler() {
+        let oldWidth = this.config.container.clientWidth; // Get dimensions of the contaner that holds the canvas
+        let oldHeight = this.config.container.clientHeight;
+
+        window.addEventListener('resize', () => {
+            if (oldWidth !== this.config.container.clientWidth || oldHeight !== this.container.clientHeight) { 
+
+                // Update tracked previous dimensions on resize
+                oldWidth = this.config.container.clientWidth;
+                oldHeight = this.config.container.clientHeight;
+                this.updateCanvasSize(); // Refresh the display
+                this.drawWaveForm(); // Draw it
+            }
+        });
+    }
+
+    /**
+     * Update the canvas size to match the container. (Probably could be replaced with CSS)
+     */
+    updateCanvasSize() {
+        this.canvas.width = this.config.container.width;
+        this.canvas.height = this.config.container.height;
+    }
 }
