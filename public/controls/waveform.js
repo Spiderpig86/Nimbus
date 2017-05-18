@@ -215,4 +215,98 @@ class WaveForm {
         this.canvas.width = this.config.container.width;
         this.canvas.height = this.config.container.height;
     }
+
+    /**
+     * WAVEFORM COLORING
+     */
+
+     /**
+      * Construct a linear gradient over the waveform
+      * 
+      * @param {number} x1
+      * @param {number} y1 
+      * @param {number} x2 
+      * @param {number} y2 
+      * @param {{from: string, to: string}} param - param object that holds the color values as strings.
+      * @returns {CanvasGradient}
+      *
+      * @memberof WaveForm
+      */
+    getGradient(x1, y1, x2, y2, param) {
+        let gradient = this.ctx.createLinearGradient(x1, y1, x2, y2);
+        
+        // Color sections of the gradient with colors in param.* where indexes indicate start and end positions.
+        gradient.addColorStop(0, param.from);
+        gradient.addColorStop(1, param.to);
+
+        return gradient;
+    }
+
+    /**
+     * Construct a linear gradient on mouse hover
+     * 
+     * @param {any} x1 
+     * @param {any} y1 
+     * @param {any} x2 
+     * @param {any} y2 
+     * @returns {CanvasGradient}
+     * 
+     * @memberof WaveForm
+     */
+    getHoverGradient(x1, y1, x2, y2) {
+        // Return gradient with hovered colors.
+        return this.getGradient(x1, y1, x2, y2, {
+            from: this.config.color.hoverGradient.from,
+            to: this.config.color.hoverGradient.to
+        });
+    }
+
+    /**
+     * Construct a linear gradient for playback peak
+     * 
+     * @param {any} x1 
+     * @param {any} y1 
+     * @param {any} x2 
+     * @param {any} y2 
+     * @returns {CanvasGradient}
+     * 
+     * @memberof WaveForm
+     */
+    getPlayBackGradient(x1, y1, x2, y2) {
+        // Return gradient with playback colors (in progress colors)
+        return this.getGradient(x1, y1, x2, y2, {
+            from: this.config.color.playbackGradient.from,
+      to: this.config.color.playbackGradient.to
+        });
+    }
+
+    /**
+     * Construct linear gradient for playback colors on mouse hover
+     * 
+     * @param {any} x1 
+     * @param {any} y1 
+     * @param {any} x2 
+     * @param {any} y2 
+     * @returns {CanvasGradient}
+     * 
+     * @memberof WaveForm
+     */
+    getHoverPlayBackGradient(x1, y1, x2, y2) {
+        return this.getGradient(x1, y1, x2, y2, {
+            from: this.config.hoverPlaybackGradient.from,
+            to: this.config.color.hoverPlaybackGradient.to 
+        });
+    }
+
+    getContextStrokeStyle(x, y, lineBreak, playback) {
+        if (this.config.mouseOverEvents) {
+            if (this.mouseOver && this.mouseOver.x >= x) {
+                return this.getHoverGradient(x, y, x, lineBreak);
+            }
+        }
+        
+        if (playback >= x) {
+            
+        }
+    }
 }
