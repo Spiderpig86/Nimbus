@@ -298,15 +298,53 @@ class WaveForm {
         });
     }
 
+    /**
+     * Draw the stroke style according to the mouse position.
+     * 
+     * @param {any} x 
+     * @param {any} y 
+     * @param {any} lineBreak 
+     * @param {any} playback 
+     * @returns {config}
+     * 
+     * @memberof WaveForm
+     */
     getContextStrokeStyle(x, y, lineBreak, playback) {
-        if (this.config.mouseOverEvents) {
+        if (this.config.mouseOverEvents) { // Used to check if this is enabled in the configs
             if (this.mouseOver && this.mouseOver.x >= x) {
                 return this.getHoverGradient(x, y, x, lineBreak);
             }
         }
         
-        if (playback >= x) {
+        if (playback >= x) { // If the song progress is greater than the x value
+            if (this.config.mouseOverEvents) {
+                if (this.mouseOver) {
+                    return this.getHoverPlayBackGradient(x, y, x, linebreak);
+                }
+            }
+
+            return this.getPlayBackGradient(x, y ,x, linebreak);
+        }
+
+        return this.config.color.background;
+    }
+
+    drawWaveForm() {
+        // Parse waveform from url, ex: https://wis.sndcdn.com/ivasij2DQoqz_m.json
+
+        // We need to calculate the offset of how many peaks we can display. If the wavform is at 100% width, we can display all, but if not, we need to select every N peaks to draw.
+        // data.length - number of peaks in the waveform
+        // config.peakWidth - default set to 2px in constrctor (width if individual peak)
+        // conig.peakSpace - default set to 1px in the constructor (space between peak)
+        let N = this.config.data.length / this.config.container.clientWidth * (this.config.peakWidth + this.config.peakSpace);
+
+        let count = Math.floor(this.config.data.length / N); // Count how many peaks we will display (total peaks / every Nth peak)
+
+        let playback = 0;
+
+        if (this.duration && this.currentTime >= 0) {
             
         }
     }
+
 }

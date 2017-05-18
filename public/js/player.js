@@ -16,6 +16,8 @@ const OFFSET_2 = 10000000;
 const RAND_COUNT_3 = 300000000;
 const OFFSET_3 = 100000000;
 
+let hasBeenFetched = false; // Used to stop duplicates during recursion
+
 class Player {
 
     /**
@@ -98,12 +100,13 @@ class Player {
             if (url == null)
                 return;
 
-            // Reset the player
-            try {
-                togglePlay();
-            } catch(e) {
-                console.log(e.message);
-            }
+            // // Reset the player
+            // try {
+            //     this.curPlayer.pause();
+            //     this.restartSong();
+            // } catch(e) {
+            //     console.log(e.message);
+            // }
 
             //document.getElementById('widgettest').setAttribute('src', `https://w.soundcloud.com/player/?url=${url}`);
             let iframeID = document.getElementById('widgettest');
@@ -111,8 +114,8 @@ class Player {
             //this.curPlayer.load(`https%3A//api.soundcloud.com/tracks/${id}`); // For id
             this.curPlayer.load(`${url}`);
             // Update the player
-            this.bindWidgetEvents(this.curPlayer); // Bind event handlers for widget.
-            setTimeout(() => this.loadWidgetSong(this.curPlayer), 1000);
+            //this.bindWidgetEvents(this.curPlayer); // Bind event handlers for widget.
+            setTimeout(() => this.loadWidgetSong(this.curPlayer), 2000); // Needs longer delay time so it prevents stalling (track not auto playing)
         }
 
         // Bind keyboard shortcuts
@@ -141,6 +144,7 @@ class Player {
                 this.curPlayer.load(`https%3A//api.soundcloud.com/tracks/${id}`);
                 // Update the player
                 this.bindWidgetEvents(this.curPlayer); // Bind event handlers for widget.
+                this.togglePlay
                 setTimeout(() => this.loadWidgetSong(this.curPlayer), 1000);
             }
         }
@@ -154,8 +158,8 @@ class Player {
         try {
             console.log('loadwidgetsong called');
             widget.getCurrentSound((song) => {
-                console.log('getcurrentsound start');
                 console.log(song);
+                console.log('getcurrentsound start');
                 widget.play();
                 this.isPlaying = true;
                 let rndImg = this.fetchRandomImage();
@@ -185,14 +189,18 @@ class Player {
                     this.histContainer.innerHTML += HistItem((song.artwork_url === null ? song.user.avatar_url : song.artwork_url), (song.artwork_url === null ? rndImg : song.artwork_url), song.title, song.user.username === undefined ? 'N/A' : song.user.username, song); // Append to history
                 }
 
+                this.hasBeenFetched = false; // Reset
+
                 console.log('getcurrentsound done');
+            }, (err) => {
+                console.log(err.message);
             });
 
             // Update the play state
             this.togglePlayState(true);
             return;
         } catch (ex) {
-            console.log(ex.toString());
+            console.log(ex.message);
         }
     }
 
@@ -234,7 +242,10 @@ class Player {
             widget.bind(SC.Widget.Events.FINISH, (e) => {
                 // When the song finishes, we need to find a new song to play.
                 console.log('finished');
-                this.fetchNext();
+                if (!this.hasBeenFetched) { // If we have fetched a song already, do not fetch another one.
+                    this.fetchNext();
+                    this.hasBeenFetched = true;
+                }
             });
 
             // // Handle errors
@@ -427,7 +438,7 @@ class Player {
      * @param {int} id - holds the song id
      */
     streamSong(id) {
-        console.log('track fetch success' + id);
+        console.log('track fetch success ' + id);
         this.curPlayer.load(`https%3A//api.soundcloud.com/tracks/${id}`);
         this.togglePlayState(true);
         setTimeout(() => this.loadWidgetSong(this.curPlayer), 1000);
