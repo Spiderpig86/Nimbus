@@ -245,10 +245,10 @@ class WaveForm {
     /**
      * Construct a linear gradient on mouse hover
      * 
-     * @param {any} x1 
-     * @param {any} y1 
-     * @param {any} x2 
-     * @param {any} y2 
+     * @param {number} x1 
+     * @param {number} y1 
+     * @param {number} x2 
+     * @param {number} y2 
      * @returns {CanvasGradient}
      * 
      * @memberof WaveForm
@@ -264,10 +264,10 @@ class WaveForm {
     /**
      * Construct a linear gradient for playback peak
      * 
-     * @param {any} x1 
-     * @param {any} y1 
-     * @param {any} x2 
-     * @param {any} y2 
+     * @param {number} x1 
+     * @param {number} y1 
+     * @param {number} x2 
+     * @param {number} y2 
      * @returns {CanvasGradient}
      * 
      * @memberof WaveForm
@@ -283,10 +283,10 @@ class WaveForm {
     /**
      * Construct linear gradient for playback colors on mouse hover
      * 
-     * @param {any} x1 
-     * @param {any} y1 
-     * @param {any} x2 
-     * @param {any} y2 
+     * @param {number} x1 
+     * @param {number} y1 
+     * @param {number} x2 
+     * @param {number} y2 
      * @returns {CanvasGradient}
      * 
      * @memberof WaveForm
@@ -301,10 +301,10 @@ class WaveForm {
     /**
      * Draw the stroke style according to the mouse position.
      * 
-     * @param {any} x 
-     * @param {any} y 
-     * @param {any} lineBreak 
-     * @param {any} playback 
+     * @param {number} x 
+     * @param {number} y 
+     * @param {number} lineBreak 
+     * @param {number} playback 
      * @returns {config}
      * 
      * @memberof WaveForm
@@ -312,23 +312,28 @@ class WaveForm {
     getContextStrokeStyle(x, y, lineBreak, playback) {
         if (this.config.mouseOverEvents) { // Used to check if this is enabled in the configs
             if (this.mouseOver && this.mouseOver.x >= x) {
-                return this.getHoverGradient(x, y, x, lineBreak);
+                return this.getHoverGradient(x, y, x, lineBreak); // Color until the line break.
             }
         }
         
         if (playback >= x) { // If the song progress is greater than the x value
             if (this.config.mouseOverEvents) {
                 if (this.mouseOver) {
-                    return this.getHoverPlayBackGradient(x, y, x, linebreak);
+                    return this.getHoverPlayBackGradient(x, y, x, lineBreak);
                 }
             }
 
-            return this.getPlayBackGradient(x, y ,x, linebreak);
+            return this.getPlayBackGradient(x, y ,x, lineBreak);
         }
 
         return this.config.color.background;
     }
 
+    /**
+     * Draw the waveform canvas object.
+     * 
+     * @memberof WaveForm
+     */
     drawWaveForm() {
         // Parse waveform from url, ex: https://wis.sndcdn.com/ivasij2DQoqz_m.json
 
@@ -338,13 +343,71 @@ class WaveForm {
         // conig.peakSpace - default set to 1px in the constructor (space between peak)
         let N = this.config.data.length / this.config.container.clientWidth * (this.config.peakWidth + this.config.peakSpace);
 
-        let count = Math.floor(this.config.data.length / N); // Count how many peaks we will display (total peaks / every Nth peak)
+        let count = Math.floor(this.config.data.length / N); // Count how many peaks we will display (total peaks / every Nth peak by the amount of pixels they use)
 
         let playback = 0;
 
+        // Needs checking
         if (this.duration && this.currentTime >= 0) {
-            
+            playback = this.canvas.width / this.duration * this.currentTime;
         }
+
+        for (let i = 0, x = 0; i < count; i++, x += (this.config.peakWidth + this.config.peakSpace)) { // Iterate over all the peaks in the data and draw them. Increment by the amount of pixels they use (x).
+
+            // Calculate the height of that peak so we can draw the line.
+            let peakHeight = this.canvas.height / 140 * this.config.data[Math.round(i * N)];
+            let y = (this.canvas.height / 2 - peakHeight / 2) * 1.5;
+
+            // Calculate the line break which is the 2px line you see cutting across the waveform.
+            let lineBreak = Math.floor(this.canvas.height / 1.33333) - 1;
+
+            this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height); // Remove the background color
+
+            this.ctx.strokeStyle = this.getContextStrokeStyle(x, y, lineBreak, playback); // Get the gradient color to draw the line. Hovered events and other events already handled inside the method.
+
+            this.ctx.beginPath();
+            this.moveTo(x, y);
+            this.lineTo(x, lineBreak); // Draw to break
+            this.ctx.stroke();
+
+            // Draw the peaks under the line break.
+            if (playback >= x) {
+                this.ctx.strokeStyle = this.config.color.footerPlayback; // Colored part of the playback
+            } else {
+                this.ctx.strokeStyle = this.config.color.footer; // Default color
+            }
+
+            this.beginPath();
+            this.ctx.moveTo(x, lineBreak + 1);
+            this.ctx.lineTo(x, peakHeight + y);
+            this.ctx.stroke();
+        }
+    }
+
+    /**
+     * Set the current track time and redraw the waveform
+     * 
+     * @param {Number} currentPosition 
+     * @param {Number} duration 
+     * 
+     * @memberof WaveForm
+     */
+    setPlayBack(currentPosition, duration) {
+        this.currentPosition = currentPosition;
+        this.duration = duration;
+        this.drawWaveForm();
+    }
+
+    /**
+     * Update the current data object.
+     * 
+     * @param {Data} data 
+     * 
+     * @memberof WaveForm
+     */
+    updateWaveformData(data) {
+        this.config.data = data;
+        this.drawWaveForm();
     }
 
 }
