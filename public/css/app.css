@@ -27,9 +27,14 @@ pre {
     font-family: 'Nunito Sans';
 }
 
+.btn-transparent {
+    color: #fff;
+}
+
 .player-content .row img {
     max-width: 100%;
     min-width: 100px;
+    border-radius: 100%;
 }
 
 .header {
@@ -61,6 +66,11 @@ pre {
     position: fixed;
     opacity: .5;
     backface-visibility: hidden;
+}
+
+#mainPlayer {
+    overflow-y: auto;
+    height: 100%;
 }
 
 #histItemBg {
@@ -143,6 +153,7 @@ pre {
 #songContainer .card {
     min-height: 100%;
     background: transparent;
+    padding-top: 4rem;
 }
 
 #songContainer .card:hover {
@@ -291,8 +302,12 @@ pre {
     margin: 0 10px;
     width: 100%;
     opacity: .8;
-    transition: ease-in-out opacity 200ms;
+    transition: all .3s;
     bottom: 50px;
+}
+
+.waveform:hover {
+    opacity: 1;
 }
 
 /* Mobile Stuff */

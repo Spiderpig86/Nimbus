@@ -119,6 +119,7 @@ class WaveForm {
 
      /**
       * This fires when the widget is ready and updates the waveform by duration and current time.
+      * NOTE: This event might not be fired.
       */
     onCanPlayHandler() {
         // READY signal might not be needed
@@ -126,7 +127,6 @@ class WaveForm {
             this.currentPosition = this.config.audio.currentPosition;
             this.duration = this.config.duration;
             this.drawWaveForm();
-            console.log('canplayhandler');
         });
     }
 
@@ -202,7 +202,7 @@ class WaveForm {
         let oldHeight = this.config.container.clientHeight;
 
         window.addEventListener('resize', () => {
-            if (oldWidth !== this.config.container.clientWidth || oldHeight !== this.container.clientHeight) { 
+            if (oldWidth !== this.config.container.clientWidth || oldHeight !== this.config.container.clientHeight) { 
 
                 // Update tracked previous dimensions on resize
                 oldWidth = this.config.container.clientWidth;
@@ -219,6 +219,7 @@ class WaveForm {
     updateCanvasSize() {
         this.canvas.width = this.config.container.clientWidth;
         this.canvas.height = this.config.container.clientHeight;
+        console.log(this.config.container.clientHeight)
     }
 
     /**
