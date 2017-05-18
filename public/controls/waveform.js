@@ -69,10 +69,11 @@ class WaveForm {
                 to: "#A84024"
                 }
             }
-        }; // Conig object end
+        }; // Config object end
 
-        if (params) // Check if not null
+        if (params) { // Check if not null
             Object.assign(this.config, params); // Enumerate through fields and assign them to corresponding fields in this.config (Similar to serializing)
+        }
 
         this.buildCanvas();
         this.bindEvents();
@@ -120,7 +121,7 @@ class WaveForm {
       */
     onCanPlayHandler() {
         // READY signal might not be needed
-        this.config.audio.addEventListener(SC.Widget.Events.READY, () => {
+        this.config.audio.bind(SC.Widget.Events.READY, () => {
             this.currentPosition = this.config.audio.currentPosition;
             this.duration = this.config.duration;
         });
@@ -129,8 +130,8 @@ class WaveForm {
     /**
      * Event fired when time updates in the widget object
      */
-    onTimeUpdate() {
-        this.config.audio.addEventListener(SC.Widget.Events.PLAY_PROGRESS, () => {
+    onTimeUpdateHandler() {
+        this.config.audio.bind(SC.Widget.Events.PLAY_PROGRESS, () => {
             this.currentPosition = this.config.audio.currentPosition;
             this.duration = this.config.duration;
         });
@@ -139,7 +140,7 @@ class WaveForm {
     /**
      * Update waveform colors based on mouse location
      */
-    onMouseMove() {
+    onMouseMoveHandler() {
         this.canvas.addEventListener('mousemove', event => {
             this.mouseOver = this.getMousePosition(event); // Assign coords to mouseOver
             this.drawWaveForm(); // Update waveform
@@ -149,11 +150,11 @@ class WaveForm {
     /**
      * Handles when the mouse leaves the waveform area
      */
-    onMouseLeave() {
-        this.canvas.addEventListener('mouseleave'), () => {
+    onMouseLeaveHandler() {
+        this.canvas.addEventListener('mouseleave', () => {
             this.mouseOver = null;
             this.drawWaveForm(); // Update waveform
-        }
+        });
     }
 
     /**
@@ -366,8 +367,8 @@ class WaveForm {
             this.ctx.strokeStyle = this.getContextStrokeStyle(x, y, lineBreak, playback); // Get the gradient color to draw the line. Hovered events and other events already handled inside the method.
 
             this.ctx.beginPath();
-            this.moveTo(x, y);
-            this.lineTo(x, lineBreak); // Draw to break
+            this.ctx.moveTo(x, y);
+            this.ctx.lineTo(x, lineBreak); // Draw to break
             this.ctx.stroke();
 
             // Draw the peaks under the line break.
@@ -377,7 +378,7 @@ class WaveForm {
                 this.ctx.strokeStyle = this.config.color.footer; // Default color
             }
 
-            this.beginPath();
+            this.ctx.beginPath();
             this.ctx.moveTo(x, lineBreak + 1);
             this.ctx.lineTo(x, peakHeight + y);
             this.ctx.stroke();
@@ -411,3 +412,5 @@ class WaveForm {
     }
 
 }
+
+export default WaveForm

@@ -1,8 +1,10 @@
 import consts from '../../consts-sec.json';
 import HistItem from '../controls/HistItem';
 import SongInfo from '../controls/songinfo';
+import WaveForm from '../controls/waveform';
+import Request from './request';
 
-let SC = require('soundcloud');
+let SC = require('soundcloud'); // Import node module
 
 // Soundcloud Properties 
 const RAND_COUNT = 7000000;
@@ -29,6 +31,7 @@ class Player {
         this.isPlaying = false;
         this.curPlayer = null;
         this.curPosition = 0;
+        this.waveform = null;
 
         // Widget Props (BETA)
         this.widgetTrack = {
@@ -188,6 +191,47 @@ class Player {
                     this.history.push(song); // Push the track so it can be replayed from history. 
                     this.histContainer.innerHTML += HistItem((song.artwork_url === null ? song.user.avatar_url : song.artwork_url), (song.artwork_url === null ? rndImg : song.artwork_url), song.title, song.user.username === undefined ? 'N/A' : song.user.username, song); // Append to history
                 }
+
+                (async () => {
+                    let req = new Request(); // Construct it
+                    let data = await req.getJSON(song.waveform_url);
+                    console.log('test - ' + data);
+
+                    // Draw the waveform
+                    const waveFormContainer = document.querySelector('.waveform');
+                    console.log(waveFormContainer);
+                    if (!this.waveform) {
+                        this.waveform = new WaveForm({
+                        container: waveFormContainer,
+                        audio: widget,
+                        data: data.samples,
+                        peakWidth: 2,
+                        peakSpace: 1,
+                        responsive: true,
+                        mouseOverEvents: true,
+                        mouseClickEvents: true,
+                        color: {
+                            background: "#8C8C8C",
+                            footer: "#B2B2B2",
+                            footerPlayback: "#FFAA80",
+                            hoverGradient: {
+                                from: "#FF7200",
+                                to: "#DA4218"
+                            },
+                            playbackGradient: {
+                                from: "#FF7200",
+                                to: "#DA4218"
+                            },
+                            hoverPlaybackGradient: {
+                                from: "#AB5D20",
+                                to: "#A84024"
+                            }
+                        }
+                    });
+                    } else {
+                        waveform.updateWaveformData(data.samples);
+                    }
+                })();
 
                 this.hasBeenFetched = false; // Reset
 

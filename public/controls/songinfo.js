@@ -14,6 +14,7 @@ const SongInfo = (largeArt, track) => (
                             <h6 class="light">${track.title}</h6>
                             <p class="title">${track.user.username}</p>
                             <p class="subtitle" id="curTime">0:00 / 4:20</p>
+                            <div class="waveform"></div>
                         </div>
                     </div>
                 </div>
