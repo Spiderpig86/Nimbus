@@ -35,7 +35,7 @@ class WaveForm {
             }
         }
      */
-    constructor(params) {
+    constructor(params, duration) {
         this.currentPosition = 0;
         this.duration = 0;
         this.mouseOver = false;
@@ -45,6 +45,7 @@ class WaveForm {
         this.config = {
             container: null,
             audio: null,
+            duration: 0,
             data: null,
             peakWidth: 2, // ?
             peakSpace: 1, // ?
@@ -61,12 +62,12 @@ class WaveForm {
                 to: "#DA4218"
                 },
                 playbackGradient: {
-                from: "#FF7200",
-                to: "#DA4218"
+                    from: "#FF7200",
+                    to: "#DA4218"
                 },
                 hoverPlaybackGradient: {
-                from: "#AB5D20",
-                to: "#A84024"
+                    from: "#AB5D20",
+                    to: "#A84024"
                 }
             }
         }; // Config object end
@@ -121,9 +122,11 @@ class WaveForm {
       */
     onCanPlayHandler() {
         // READY signal might not be needed
-        this.config.audio.bind(SC.Widget.Events.READY, () => {
+        this.config.audio.bind(SC.Widget.Events.READY, (e) => {
             this.currentPosition = this.config.audio.currentPosition;
             this.duration = this.config.duration;
+            this.drawWaveForm();
+            console.log('canplayhandler');
         });
     }
 
@@ -131,9 +134,10 @@ class WaveForm {
      * Event fired when time updates in the widget object
      */
     onTimeUpdateHandler() {
-        this.config.audio.bind(SC.Widget.Events.PLAY_PROGRESS, () => {
-            this.currentPosition = this.config.audio.currentPosition;
+        this.config.audio.bind(SC.Widget.Events.PLAY_PROGRESS, (e) => {
+            this.currentPosition = e.currentPosition;
             this.duration = this.config.duration;
+            this.drawWaveForm();
         });
     }
 
@@ -213,8 +217,8 @@ class WaveForm {
      * Update the canvas size to match the container. (Probably could be replaced with CSS)
      */
     updateCanvasSize() {
-        this.canvas.width = this.config.container.width;
-        this.canvas.height = this.config.container.height;
+        this.canvas.width = this.config.container.clientWidth;
+        this.canvas.height = this.config.container.clientHeight;
     }
 
     /**
@@ -277,7 +281,7 @@ class WaveForm {
         // Return gradient with playback colors (in progress colors)
         return this.getGradient(x1, y1, x2, y2, {
             from: this.config.color.playbackGradient.from,
-      to: this.config.color.playbackGradient.to
+            to: this.config.color.playbackGradient.to
         });
     }
 
@@ -294,7 +298,7 @@ class WaveForm {
      */
     getHoverPlayBackGradient(x1, y1, x2, y2) {
         return this.getGradient(x1, y1, x2, y2, {
-            from: this.config.hoverPlaybackGradient.from,
+            from: this.config.color.hoverPlaybackGradient.from,
             to: this.config.color.hoverPlaybackGradient.to 
         });
     }
@@ -349,20 +353,19 @@ class WaveForm {
         let playback = 0;
 
         // Needs checking
-        if (this.duration && this.currentTime >= 0) {
-            playback = this.canvas.width / this.duration * this.currentTime;
+        if (!!this.duration && this.currentPosition >= 0) {
+            playback = this.canvas.width / this.duration * this.currentPosition;
         }
 
-        for (let i = 0, x = 0; i < count; i++, x += (this.config.peakWidth + this.config.peakSpace)) { // Iterate over all the peaks in the data and draw them. Increment by the amount of pixels they use (x).
+        this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
 
+        for (let i = 0, x = 0; i < count; i++, x += (this.config.peakWidth + this.config.peakSpace)) { // Iterate over all the peaks in the data and draw them. Increment by the amount of pixels they use (x).
             // Calculate the height of that peak so we can draw the line.
             let peakHeight = this.canvas.height / 140 * this.config.data[Math.round(i * N)];
             let y = (this.canvas.height / 2 - peakHeight / 2) * 1.5;
 
             // Calculate the line break which is the 2px line you see cutting across the waveform.
             let lineBreak = Math.floor(this.canvas.height / 1.33333) - 1;
-
-            this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height); // Remove the background color
 
             this.ctx.strokeStyle = this.getContextStrokeStyle(x, y, lineBreak, playback); // Get the gradient color to draw the line. Hovered events and other events already handled inside the method.
 

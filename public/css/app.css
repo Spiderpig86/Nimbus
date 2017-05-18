@@ -285,6 +285,16 @@ pre {
     margin: .4rem 0;
 }
 
+.waveform {
+    vertical-align: middle;
+    height: 100px;
+    margin: 0 10px;
+    width: 100%;
+    opacity: .8;
+    transition: ease-in-out opacity 200ms;
+    bottom: 50px;
+}
+
 /* Mobile Stuff */
 @media screen and (max-width: 768px) {
     .card {

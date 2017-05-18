@@ -160,6 +160,7 @@ class Player {
     loadWidgetSong(widget) {
         try {
             console.log('loadwidgetsong called');
+            this.waveform = null; // Reset the reference
             widget.getCurrentSound((song) => {
                 console.log(song);
                 console.log('getcurrentsound start');
@@ -204,6 +205,7 @@ class Player {
                         this.waveform = new WaveForm({
                         container: waveFormContainer,
                         audio: widget,
+                        duration: song.duration,
                         data: data.samples,
                         peakWidth: 2,
                         peakSpace: 1,
