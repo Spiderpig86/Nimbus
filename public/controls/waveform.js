@@ -41,6 +41,9 @@ class WaveForm {
         this.mouseOver = false;
         this.canvas = null;
 
+        this.waveFormFrame = 0;
+        this.updateInterval = 10; // Update every whatever metric SC uses
+
         // Create the config file for the waveform settings
         this.config = {
             container: null,
@@ -140,7 +143,10 @@ class WaveForm {
     onTimeUpdateHandler() {
         this.config.audio.bind(SC.Widget.Events.PLAY_PROGRESS, (e) => {
             this.currentPosition = e.currentPosition;
-            this.drawWaveForm();
+            this.waveFormFrame++;
+            if (this.waveFormFrame % this.updateInterval === 0) {
+                this.drawWaveForm();
+            }
         });
     }
 

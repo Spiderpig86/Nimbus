@@ -19,6 +19,7 @@ const RAND_COUNT_3 = 300000000;
 const OFFSET_3 = 100000000;
 
 let hasBeenFetched = false; // Used to stop duplicates during recursion
+let timerUpdate = 0;
 
 class Player {
 
