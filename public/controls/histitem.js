@@ -1,4 +1,4 @@
-const HistItem = (imgurl, bg, title, artist, track) => (
+const HistItem = (imgurl, bg, title, artist, track, errorDownloadCallback) => (
     // Using string literals
     `
         <div class="card">
@@ -18,7 +18,7 @@ const HistItem = (imgurl, bg, title, artist, track) => (
             <div class="row overlay">
                 <div class="action-bar center no-padding">
                     <div class="action-bar-item">
-                        <a href="${track.download_url}" target="_blank"><button class="btn-transparent">Download</button></a>
+                        <a href="${track.download_url === null ? errorDownloadCallback : track.download_url}" target="_blank"><button class="btn-transparent">Download</button></a>
                     </div>
                     <div class="action-bar-item">
                         <a href="${track.permalink_url}" target="_blank"><button class="btn-transparent">View</button></a>

@@ -29,6 +29,7 @@ class Player {
     constructor() {
         // Initialize variables
         this.history = [];
+        this.queue = []; // For tracks playing next
         this.isPlaying = false;
         this.curPlayer = null;
         this.curPosition = 0;
@@ -95,7 +96,18 @@ class Player {
 
         // Event handler for seeking back
         this.btnBk.onclick = (e) => {
-            this.seekBack(10);
+            if (this.curPosition > 10000) { // If the song is past 10 seconds, reset song back to beginning (like in Spotify)
+                this.restartSong();
+            } else { // Else, go to the last song
+                // Pop current song and add it to queue so it is our next song
+                this.queue.push(this.history.pop());
+                let prevSong = this.history[this.history.length - 1];
+
+                if (prevSong) { // If not null
+                    this.curPlayer.load(prevSong.permalink_url);
+                    setTimeout(() => this.loadWidgetSong(this.curPlayer), 2000); // Update player info
+                }
+            }
         }
 
         // Event handler to play custom song
@@ -103,14 +115,6 @@ class Player {
             let url = prompt("Enter song url.");
             if (url == null)
                 return;
-
-            // // Reset the player
-            // try {
-            //     this.curPlayer.pause();
-            //     this.restartSong();
-            // } catch(e) {
-            //     console.log(e.message);
-            // }
 
             //document.getElementById('widgettest').setAttribute('src', `https://w.soundcloud.com/player/?url=${url}`);
             let iframeID = document.getElementById('widgettest');
@@ -172,9 +176,9 @@ class Player {
                 this.widgetTrack.title = song.title;
                 this.widgetTrack.artist = song.user.username || 'N/A'; // Some tracks don't have a usernme associated
                 this.widgetTrack.permalink_url = song.permalink_url;
-                this.widgetTrack.description = song.description;
+                this.widgetTrack.description = song.description || 'N/A';
                 this.widgetTrack.created_at = song.created_at;
-                this.widgetTrack.duration = song.duration;
+                this.widgetTrack.duration = song.duration || 'N/A';
                 this.widgetTrack.currentPosition = 0;
 
                 document.title = `\u25B6   Nimbus - ${this.widgetTrack.title}`;
@@ -189,15 +193,27 @@ class Player {
                     $('#flipContainer').toggleClass('flipped');
                 }
 
-                if (!this.history.includes(song)) { // Do not add if it already exists
+                let found = false; // Boolean to see if the song exists
+                if (this.history.length > 0 || this.queue.length > 0) {
+                    let songList = this.history.concat(this.queue); // Use this to prevent adding any duplicates
+                    for (let i = 0; i < songList.length; i++) {
+                        if (songList[i]._resource_id == song._resource_id) {
+                            found = true;
+                        }
+                    };
+
+                    if (!found) { // Append the song if not found
+                        this.history.push(song); // Push the track so it can be replayed from history. 
+                        this.histContainer.innerHTML += HistItem((song.artwork_url === null ? song.user.avatar_url : song.artwork_url), (song.artwork_url === null ? rndImg : song.artwork_url), song.title, this.widgetTrack.artist, song, "javascript:alert('Download Link unavailable');"); // Append to history
+                    }
+                } else {
                     this.history.push(song); // Push the track so it can be replayed from history. 
-                    this.histContainer.innerHTML += HistItem((song.artwork_url === null ? song.user.avatar_url : song.artwork_url), (song.artwork_url === null ? rndImg : song.artwork_url), song.title, song.user.username === undefined ? 'N/A' : song.user.username, song); // Append to history
+                    this.histContainer.innerHTML += HistItem((song.artwork_url === null ? song.user.avatar_url : song.artwork_url), (song.artwork_url === null ? rndImg : song.artwork_url), song.title, this.widgetTrack.artist, song, "javascript:alert('Download Link unavailable');"); // Append to history
                 }
 
                 (async () => {
                     let req = new Request(); // Construct it
                     let data = await req.getJSON(song.waveform_url);
-                    console.log('test - ' + data);
 
                     // Draw the waveform
                     const waveFormContainer = document.querySelector('.waveform');

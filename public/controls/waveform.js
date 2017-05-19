@@ -50,8 +50,8 @@ class WaveForm {
             audio: null,
             duration: 0,
             data: null,
-            peakWidth: 2, // ?
-            peakSpace: 1, // ?
+            peakWidth: 2, // Pixel width of the vertical lines in the waveform
+            peakSpace: 1, // The space between the peaks in pixels
             responsive: true,
             mouseOverEvents: true,
             mouseClickEvents: true,
@@ -80,9 +80,7 @@ class WaveForm {
         }
 
         // Update duration
-        console.log(this.config.duration);
         this.duration = this.config.duration;
-        console.log(this.duration);
 
         this.buildCanvas();
         this.bindEvents();
@@ -229,7 +227,6 @@ class WaveForm {
     updateCanvasSize() {
         this.canvas.width = this.config.container.clientWidth;
         this.canvas.height = this.config.container.clientHeight;
-        console.log(this.config.container.clientHeight)
     }
 
     /**
