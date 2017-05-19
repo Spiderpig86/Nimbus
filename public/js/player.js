@@ -176,7 +176,7 @@ class Player {
                 this.widgetTrack.duration = song.duration;
                 this.widgetTrack.currentPosition = 0;
 
-                console.log(song.title);
+                document.title = `\u25B6   Nimbus - ${this.widgetTrack.title}`;
 
                 this.mainPlayer.innerHTML = SongInfo((song.artwork_url === null ? song.user.avatar_url : song.artwork_url.replace('large', 't500x500')), song);
                 //this.curTrack.track = track;
@@ -200,7 +200,6 @@ class Player {
 
                     // Draw the waveform
                     const waveFormContainer = document.querySelector('.waveform');
-                    console.log(waveFormContainer);
                     if (!this.waveform) {
                         this.waveform = new WaveForm({
                         container: waveFormContainer,
@@ -230,9 +229,9 @@ class Player {
                             }
                         }
                     });
-                    } else {
-                        waveform.updateWaveformData(data.samples);
-                    }
+                } else {
+                    waveform.updateWaveformData(data.samples);
+                }
                 })();
 
                 this.hasBeenFetched = false; // Reset

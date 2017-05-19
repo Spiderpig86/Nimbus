@@ -35,7 +35,7 @@ class WaveForm {
             }
         }
      */
-    constructor(params, duration) {
+    constructor(params) {
         this.currentPosition = 0;
         this.duration = 0;
         this.mouseOver = false;
@@ -75,6 +75,11 @@ class WaveForm {
         if (params) { // Check if not null
             Object.assign(this.config, params); // Enumerate through fields and assign them to corresponding fields in this.config (Similar to serializing)
         }
+
+        // Update duration
+        console.log(this.config.duration);
+        this.duration = this.config.duration;
+        console.log(this.duration);
 
         this.buildCanvas();
         this.bindEvents();
@@ -125,7 +130,6 @@ class WaveForm {
         // READY signal might not be needed
         this.config.audio.bind(SC.Widget.Events.READY, (e) => {
             this.currentPosition = this.config.audio.currentPosition;
-            this.duration = this.config.duration;
             this.drawWaveForm();
         });
     }
@@ -136,7 +140,6 @@ class WaveForm {
     onTimeUpdateHandler() {
         this.config.audio.bind(SC.Widget.Events.PLAY_PROGRESS, (e) => {
             this.currentPosition = e.currentPosition;
-            this.duration = this.config.duration;
             this.drawWaveForm();
         });
     }
@@ -172,6 +175,7 @@ class WaveForm {
 
                 if (this.config.audio) { // Audio is not null
                     this.config.currentPosition = parseInt(this.duration / 100 * (x / (this.config.container.clientWidth / 100))); // Update the track position
+                    this.config.audio.seekTo(Math.floor(this.config.currentPosition));
                 } else {
                     this.currentTime = parseInt(this.duration / 100 * (x / (this.config.container.clientWidth / 100)));
                 }
