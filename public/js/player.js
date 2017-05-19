@@ -34,8 +34,9 @@ class Player {
         this.curPlayer = null;
         this.curPosition = 0;
         this.waveform = null;
+        this.isRepeating = false; // For repeating songs
 
-        // Widget Props (BETA)
+        // Widget Props
         this.widgetTrack = {
             cover: '',
             title: '',
@@ -67,11 +68,11 @@ class Player {
     bindControlElements() {
         this.mainPlayer = document.getElementById('songContainer');
         this.playBtn = document.getElementById('play-btn');
-        this.nextBtn = document.getElementById('next-btn');
         this.histContainer = document.getElementById('histContainer');
         this.btnFf = document.getElementById('seek-fw-btn');
         this.btnBk = document.getElementById('seek-bk-btn');
         this.btnCustom = document.getElementById('custom-btn');
+        this.btnRepeat = document.getElementById('repeat-btn');
     }
 
     /**
@@ -84,21 +85,10 @@ class Player {
             this.togglePlay();
         }
 
-        // Bind the skip button
-        this.nextBtn.onclick = (e) => {
-            this.fetchNext();
-        }
-
-        // Event handler for seeking forward
+        // Event handler for seeking forward / fetch new song
         this.btnFf.onclick = (e) => {
             if (this.queue.length > 0) {
-                let nextSong = this.queue.pop(); // Pop the next song
-
-                if (nextSong) { // If not null
-                    this.history.push(nextSong); // Add it to history
-                    this.curPlayer.load(nextSong.permalink_url);
-                    setTimeout(() => this.loadWidgetSong(this.curPlayer), 2000); // Update player info
-                }
+                this.seekForward(); // Seek forward in queue
             } else { // Else just load another song
                 this.fetchNext();
             }
@@ -109,14 +99,7 @@ class Player {
             if (this.curPosition > 10000) { // If the song is past 10 seconds, reset song back to beginning (like in Spotify)
                 this.restartSong();
             } else { // Else, go to the last song
-                // Pop current song and add it to queue so it is our next song
-                this.queue.push(this.history.pop());
-                let prevSong = this.history[this.history.length - 1];
-
-                if (prevSong) { // If not null
-                    this.curPlayer.load(prevSong.permalink_url);
-                    setTimeout(() => this.loadWidgetSong(this.curPlayer), 2000); // Update player info
-                }
+                this.seekBack();
             }
         }
 
@@ -135,13 +118,20 @@ class Player {
             //this.bindWidgetEvents(this.curPlayer); // Bind event handlers for widget.
             setTimeout(() => this.loadWidgetSong(this.curPlayer), 2000); // Needs longer delay time so it prevents stalling (track not auto playing)
         }
+        
+        // Event handler for repeats
+        this.btnRepeat.onclick = (e) => {
+            this.isRepeating = !this.isRepeating; // Toggle the value
+            if (this.isRepeating) {
+                this.btnRepeat.style.color = '#ff5b02';
+            } else {
+                this.btnRepeat.style.color = 'inherit';
+            }
+        }
 
         // Bind keyboard shortcuts
         document.onkeyup = (e) => {
-            if (e.keyCode == 39) {
-                // right arrow key pressed, play next
-                this.fetchNext();
-            } else if (e.keyCode == 32) {
+            if (e.keyCode == 32) {
                 // space key to toggle playback
                 this.togglePlay();
             } else if (e.shiftKey && e.keyCode == 38) {
@@ -315,6 +305,14 @@ class Player {
             widget.bind(SC.Widget.Events.FINISH, (e) => {
                 // When the song finishes, we need to find a new song to play.
                 console.log('finished');
+                this.isPlaying = false;
+
+                // Check if repeat is on first.
+                if (this.isRepeating) {
+                    this.restartSong();
+                    this.togglePlay();
+                    return;
+                }
                 
                 // Check if the queue is not empty and play whatever song that is next in the queue
                 if (this.queue.length > 0) {
@@ -402,26 +400,30 @@ class Player {
 
     // UTIL functions
     /**
-     * Fast foward song by offset
-     * @param {int} seconds - offset to fast foward song
+     * Seek to next song in queue
      */
-    seekForward(seconds) {
-        // Now handled in binded event of widget above.
-        // this.curPlayer.getPosition((position) => {
-        //     this.curPosition = position;
-        // });
-        // We need to store the seek value in a temp var, doing it inline causes error
-        let seekVal = this.curPosition + (1000 * seconds);
-        this.curPlayer.seekTo(Math.floor(seekVal));
+    seekForward() {
+        let nextSong = this.queue.pop(); // Pop the next song
+
+        if (nextSong) { // If not null
+            this.history.push(nextSong); // Add it to history
+            this.curPlayer.load(nextSong.permalink_url);
+            setTimeout(() => this.loadWidgetSong(this.curPlayer), 2000); // Update player info
+        }
     }
 
     /**
-     * Rewind song by offset
-     * @param {int} seconds - offset to rewind the song
+     * Rewind to previous song
      */
-    seekBack(seconds) {
-        let seekVal = this.curPosition - (1000 * seconds);
-        this.curPlayer.seekTo(Math.max(Math.floor(seekVal), 0));
+    seekBack() {
+        // Pop current song and add it to queue so it is our next song
+        this.queue.push(this.history.pop());
+        let prevSong = this.history[this.history.length - 1];
+
+        if (prevSong) { // If not null
+            this.curPlayer.load(prevSong.permalink_url);
+            setTimeout(() => this.loadWidgetSong(this.curPlayer), 2000); // Update player info
+        }
     }
 
     /**
