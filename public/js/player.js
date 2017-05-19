@@ -91,7 +91,17 @@ class Player {
 
         // Event handler for seeking forward
         this.btnFf.onclick = (e) => {
-            this.seekForward(10);
+            if (this.queue.length > 0) {
+                let nextSong = this.queue.pop(); // Pop the next song
+
+                if (nextSong) { // If not null
+                    this.history.push(nextSong); // Add it to history
+                    this.curPlayer.load(nextSong.permalink_url);
+                    setTimeout(() => this.loadWidgetSong(this.curPlayer), 2000); // Update player info
+                }
+            } else { // Else just load another song
+                this.fetchNext();
+            }
         }
 
         // Event handler for seeking back
@@ -211,6 +221,7 @@ class Player {
                     this.histContainer.innerHTML += HistItem((song.artwork_url === null ? song.user.avatar_url : song.artwork_url), (song.artwork_url === null ? rndImg : song.artwork_url), song.title, this.widgetTrack.artist, song, "javascript:alert('Download Link unavailable');"); // Append to history
                 }
 
+                // Async method to build waveform
                 (async () => {
                     let req = new Request(); // Construct it
                     let data = await req.getJSON(song.waveform_url);
@@ -304,17 +315,21 @@ class Player {
             widget.bind(SC.Widget.Events.FINISH, (e) => {
                 // When the song finishes, we need to find a new song to play.
                 console.log('finished');
-                if (!this.hasBeenFetched) { // If we have fetched a song already, do not fetch another one.
+                
+                // Check if the queue is not empty and play whatever song that is next in the queue
+                if (this.queue.length > 0) {
+                    let nextSong = this.queue.pop(); // Pop the next song
+
+                    if (nextSong) { // If not null
+                        this.history.push(nextSong); // Add it to history
+                        this.curPlayer.load(nextSong.permalink_url);
+                        setTimeout(() => this.loadWidgetSong(this.curPlayer), 2000); // Update player info
+                    }
+                } else if (!this.hasBeenFetched) { // If we have fetched a song already, do not fetch another one.
                     this.fetchNext();
                     this.hasBeenFetched = true;
                 }
             });
-
-            // // Handle errors
-            // widget.bind(SC.Widget.Events.ERROR, (e) => {
-            //     console.log('Unable to fetch song. No resource at URL');
-            //     //this.fetchNext();
-            // });
 
         });
     }

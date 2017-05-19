@@ -153,7 +153,7 @@ pre {
 #songContainer .card {
     min-height: 100%;
     background: transparent;
-    padding-top: 4rem;
+    padding-top: 1rem;
 }
 
 #songContainer .card:hover {
@@ -261,6 +261,7 @@ pre {
     font-size: .8rem;
     line-height: 1.3rem;
     margin: .2rem;
+    white-space: pre-wrap;
 }
 
 #widgettest {
@@ -337,6 +338,12 @@ pre {
 
     #histContainer {
         box-shadow: -10px 0px 10px 1px rgba(0, 0, 0, 0.1); /* Left shadow */
+    }
+
+    #songContainer .card {
+        min-height: 100%;
+        background: transparent;
+        padding-top: 4rem;
     }
 }
 
