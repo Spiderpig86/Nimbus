@@ -310,7 +310,7 @@ pre {
     opacity: 1;
 }
 
-/* Mobile Stuff */
+/* Mobile / Tablets */
 @media screen and (max-width: 768px) {
     .card {
         text-align: center;
@@ -329,6 +329,7 @@ pre {
     }
 }
 
+/* Laptops / Desktops */
 @media screen and (min-width: 768px) {
     .player-content {
         margin-top: 0;
@@ -336,5 +337,21 @@ pre {
 
     #histContainer {
         box-shadow: -10px 0px 10px 1px rgba(0, 0, 0, 0.1); /* Left shadow */
+    }
+}
+
+/* Wide Desktops */
+@media screen and (min-width: 1600px) {
+    #playerInfoContainer {
+        display: flex;
+    }
+
+    #mainPlayer {
+        flex-grow: 1;
+    }
+
+    #histContainer {
+        max-width: 400px;
+        float: right;
     }
 }
