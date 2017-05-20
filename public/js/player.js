@@ -108,6 +108,12 @@ class Player {
             let url = prompt("Enter song url.");
             if (url == null)
                 return;
+            
+            // If the queue is not empty, shift everything to the history so that the order of the songs occur in the same order as shown
+            if (this.queue.length > 0) {
+                for (let i = 0; i < this.queue.length; i++)
+                    this.history.push(this.queue.pop());
+            }
 
             //document.getElementById('widgettest').setAttribute('src', `https://w.soundcloud.com/player/?url=${url}`);
             let iframeID = document.getElementById('widgettest');

@@ -267,7 +267,7 @@ pre {
 }
 
 .action-bar-item {
-        -webkit-box-align: center;
+    -webkit-box-align: center;
     -ms-flex-align: center;
     align-items: center;
     display: -webkit-box;
