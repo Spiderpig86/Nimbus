@@ -122,7 +122,7 @@ class Player {
             if (url.startsWith('http') && isNaN(url)) { // Check if this is a url
                 this.curPlayer.load(`${url}`);
             } else if (isNaN(url)) { // Check if this is a string query
-                alert('Feature coming soon');
+                this.getTrackByKeyWord(url);
             } else { // Must be a song ID
                 console.log(url);
                 this.curPlayer.load(`https%3A//api.soundcloud.com/tracks/${url}`); // For id
@@ -515,9 +515,7 @@ class Player {
             //this.fetchNext();
             console.log('fetchNext' + e.toString());
         }
-        console.log('pre-id');
         let id = this.getRandomTrack(); // Works for tracks with 403 errors in other API
-        console.log(`id - ${id}`);
 
         SC.get('/tracks/' + id).then((track) => { // Check if there are results
             // Really just designed to check if the song actually exists
@@ -556,6 +554,20 @@ class Player {
     fetchRandomImage() {
         let i = Math.floor(Math.random() * 4050) + 1;
         return `http://img.infinitynewtab.com/wallpaper/${i}.jpg`;
+    }
+
+    getTrackByKeyWord(query) {
+        // Get a list of songs by the search query and play first choice
+        try {
+            SC.get('/tracks', {q: query}).then((tracks) => {
+                if (tracks.length > 0) {
+                    // Add each of those tracks to the queue
+                    this.curPlayer.load(tracks[0].permalink_url); // The "I'm feeling lucky part of the search"
+                }
+            });
+        } catch (e) {
+            console.log('getTrackByKeyWord Error - ' + e.message);
+        }
     }
 
 }
