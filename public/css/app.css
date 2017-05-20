@@ -312,6 +312,7 @@ pre {
 
 #descNavBar button {
     height: 3rem;
+    padding: 0 .5rem;
 }
 
 #descNavBar span {
@@ -321,14 +322,39 @@ pre {
 /* Song Desc Nav buttons */
 #desc-likes:hover {
     color: #f03d4d;
+    padding: 0 1.5rem;
 }
 
 #desc-comments:hover {
     color: #00ffa4;
+    padding: 0 1.5rem;
+}
+
+#desc-reposts:hover {
+    color: #5fcaff;
+    padding: 0 1.5rem;
 }
 
 #desc-user:hover {
     color: #c285ff;
+    padding: 0 1.5rem;
+}
+
+#desc-buy:hover {
+    color: #ffaa0a;
+    padding: 0 1.5rem;
+}
+
+#descStats p {
+    font-family: 'Montserrat';
+    text-transform: uppercase;
+    font-weight: 400;
+    font-size: 13px;
+}
+
+#descTags {
+    white-space: nowrap;
+    overflow-x: auto;
 }
 
 /* Mobile / Tablets */

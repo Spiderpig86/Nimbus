@@ -11,7 +11,7 @@ const HistItem = (imgurl, bg, title, artist, track, errorDownloadCallback) => (
                     <div class="desc">
                         <p class="title">${title}</p>
                         <p class="subtitle">${artist}</p>
-                        <p class="subtitle">${track.genre === undefined ? 'N/A' : track.genre}</p>
+                        <p class="subtitle">${track.genre || 'N/A'}</p>
                     </div>
                 </div>
             </div>

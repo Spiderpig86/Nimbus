@@ -188,7 +188,20 @@ class Player {
 
                 document.title = `\u25B6   Nimbus - ${this.widgetTrack.title}`;
 
-                this.mainPlayer.innerHTML = SongInfo((song.artwork_url === null ? song.user.avatar_url : song.artwork_url.replace('large', 't500x500')), song);
+                // Create tag list
+                let tagBtns = ``;
+                let tagCollection = song.tag_list.split(' ');
+                if (song.tag_list !== '') {
+                    for (let i = 0; i < tagCollection.length; i++) {
+                        console.log(tagCollection[i].replace(/"/g, ''));
+                        tagBtns += `<a href="https://soundcloud.com/tags/${tagCollection[i]}" target="_blank"><button class="btn-transparent">
+                            #${tagCollection[i]}
+                        </button></a>
+                        `;
+                    }
+                }
+
+                this.mainPlayer.innerHTML = SongInfo((song.artwork_url === null ? song.user.avatar_url : song.artwork_url.replace('large', 't500x500')), song, tagBtns);
                 //this.curTrack.track = track;
                 document.getElementById('background').style.backgroundImage = 'url(' + (song.artwork_url === null ? rndImg : song.artwork_url.replace('large', 't500x500')) + ')';
 

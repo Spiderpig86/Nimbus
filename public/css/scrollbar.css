@@ -10,6 +10,10 @@
 	width: 8px;
 }
 
+::-webkit-scrollbar:horizontal {
+    height: 8px;
+}
+
 ::-webkit-scrollbar-thumb
 {
 	border-radius: 10px;
