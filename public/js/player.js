@@ -18,9 +18,6 @@ const OFFSET_2 = 10000000;
 const RAND_COUNT_3 = 300000000;
 const OFFSET_3 = 100000000;
 
-let hasBeenFetched = false; // Used to stop duplicates during recursion
-let timerUpdate = 0;
-
 class Player {
 
     /**
@@ -35,6 +32,8 @@ class Player {
         this.curPosition = 0;
         this.waveform = null;
         this.isRepeating = false; // For repeating songs
+        this.hasBeenFetched = false; // Used to stop duplicates during recursion
+        this.timerUpdate = 0;
 
         // Widget Props
         this.widgetTrack = {
@@ -158,7 +157,7 @@ class Player {
                 this.curPlayer.load(`https%3A//api.soundcloud.com/tracks/${id}`);
                 // Update the player
                 this.bindWidgetEvents(this.curPlayer); // Bind event handlers for widget.
-                this.togglePlay
+                this.togglePlay();
                 setTimeout(() => this.loadWidgetSong(this.curPlayer), 1000);
             }
         }

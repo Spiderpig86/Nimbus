@@ -96,8 +96,9 @@ pre {
     -webkit-transform: scale(1.2);
             transform: scale(1.2); /* Removes the white edges from the player image */
     z-index: -1; /* Make the scrollbar visible */
--webkit-perspective: 1000;
--webkit-backface-visibility: hidden;
+    -webkit-perspective: 1000;
+    -webkit-backface-visibility: hidden;
+    will-change: transform;
 }
 
 #playerInfoContainer {
@@ -138,6 +139,7 @@ pre {
 
 .flipContainer.flipped .song-desc {
     overflow-y: auto;
+    padding: 0 1rem;
 }
 
 #songArt {
@@ -254,6 +256,7 @@ pre {
     transform: rotateY( 180deg );
     width: 100%;
     text-align: center;
+    background-color: rgba(142, 142, 142, 0.1);
 }
 
 .song-desc pre {
@@ -305,6 +308,27 @@ pre {
 
 .waveform:hover {
     opacity: 1;
+}
+
+#descNavBar button {
+    height: 3rem;
+}
+
+#descNavBar span {
+    padding-left: .6rem;
+}
+
+/* Song Desc Nav buttons */
+#desc-likes:hover {
+    color: #f03d4d;
+}
+
+#desc-comments:hover {
+    color: #00ffa4;
+}
+
+#desc-user:hover {
+    color: #c285ff;
 }
 
 /* Mobile / Tablets */

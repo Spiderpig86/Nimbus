@@ -8,6 +8,13 @@ const SongInfo = (largeArt, track) => (
                             <div class="flipContainer" id="flipContainer">
                                 <img id="songArt" src="${largeArt}">
                                 <div class="song-desc">
+                                    <div class="content">
+                                        <div class="row text-center" id="descNavBar">
+                                            <button class="btn-transparent" id="desc-likes"><i class="fa fa-heart small" aria-hidden="true"></i><span>${track.likes_count}</span></button>
+                                            <a href="${track.permalink_url + '/comments'}" target="_blank"><button class="btn-transparent" id="desc-comments"><i class="fa fa-comment small" aria-hidden="true"></i><span>${track.comment_count}</span></button></a>
+                                            <a href="${track.user.permalink_url}" target="_blank"><button class="btn-transparent" id="desc-user"><i class="fa fa-user small" aria-hidden="true"></i><span>${track.user.username}</span></button></a>
+                                        </div>
+                                    </div>
                                     <pre>${track.description}</pre>
                                 </div>
                             </div>
