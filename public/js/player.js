@@ -34,6 +34,7 @@ class Player {
         this.isRepeating = false; // For repeating songs
         this.hasBeenFetched = false; // Used to stop duplicates during recursion
         this.timerUpdate = 0;
+        this.isPlaylist = false; // Check if we are playing a playlist.
 
         // Widget Props
         this.widgetTrack = {
@@ -104,7 +105,7 @@ class Player {
 
         // Event handler to play custom song
         this.btnCustom.onclick = (e) => {
-            let url = prompt("Enter song url, id, or artist/song.");
+            let url = prompt("Enter song/playlist url, id, or artist/song.");
             if (url == null)
                 return;
             
@@ -120,12 +121,17 @@ class Player {
 
             // Determine input type
             if (url.startsWith('http') && isNaN(url)) { // Check if this is a url
+                this.isPlaylist = false; // Reset
+                if (url.includes('sets'))
+                    this.isPlaylist = true;
                 this.curPlayer.load(`${url}`);
             } else if (isNaN(url)) { // Check if this is a string query
                 this.getTrackByKeyWord(url);
+                this.isPlaylist = false;
             } else { // Must be a song ID
                 console.log(url);
                 this.curPlayer.load(`https%3A//api.soundcloud.com/tracks/${url}`); // For id
+                this.isPlaylist = false;
             }
 
             setTimeout(() => this.loadWidgetSong(this.curPlayer), 2000); // Needs longer delay time so it prevents stalling (track not auto playing)
@@ -332,7 +338,15 @@ class Player {
                 console.log('finished');
                 this.isPlaying = false;
 
-                // Check if repeat is on first.
+                // Check if user is playing a playlist
+                if (this.isPlaylist) {
+                    this.restartSong();
+                    this.togglePlay();
+                    this.loadWidgetSong(this.curPlayer); // Update track info to the next song in the playlist
+                    return;
+                }
+
+                // Check if repeat is on first. TODO: Make it work with playlists
                 if (this.isRepeating) {
                     this.restartSong();
                     this.togglePlay();
