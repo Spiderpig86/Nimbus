@@ -104,24 +104,32 @@ class Player {
 
         // Event handler to play custom song
         this.btnCustom.onclick = (e) => {
-            let url = prompt("Enter song url.");
+            let url = prompt("Enter song url, id, or artist/song.");
             if (url == null)
                 return;
             
             // If the queue is not empty, shift everything to the history so that the order of the songs occur in the same order as shown
             if (this.queue.length > 0) {
-                for (let i = 0; i < this.queue.length; i++)
+                let originalQueueLength = this.queue.length;
+                for (let i = 0; i < originalQueueLength; i++) 
                     this.history.push(this.queue.pop());
             }
 
-            //document.getElementById('widgettest').setAttribute('src', `https://w.soundcloud.com/player/?url=${url}`);
             let iframeID = document.getElementById('widgettest');
             this.curPlayer = SC.Widget(iframeID);
-            //this.curPlayer.load(`https%3A//api.soundcloud.com/tracks/${id}`); // For id
-            this.curPlayer.load(`${url}`);
-            // Update the player
-            //this.bindWidgetEvents(this.curPlayer); // Bind event handlers for widget.
+
+            // Determine input type
+            if (url.startsWith('http') && isNaN(url)) { // Check if this is a url
+                this.curPlayer.load(`${url}`);
+            } else if (isNaN(url)) { // Check if this is a string query
+                alert('Feature coming soon');
+            } else { // Must be a song ID
+                console.log(url);
+                this.curPlayer.load(`https%3A//api.soundcloud.com/tracks/${url}`); // For id
+            }
+
             setTimeout(() => this.loadWidgetSong(this.curPlayer), 2000); // Needs longer delay time so it prevents stalling (track not auto playing)
+            
         }
         
         // Event handler for repeats
@@ -193,15 +201,14 @@ class Player {
                 let tagCollection = song.tag_list.split(' ');
                 if (song.tag_list !== '') {
                     for (let i = 0; i < tagCollection.length; i++) {
-                        console.log(tagCollection[i].replace(/"/g, ''));
-                        tagBtns += `<a href="https://soundcloud.com/tags/${tagCollection[i]}" target="_blank"><button class="btn-transparent">
-                            #${tagCollection[i]}
+                        tagBtns += `<a href="https://soundcloud.com/tags/${tagCollection[i].replace(/"/g, '')}" target="_blank"><button class="btn-transparent">
+                            #${tagCollection[i].replace(/"/g, '')}
                         </button></a>
                         `;
                     }
                 }
 
-                this.mainPlayer.innerHTML = SongInfo((song.artwork_url === null ? song.user.avatar_url : song.artwork_url.replace('large', 't500x500')), song, tagBtns);
+                this.mainPlayer.innerHTML = SongInfo((song.artwork_url === null ? song.user.avatar_url : song.artwork_url.replace('large', 't500x500')), song, tagBtns, "javascript:alert('Purchase link unavailable');");
                 //this.curTrack.track = track;
                 document.getElementById('background').style.backgroundImage = 'url(' + (song.artwork_url === null ? rndImg : song.artwork_url.replace('large', 't500x500')) + ')';
 
@@ -222,11 +229,11 @@ class Player {
 
                     if (!found) { // Append the song if not found
                         this.history.push(song); // Push the track so it can be replayed from history. 
-                        this.histContainer.innerHTML += HistItem((song.artwork_url === null ? song.user.avatar_url : song.artwork_url), (song.artwork_url === null ? rndImg : song.artwork_url), song.title, this.widgetTrack.artist, song, "javascript:alert('Download Link unavailable');"); // Append to history
+                        this.histContainer.innerHTML += HistItem((song.artwork_url === null ? song.user.avatar_url : song.artwork_url), (song.artwork_url === null ? rndImg : song.artwork_url), song.title, this.widgetTrack.artist, song, "javascript:alert('Download link unavailable');"); // Append to history
                     }
                 } else {
                     this.history.push(song); // Push the track so it can be replayed from history. 
-                    this.histContainer.innerHTML += HistItem((song.artwork_url === null ? song.user.avatar_url : song.artwork_url), (song.artwork_url === null ? rndImg : song.artwork_url), song.title, this.widgetTrack.artist, song, "javascript:alert('Download Link unavailable');"); // Append to history
+                    this.histContainer.innerHTML += HistItem((song.artwork_url === null ? song.user.avatar_url : song.artwork_url), (song.artwork_url === null ? rndImg : song.artwork_url), song.title, this.widgetTrack.artist, song, "javascript:alert('Download link unavailable');"); // Append to history
                 }
 
                 // Async method to build waveform
@@ -435,7 +442,9 @@ class Player {
      */
     seekBack() {
         // Pop current song and add it to queue so it is our next song
-        this.queue.push(this.history.pop());
+        let popped = this.history.pop();
+        this.queue.push(popped);
+        console.log('Popped - ' + popped.title);
         let prevSong = this.history[this.history.length - 1];
 
         if (prevSong) { // If not null
@@ -538,7 +547,7 @@ class Player {
         console.log('track fetch success ' + id);
         this.curPlayer.load(`https%3A//api.soundcloud.com/tracks/${id}`);
         this.togglePlayState(true);
-        setTimeout(() => this.loadWidgetSong(this.curPlayer), 1000);
+        setTimeout(() => this.loadWidgetSong(this.curPlayer), 2000);
     }
 
     /**

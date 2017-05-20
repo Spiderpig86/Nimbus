@@ -1,4 +1,4 @@
-const SongInfo = (largeArt, track, tags) => (
+const SongInfo = (largeArt, track, tags, errorPurchase) => (
     `
         <div class="card level">
             <div class="content text-center">
@@ -14,7 +14,7 @@ const SongInfo = (largeArt, track, tags) => (
                                             <a href="${track.permalink_url + '/comments'}" target="_blank"><button class="btn-transparent" id="desc-comments"><i class="fa fa-comment small" aria-hidden="true"></i><span>${track.comment_count}</span></button></a>
                                             <button class="btn-transparent" id="desc-reposts"><i class="fa fa-retweet small" aria-hidden="true"></i><span>${track.reposts_count}</span></button>
                                             <a href="${track.user.permalink_url}" target="_blank"><button class="btn-transparent" id="desc-user"><i class="fa fa-user small" aria-hidden="true"></i><span>${track.user.username}</span></button></a>
-                                            <a href="${track.user.purchase_url || '#'}" target="_blank"><button class="btn-transparent" id="desc-buy"><i class="fa fa-usd small" aria-hidden="true"></i><span>Purchase</span></button></a>
+                                            <a href="${track.user.purchase_url || errorPurchase}" target="_blank"><button class="btn-transparent" id="desc-buy"><i class="fa fa-usd small" aria-hidden="true"></i><span>Purchase</span></button></a>
                                         </div>
                                         <div class="row text-center" id="descStats">
                                             <p>Created: ${track.created_at.split('T')[0].replace(/-/g, ' / ')}</p>
@@ -23,7 +23,9 @@ const SongInfo = (largeArt, track, tags) => (
                                             ${tags}
                                         </div>
                                     </div>
-                                    <pre>${track.description || 'No description available.'}</pre>
+                                    <div class="content">
+                                        <pre>${track.description || 'No description available.'}</pre>
+                                    </div>
                                 </div>
                             </div>
                             <h6 class="light">${track.title}</h6>
