@@ -132,7 +132,8 @@ class Player {
             } else if (isNaN(url)) { // Check if this is a string query
                 // Check tags
                 if (url.startsWith('playlist:') || url.startsWith('set:')) {
-                    this.getSetByKeyWord(url.split(':')[1])
+                    this.getSetByKeyWord(url.split(':')[1]);
+                    this.isPlaylist = true;
                 } else {
                     this.getTrackByKeyWord(url);
                 }
