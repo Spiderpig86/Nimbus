@@ -134,6 +134,7 @@ class Player {
                 if (url.startsWith('playlist:') || url.startsWith('set:')) {
                     this.getSetByKeyWord(url.split(':')[1]);
                     this.isPlaylist = true;
+                    return;
                 } else {
                     this.getTrackByKeyWord(url);
                 }
