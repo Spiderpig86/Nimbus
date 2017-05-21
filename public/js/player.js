@@ -87,7 +87,7 @@ class Player {
 
         // Event handler for seeking forward / fetch new song
         this.btnFf.onclick = (e) => {
-            if (this.queue.length > 0) {
+            if (this.queue.length > 0 || this.isPlaylist) {
                 this.seekForward(); // Seek forward in queue
             } else { // Else just load another song
                 this.fetchNext();
@@ -126,7 +126,12 @@ class Player {
                     this.isPlaylist = true;
                 this.curPlayer.load(`${url}`);
             } else if (isNaN(url)) { // Check if this is a string query
-                this.getTrackByKeyWord(url);
+                // Check tags
+                if (url.startsWith('playlist:') || url.startsWith('set:')) {
+                    this.getSetByKeyWord(url.split(':')[1])
+                } else {
+                    this.getTrackByKeyWord(url);
+                }
                 this.isPlaylist = false;
             } else { // Must be a song ID
                 console.log(url);
@@ -339,7 +344,7 @@ class Player {
                 this.isPlaying = false;
 
                 // Check if user is playing a playlist
-                if (this.isPlaylist) {
+                if (this.isPlaylist && !this.isRepeating) {
                     this.restartSong();
                     this.togglePlay();
                     this.loadWidgetSong(this.curPlayer); // Update track info to the next song in the playlist
@@ -366,6 +371,21 @@ class Player {
                     this.fetchNext();
                     this.hasBeenFetched = true;
                 }
+            });
+
+            // Bind play state event
+            widget.bind(SC.Widget.Events.PLAY, (e) => {
+                this.togglePlayState(true);
+            });
+
+            // Bind pause state event
+            widget.bind(SC.Widget.Event.PAUSE, (e) => {
+                this.togglePlayState(false);
+            });
+
+            // Throw error in case user enters invalid URL
+            widget.bind(SC.Widget.Event.ERROR, (e) => {
+                alert('Error, unable to load resource.');
             });
 
         });
@@ -442,12 +462,25 @@ class Player {
      * Seek to next song in queue
      */
     seekForward() {
-        let nextSong = this.queue.pop(); // Pop the next song
+        // If we are in playlist mode, play the next song in the playlist and do not fetch a new song
+        if (this.isPlaylist) {
+            this.restartSong();
+            this.curPlayer.pause();
+            this.curPlayer.pause(); // Widget not really responsive when user goes back and forth quickly
+            setTimeout(this.curPlayer.next(), 200);
+            this.restartSong(); // Seems weird to call restartSong() so many times, but this is used to reset the songs and avoid the weird bug where the player plays 2 songs simulatenously.
+            this.curPlayer.play();
+            this.curPlayer.pause(); // Same interrupted Promise issue from API
+            this.curPlayer.play();
+            setTimeout(() => this.loadWidgetSong(this.curPlayer), 200);
+        } else {
+            let nextSong = this.queue.pop(); // Pop the next song
 
-        if (nextSong) { // If not null
-            this.history.push(nextSong); // Add it to history
-            this.curPlayer.load(nextSong.permalink_url);
-            setTimeout(() => this.loadWidgetSong(this.curPlayer), 2000); // Update player info
+            if (nextSong) { // If not null
+                this.history.push(nextSong); // Add it to history
+                this.curPlayer.load(nextSong.permalink_url);
+                setTimeout(() => this.loadWidgetSong(this.curPlayer), 2000); // Update player info
+            }
         }
     }
 
@@ -455,10 +488,23 @@ class Player {
      * Rewind to previous song
      */
     seekBack() {
+        // this.isPlaylist = false; // Exit playlist mode so we don't end up stuck in a loop with songs
+        // If we are in a playlist, simply move back to the previous song
+        if (this.isPlaylist) {
+            this.restartSong();
+            this.curPlayer.pause();
+            this.curPlayer.pause();
+            setTimeout(this.curPlayer.prev(), 200); // Player not cooperating with async
+            this.restartSong(); // Seems weird to call restartSong() so many times, but this is used to reset the songs and avoid the weird bug where the player plays 2 songs simulatenously.
+            this.curPlayer.play();
+            this.curPlayer.pause(); // Same interrupted Promise issue from API
+            this.curPlayer.play();
+            setTimeout(() => this.loadWidgetSong(this.curPlayer), 200);
+            return;
+        }
+
         // Pop current song and add it to queue so it is our next song
-        let popped = this.history.pop();
-        this.queue.push(popped);
-        console.log('Popped - ' + popped.title);
+        this.queue.push(this.history.pop());
         let prevSong = this.history[this.history.length - 1];
 
         if (prevSong) { // If not null
@@ -570,17 +616,37 @@ class Player {
         return `http://img.infinitynewtab.com/wallpaper/${i}.jpg`;
     }
 
+    /**
+     * Find the song based on user entered keywords, like 'I'm Feeling Lucky' on Google.
+     * 
+     * @param {String} query - search terms to find song
+     * 
+     * @memberof Player
+     */
     getTrackByKeyWord(query) {
         // Get a list of songs by the search query and play first choice
         try {
             SC.get('/tracks', {q: query}).then((tracks) => {
                 if (tracks.length > 0) {
-                    // Add each of those tracks to the queue
+                    // Load the first song
                     this.curPlayer.load(tracks[0].permalink_url); // The "I'm feeling lucky part of the search"
                 }
             });
         } catch (e) {
             console.log('getTrackByKeyWord Error - ' + e.message);
+        }
+    }
+
+    getSetByKeyWord(query) {
+        try {
+            SC.get('/playlists', {q: query}).then((sets) => {
+                if (sets.length > 0) {
+                    // Load the set
+                    this.curPlayer.load(sets[0].permalink_url); // The "I'm feeling lucky part of the search"
+                }
+            });
+        } catch (e) {
+            console.log('getSetByKeyWord Error - ' + e.message);
         }
     }
 
