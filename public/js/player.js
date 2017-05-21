@@ -131,14 +131,14 @@ class Player {
                 this.curPlayer.load(`${url}`);
             } else if (isNaN(url)) { // Check if this is a string query
                 // Check tags
+                console.log(url.startsWith('set:'));
                 if (url.startsWith('playlist:') || url.startsWith('set:')) {
                     this.getSetByKeyWord(url.split(':')[1]);
                     this.isPlaylist = true;
-                    return;
                 } else {
                     this.getTrackByKeyWord(url);
+                    this.isPlaylist = false;
                 }
-                this.isPlaylist = false;
             } else { // Must be a song ID
                 console.log(url);
                 this.curPlayer.load(`https%3A//api.soundcloud.com/tracks/${url}`); // For id
