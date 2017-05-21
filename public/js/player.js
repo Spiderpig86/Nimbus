@@ -358,9 +358,18 @@ class Player {
 
                 // Check if repeat is on first. TODO: Make it work with playlists
                 if (this.isRepeating) {
-                    this.restartSong();
-                    this.togglePlay();
-                    return;
+                    if (this.isPlaylist) { // If we are repeating in a playlist, we need to go back to previous song since the API preloads the next one
+                        this.restartSong();
+                        this.curPlayer.pause();
+                        this.curPlayer.pause();
+                        setTimeout(this.curPlayer.prev(), 200);
+                        return;
+                    } else {
+                        // Else we can just restart the song (API does not preload song)
+                        this.restartSong();
+                        this.togglePlay();
+                        return;
+                    }
                 }
                 
                 // Check if the queue is not empty and play whatever song that is next in the queue
