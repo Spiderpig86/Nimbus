@@ -35,11 +35,14 @@ class Player {
         this.hasBeenFetched = false; // Used to stop duplicates during recursion
         this.timerUpdate = 0;
         this.isPlaylist = false; // Check if we are playing a playlist.
+        this.setCurIndex = 0; // The current index of the song in the playlist
+        this.setTrackCount = 0; // This holds the number of tracks in the playlist so we can tell when we have reached the end.
 
         // Widget Props
         this.widgetTrack = {
             cover: '',
             title: '',
+            id: 0,
             artist: '',
             permalink_url: '',
             description: '',
@@ -122,8 +125,9 @@ class Player {
             // Determine input type
             if (url.startsWith('http') && isNaN(url)) { // Check if this is a url
                 this.isPlaylist = false; // Reset
-                if (url.includes('sets'))
+                if (url.includes('sets')) {
                     this.isPlaylist = true;
+                }                    
                 this.curPlayer.load(`${url}`);
             } else if (isNaN(url)) { // Check if this is a string query
                 // Check tags
@@ -198,6 +202,7 @@ class Player {
                 let rndImg = this.fetchRandomImage();
                 this.widgetTrack.cover = song.artwork_url;
                 this.widgetTrack.title = song.title;
+                this.widgetTrack.id = song.id;
                 this.widgetTrack.artist = song.user.username || 'N/A'; // Some tracks don't have a usernme associated
                 this.widgetTrack.permalink_url = song.permalink_url;
                 this.widgetTrack.description = song.description || 'N/A';
@@ -233,7 +238,7 @@ class Player {
                 if (this.history.length > 0 || this.queue.length > 0) {
                     let songList = this.history.concat(this.queue); // Use this to prevent adding any duplicates
                     for (let i = 0; i < songList.length; i++) {
-                        if (songList[i]._resource_id == song._resource_id) {
+                        if (songList[i]._resource_id === song._resource_id) {
                             found = true;
                         }
                     };
@@ -379,12 +384,12 @@ class Player {
             });
 
             // Bind pause state event
-            widget.bind(SC.Widget.Event.PAUSE, (e) => {
+            widget.bind(SC.Widget.Events.PAUSE, (e) => {
                 this.togglePlayState(false);
             });
 
             // Throw error in case user enters invalid URL
-            widget.bind(SC.Widget.Event.ERROR, (e) => {
+            widget.bind(SC.Widget.Events.ERROR, (e) => {
                 alert('Error, unable to load resource.');
             });
 
@@ -463,7 +468,9 @@ class Player {
      */
     seekForward() {
         // If we are in playlist mode, play the next song in the playlist and do not fetch a new song
+        console.log(this.isPlaylist);
         if (this.isPlaylist) {
+            let nextSongID = this.widgetTrack.id;
             this.restartSong();
             this.curPlayer.pause();
             this.curPlayer.pause(); // Widget not really responsive when user goes back and forth quickly
@@ -472,7 +479,19 @@ class Player {
             this.curPlayer.play();
             this.curPlayer.pause(); // Same interrupted Promise issue from API
             this.curPlayer.play();
-            setTimeout(() => this.loadWidgetSong(this.curPlayer), 200);
+            setTimeout(() => {
+                this.loadWidgetSong(this.curPlayer);
+                setTimeout(() => {
+                    console.log(this.widgetTrack.id + ' - ' + nextSongID);
+                    if (this.widgetTrack.id === nextSongID) { // If we have reached the end of the playlist
+                        this.isPlaylist = false;
+                        this.setCurIndex = 0;
+                        this.setTrackCount = 0;
+                        this.fetchNext();
+                    }
+                }, 200);
+
+            }, 200);
         } else {
             let nextSong = this.queue.pop(); // Pop the next song
 
@@ -491,19 +510,36 @@ class Player {
         // this.isPlaylist = false; // Exit playlist mode so we don't end up stuck in a loop with songs
         // If we are in a playlist, simply move back to the previous song
         if (this.isPlaylist) {
+            let lastSongID = this.widgetTrack.id;
             this.restartSong();
             this.curPlayer.pause();
             this.curPlayer.pause();
             setTimeout(this.curPlayer.prev(), 200); // Player not cooperating with async
             this.restartSong(); // Seems weird to call restartSong() so many times, but this is used to reset the songs and avoid the weird bug where the player plays 2 songs simulatenously.
+            setTimeout(() => {
+                this.loadWidgetSong(this.curPlayer);
+                setTimeout(() => {
+                    console.log(this.widgetTrack.id + ' - ' + lastSongID);
+                    if (this.widgetTrack.id === lastSongID) { // If we have reached the beginning of the playlist
+                        this.loadPreviousSong();
+                    }
+                }, 200); // Needed to be done to allow time for async request to complete in loadWidgetSong()
+                
+            }, 200);
             this.curPlayer.play();
             this.curPlayer.pause(); // Same interrupted Promise issue from API
             this.curPlayer.play();
-            setTimeout(() => this.loadWidgetSong(this.curPlayer), 200);
             return;
         }
+        console.log('not playlist');
 
-        // Pop current song and add it to queue so it is our next song
+        this.loadPreviousSong();
+    }
+
+    loadPreviousSong() {
+        this.isPlaylist = false;
+
+         // Pop current song and add it to queue so it is our next song
         this.queue.push(this.history.pop());
         let prevSong = this.history[this.history.length - 1];
 
@@ -643,11 +679,22 @@ class Player {
                 if (sets.length > 0) {
                     // Load the set
                     this.curPlayer.load(sets[0].permalink_url); // The "I'm feeling lucky part of the search"
+                    this.setTrackCount = sets[0].track_count;
                 }
             });
         } catch (e) {
             console.log('getSetByKeyWord Error - ' + e.message);
         }
+    }
+
+    historyContainsId(id) {
+        let found = false;
+        for (let i = 0; i < this.history.length; i++) {
+            if (this.history[i].id === id) {
+                found = true;
+            }
+        };
+        return found;
     }
 
 }
