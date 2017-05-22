@@ -229,6 +229,7 @@ pre {
     overflow-y: auto;
     height: 100%;
     background-color: rgba(148, 148, 148, .1);
+    backface-visibility: hidden;
 }
 
 #histContainer:hover .card {
@@ -237,6 +238,7 @@ pre {
 
 #histContainer .card {
     border-radius: 0;
+    backface-visibility: hidden;
 }
 
 #histContainer .card:hover {
