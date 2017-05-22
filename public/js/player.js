@@ -352,9 +352,23 @@ class Player {
 
                 // Check if user is playing a playlist
                 if (this.isPlaylist && !this.isRepeating) {
-                    this.restartSong();
+                    let oldSongID = this.widgetTrack.id;
                     this.togglePlay();
                     this.loadWidgetSong(this.curPlayer); // Update track info to the next song in the playlist
+                    this.isPlaying = false;
+                    setTimeout(() => {
+                        // Check if we have reached the end of the playlist
+                        if (oldSongID === this.widgetTrack.id) { // If the last song we played has the same ID as the new one, fetch a new song. (SoundCloud ends up looping the last song again)
+                            this.isPlaylist = false;
+                            this.setCurIndex = 0;
+                            this.setTrackCount = 0;
+                            this.fetchNext();
+                        } else {
+                            this.restartSong();
+                            this.togglePlay();
+                            this.curPlayer.play();
+                        }
+                    }, 200);
                     return;
                 }
 
@@ -601,9 +615,6 @@ class Player {
             this.curPlayer.pause();
             this.restartSong();
         } catch (e) {
-            // Shoddy way to catch error just buffer to next track
-            // issue where streaming the same track triggers this error
-            //this.fetchNext();
             console.log('fetchNext' + e.toString());
         }
         let id = this.getRandomTrack(); // Works for tracks with 403 errors in other API
