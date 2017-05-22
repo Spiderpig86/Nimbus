@@ -415,32 +415,19 @@ class Player {
             let chooseId = (Math.floor(Math.random() * 10));
             let trackId = 0;
 
-            // Generate random song id. Give slight preference to newer tracks
-            switch (chooseId) {
-                case 0:
-                case 1:
-                    trackId = Math.floor((Math.random() * RAND_COUNT) + OFFSET);
-                    break;
-                case 2:
-                case 3:
-                case 4:
-                    trackId = Math.floor((Math.random() * RAND_COUNT_2) + OFFSET_2);
-                    break;
-                case 5:
-                case 6:
-                case 7:
-                case 8:
-                case 9:
-                    trackId = Math.floor((Math.random() * RAND_COUNT_3) + OFFSET_3);
-                    break;
+            // Generate random song id. Give slight preference to newer tracks 
+            if (chooseId > 4) {
+                trackId = Math.floor((Math.random() * RAND_COUNT_3) + OFFSET_3);
+                break;
+            } else if (chooseId > 1) {
+                trackId = Math.floor((Math.random() * RAND_COUNT_2) + OFFSET_2);
+                break;
+            } else {
+                trackId = Math.floor((Math.random() * RAND_COUNT) + OFFSET);
+                break;
             }
+
             console.log('in id');
-            // Check if song is valid first (prevents extra recursion)
-            // let b = this.songExists(id)
-            // if (!b) {
-            //     console.log('in id recur' + this.songExists(b));
-            //     id = this.getRandomTrack();
-            // }
 
             return trackId;
         } catch (e) {

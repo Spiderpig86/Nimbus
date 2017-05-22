@@ -1,5 +1,6 @@
-# Nimbus
-A simple web application powered by Express and NodeJS that fetches random songs from the SoundCloud library using the SoundCloud API.
+<p align="center"><a href="https://nimbusmusic.herokuapp.com/" target="_blank"><img width="150" src="https://github.com/Spiderpig86/Nimbus/blob/master/nimbus.png"></a></p>
+<h1 align="center">Nimbus</h1>
+<p align="center">A simple web application powered by Express and NodeJS that fetches random songs from the SoundCloud library using the SoundCloud API.</p>
 
 | Command       | Keyboard Combo|
 | ------------- |:-------------:|
