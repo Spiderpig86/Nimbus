@@ -419,13 +419,10 @@ class Player {
             // Generate random song id. Give slight preference to newer tracks 
             if (chooseId > 4) {
                 trackId = Math.floor((Math.random() * RAND_COUNT_3) + OFFSET_3);
-                break;
             } else if (chooseId > 1) {
                 trackId = Math.floor((Math.random() * RAND_COUNT_2) + OFFSET_2);
-                break;
             } else {
                 trackId = Math.floor((Math.random() * RAND_COUNT) + OFFSET);
-                break;
             }
 
             console.log('in id');
