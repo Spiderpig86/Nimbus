@@ -19,6 +19,10 @@ a {
     color: #c5c5c5;
 }
 
+p {
+    font-family: 'Proxima Nova', 'Nunito Sans', sans-serif;
+}
+
 a:hover {
     color: #b7b7b7;
 }
@@ -39,7 +43,9 @@ pre {
 
 .header {
     background-color: rgb(105, 105, 105);
-    box-shadow: 0 0 32px rgba(0,0,0,.15);
+    -moz-box-shadow: rgba(29,29,31,0.3) 0 10px 60px;
+    -webkit-box-shadow: rgba(29,29,31,0.3) 0 10px 60px;
+    box-shadow: rgba(0, 0, 0, 0.3) 0 10px 60px;
     opacity: .6;
     transition: all .3s;
     -webkit-transition: all .3s;
@@ -90,9 +96,9 @@ pre {
     width: 100%;
     background-repeat: no-repeat;
     background-position: 50% 50%;
-    background-size: 120% 120%;
-    filter: blur(15px) brightness(.5);
-    -webkit-filter: blur(15px) brightness(.5);
+    background-size: cover; 
+    filter: blur(15px);
+    -webkit-filter: blur(15px);
     -webkit-transform: scale(1.2);
             transform: scale(1.2); /* Removes the white edges from the player image */
     z-index: -1; /* Make the scrollbar visible */
@@ -159,6 +165,17 @@ pre {
 
 #songContainer .card:hover {
     box-shadow: none;
+}
+
+#songContainer .title {
+    font-size: .8rem;
+    font-weight: 400;
+    font-family: 'Montserrat';
+    letter-spacing: 2px;
+}
+
+#songContainer h5 {
+    font-family: 'proxima_nova_ltthin';
 }
 
 .title {
@@ -361,6 +378,17 @@ pre {
 
 /* Mobile / Tablets */
 @media screen and (max-width: 768px) {
+    #background::before {
+        content: ' ';
+        background: linear-gradient(rgba(0, 0, 0, 0), rgba(21, 19, 30, 0.85));
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        will-change: transform;
+    }
+
     .card {
         text-align: center;
     }
@@ -413,6 +441,9 @@ pre {
         background-color: rgba(35, 35, 35, .95);
         top: 100%;
         position: absolute;
+        box-shadow: rgba(29, 29, 31, 0.55) 0 -10px 60px;
+        -webkit-box-shadow: rgba(29, 29, 31, 0.55) 0 -10px 60px;
+        -moz-box-shadow: rgba(29, 29, 31, 0.55) 0 -10px 60px;
     }
 
     #histContainer .bg-image {
@@ -422,6 +453,11 @@ pre {
 
 /* Laptops / Desktops */
 @media screen and (min-width: 768px) {
+
+    .bg-image {
+        filter: blur(15px) brightness(.5);
+        -webkit-filter: blur(15px) brightness(.5);
+    }
 
     #histContainer {
         box-shadow: -10px 0px 10px 1px rgba(0, 0, 0, 0.1); /* Left shadow */

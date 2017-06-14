@@ -200,7 +200,7 @@ class Player {
             console.log('loadwidgetsong called');
             this.waveform = null; // Reset the reference
             widget.getCurrentSound((song) => {
-                console.log(song);
+                //console.log(song);
                 console.log('getcurrentsound start');
                 widget.play();
                 this.isPlaying = true;
@@ -711,7 +711,7 @@ class Player {
                     // Queue all tracks to the queue of the user's playlist
                     for (let i = 0; i < tracks.length; i++) {
                         this.queue.push(tracks[i]);
-                        console.log(tracks[i].title);
+                        //console.log(tracks[i].title);
                     }
                     
                     this.togglePlay();

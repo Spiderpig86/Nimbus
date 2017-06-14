@@ -85,3 +85,4 @@ Overall Nimbus was quite an ambitious project for me given all the steps I neede
 * Add search params for query
 * Create modal dialog for instructions
 * Add toasts for player status
+* Volume slider
