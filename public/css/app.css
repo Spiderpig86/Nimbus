@@ -213,11 +213,11 @@ pre {
 
 .player-content {
     max-width: 60em;
-    margin: 1rem auto 2.2833%;;
+    margin: 1rem auto 0rem;
     width: 90%;
 }
 
-.content {
+.content-no-padding {
     width: 90%;
 }
 
@@ -394,9 +394,6 @@ pre {
 
 /* Laptops / Desktops */
 @media screen and (min-width: 768px) {
-    .player-content {
-        margin-top: 0;
-    }
 
     #histContainer {
         box-shadow: -10px 0px 10px 1px rgba(0, 0, 0, 0.1); /* Left shadow */
