@@ -80,4 +80,5 @@ Overall Nimbus was quite an ambitious project for me given all the steps I neede
 
 ## TODO
 * Play songs by artist/genre.
-* Reduce blur overhead on mobile devices.
+* Tag searching
+* Search for music when user clicks song tags in song description
