@@ -82,3 +82,6 @@ Overall Nimbus was quite an ambitious project for me given all the steps I neede
 * Play songs by artist/genre.
 * Tag searching
 * Search for music when user clicks song tags in song description
+* Add search params for query
+* Create modal dialog for instructions
+* Add toasts for player status

@@ -135,6 +135,8 @@ class Player {
                 if (url.startsWith('playlist:') || url.startsWith('set:')) {
                     this.getSetByKeyWord(url.split(':')[1]);
                     this.isPlaylist = true;
+                } else if (url.startsWith('tag:')) {
+                    this.getTracksByTag(url.split(':')[1]);
                 } else {
                     this.getTrackByKeyWord(url);
                     this.isPlaylist = false;
@@ -216,13 +218,26 @@ class Player {
 
                 // Create tag list
                 let tagBtns = ``;
-                let tagCollection = song.tag_list.split(' ');
+                let tagCollection = song.tag_list;
+                
+                // Get tags that are inside quotes already (treat multiple words as 1 tag)
+                let quotedTags = song.tag_list.match(/(["'])(?:(?=(\\?))\2.)*?\1/g);
+
+                // Clean the original list
+                tagCollection = tagCollection.replace(/(["'])(?:(?=(\\?))\2.)*?\1/g, ''); // Remove all double quoted entries
+                tagCollection = tagCollection.split(' ');
+                tagCollection = tagCollection.concat(quotedTags);
+
                 if (song.tag_list !== '') {
                     for (let i = 0; i < tagCollection.length; i++) {
-                        tagBtns += `<a href="https://soundcloud.com/tags/${tagCollection[i].replace(/"/g, '')}" target="_blank"><button class="btn-transparent">
-                            #${tagCollection[i].replace(/"/g, '')}
-                        </button></a>
-                        `;
+                        let tagName = tagCollection[i];
+                        if (tagName !== '' && tagName !== null) {
+                            tagName = tagName.replace(/\"/g, '');
+                            tagBtns += `<a href="https://soundcloud.com/tags/${tagName}" target="_blank"><button class="btn-transparent">
+                                #${tagName}
+                            </button></a>
+                            `;
+                        }
                     }
                 }
 
@@ -672,6 +687,34 @@ class Player {
                 if (tracks.length > 0) {
                     // Load the first song
                     this.curPlayer.load(tracks[0].permalink_url); // The "I'm feeling lucky part of the search"
+                }
+            });
+        } catch (e) {
+            console.log('getTrackByKeyWord Error - ' + e.message);
+        }
+    }
+
+    getTracksByTag(tag) {
+        try {
+            // Create options object to hold what we want to search for
+            let options = {
+                tags: tag,
+                limit: 120
+            } // TODO: Allow to modify limit later
+
+            SC.get('/tracks', options).then((tracks) => {
+                if (tracks.length > 0) {
+                    // Reverse the tracks so the first result shown is the next song, not the opposite
+                    tracks = tracks.reverse();
+
+                    // Queue all tracks to the queue of the user's playlist
+                    for (let i = 0; i < tracks.length; i++) {
+                        this.queue.push(tracks[i]);
+                        console.log(tracks[i].title);
+                    }
+                    
+                    this.seekForward();
+                    // Display toast message when done?
                 }
             });
         } catch (e) {

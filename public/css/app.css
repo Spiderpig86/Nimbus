@@ -407,7 +407,9 @@ pre {
     }
 
     #histContainer {
-        height: 100%;
+        overflow: hidden;
+        min-height: 100%;
+        height: inherit;
         background-color: rgba(35, 35, 35, .95);
         top: 100%;
         position: absolute;
