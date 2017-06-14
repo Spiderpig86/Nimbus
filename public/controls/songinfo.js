@@ -2,7 +2,6 @@ const SongInfo = (largeArt, track, tags, errorPurchase) => (
     `
         <div class="card level">
             <div class="content-no-padding text-center">
-                <div class="content-no-padding text-center">
                     <div class="row center">
                         <div class="col-12">
                             <div class="flipContainer" id="flipContainer">
@@ -34,7 +33,6 @@ const SongInfo = (largeArt, track, tags, errorPurchase) => (
                     <p class="title">${track.user.username}</p>
                     <p class="subtitle" id="curTime">0:00 / 4:20</p>
                     <div class="waveform"></div>
-                </div>
             </div>
         </div>
     `

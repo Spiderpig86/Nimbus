@@ -138,7 +138,7 @@ pre {
 }
 
 .flipContainer.flipped .song-desc {
-    overflow-y: auto;
+    overflow: auto;
     padding: 0 1rem;
 }
 
@@ -155,7 +155,6 @@ pre {
 #songContainer .card {
     min-height: 100%;
     background: transparent;
-    padding-top: 1rem;
 }
 
 #songContainer .card:hover {
@@ -259,6 +258,7 @@ pre {
     width: 100%;
     text-align: center;
     background-color: rgba(142, 142, 142, 0.1);
+    overflow: hidden;
 }
 
 .song-desc pre {
@@ -389,6 +389,28 @@ pre {
     /* Shrink font awesome */
     .fa {
         font-size: 14px !important;
+    }
+
+    /* Massive UI redesign for mobile */
+    #mainPlayer {
+        position: fixed;
+        top: 5%;
+    }
+
+    #songContainer {
+        width: 100%;
+    }
+
+    #songContainer .card {
+        display: flex;
+        margin-top: -2rem;
+    }
+
+    #histContainer {
+        height: 100%;
+        background-color: rgba(35, 35, 35, .95);
+        top: 100%;
+        position: absolute;
     }
 }
 
