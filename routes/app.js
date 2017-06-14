@@ -7,6 +7,7 @@ const port = process.env.PORT || 8000
 app.use(express.static(path.join(__dirname, '../public/')));
 app.use('/js', express.static(path.join(__dirname, '../public/js')));
 app.use('/css', express.static(path.join(__dirname, '../public/css')));
+app.use('/fonts', express.static(path.join(__dirname, '../public/fonts')));
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '../public/', 'index.html'))
