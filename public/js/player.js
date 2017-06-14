@@ -137,6 +137,7 @@ class Player {
                     this.isPlaylist = true;
                 } else if (url.startsWith('tag:')) {
                     this.getTracksByTag(url.split(':')[1]);
+                    this.isPlaylist = false;
                 } else {
                     this.getTrackByKeyWord(url);
                     this.isPlaylist = false;
@@ -611,7 +612,6 @@ class Player {
             this.isPlaying = true;
             // this.mainPlayer.innerHTML = SongInfo((this.curTrack.track.artwork_url === null ? '../img/cd.png' : this.curTrack.track.artwork_url.replace('large', 't500x500')), this.curTrack.track);
             // Update play state
-            this.isPlaying = true;
             this.togglePlayState(true);
         } else {
             this.curPlayer.pause();
@@ -704,6 +704,7 @@ class Player {
 
             SC.get('/tracks', options).then((tracks) => {
                 if (tracks.length > 0) {
+
                     // Reverse the tracks so the first result shown is the next song, not the opposite
                     tracks = tracks.reverse();
 
@@ -713,6 +714,7 @@ class Player {
                         console.log(tracks[i].title);
                     }
                     
+                    this.togglePlay();
                     this.seekForward();
                     // Display toast message when done?
                 }
