@@ -714,8 +714,8 @@ class Player {
                         //console.log(tracks[i].title);
                     }
                     
-                    this.togglePlay();
-                    this.seekForward();
+                    // Load the song
+                    this.curPlayer.load(tracks[0].permalink_url);
                     // Display toast message when done?
                 }
             });

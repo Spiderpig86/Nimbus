@@ -213,6 +213,7 @@ pre {
 
 .card p {
     margin: inherit;
+    max-height: inherit;
 }
 
 .card:hover .row .action-bar {
