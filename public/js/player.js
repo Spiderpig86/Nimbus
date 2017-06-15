@@ -147,8 +147,6 @@ class Player {
                 this.isPlaylist = false;
             }
 
-            console.log(this.curPlayer);
-
             setTimeout(() => this.loadWidgetSong(this.curPlayer), 2000); // Needs longer delay time so it prevents stalling (track not auto playing)
             
         }
@@ -208,8 +206,11 @@ class Player {
                     // Sorry can not auto play on mobile =_(
                     // https://stackoverflow.com/questions/26066062/autoplay-html5-audio-player-on-mobile-browsers
                     // Need to use trick.
-                    $('.playButton').trigger('click'); // Trigger play in the widget
-                    this.isPlaying = true;
+                    widget.play();
+                    setTimeout(() => {
+                            $('#play-btn').trigger('click'); // Cannot fix autoplay issue, but now users can play the track with 1 tap of the play button instead o several (bug fix)
+                            console.log('test play')
+                        }, 2000);
                     this.togglePlayState(true);
                 } else {
                     widget.play(); // Play normally on non mobile
