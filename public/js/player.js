@@ -143,10 +143,11 @@ class Player {
                     this.isPlaylist = false;
                 }
             } else { // Must be a song ID
-                console.log(url);
                 this.curPlayer.load(`https%3A//api.soundcloud.com/tracks/${url}`); // For id
                 this.isPlaylist = false;
             }
+
+            console.log(this.curPlayer);
 
             setTimeout(() => this.loadWidgetSong(this.curPlayer), 2000); // Needs longer delay time so it prevents stalling (track not auto playing)
             
@@ -607,7 +608,15 @@ class Player {
     togglePlay() {
         if (!this.isPlaying) {
             // Nuanced but adds that 'break' in the sound so you know it was pressed just in case isPlaying is the wrong value
-            this.curPlayer.play();
+            if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) { // Attempt to fix on mobile devices
+                
+                // Sorry can not auto play on mobile =_(
+                // https://stackoverflow.com/questions/26066062/autoplay-html5-audio-player-on-mobile-browsers
+                // Need to use trick.
+                $('#play-btn').trigger('click'); // Trigger the click event on mobile.
+            } else {
+                this.curPlayer.play(); // Play normally on non mobile
+            }
             console.log('isPlaying = true');
             this.isPlaying = true;
             // this.mainPlayer.innerHTML = SongInfo((this.curTrack.track.artwork_url === null ? '../img/cd.png' : this.curTrack.track.artwork_url.replace('large', 't500x500')), this.curTrack.track);
