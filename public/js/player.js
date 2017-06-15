@@ -55,8 +55,11 @@ class Player {
         this.bindControlElements();
         this.bindControlEvents();
 
-        // Load a track when the app is laded.
-        document.getElementById('widgettest').setAttribute('src', `https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/170202151`);
+        // Check url params
+        let id = this.getURLParamsByName('id', window.location);
+
+        // Load a track when the app is loaded (take url param into account).
+        document.getElementById('widgettest').setAttribute('src', ((id ? `https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/${id}` : 'https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/170202151')));
         let iframeID = document.getElementById('widgettest');
         this.curPlayer = SC.Widget(iframeID);
         // Update the player
@@ -275,11 +278,11 @@ class Player {
 
                     if (!found) { // Append the song if not found
                         this.history.push(song); // Push the track so it can be replayed from history. 
-                        this.histContainer.innerHTML += HistItem((song.artwork_url === null ? song.user.avatar_url : song.artwork_url), (song.artwork_url === null ? rndImg : song.artwork_url), song.title, this.widgetTrack.artist, song, "javascript:alert('Download link unavailable');"); // Append to history
+                        this.histContainer.innerHTML += HistItem((song.artwork_url === null ? song.user.avatar_url : song.artwork_url), (song.artwork_url === null ? rndImg : song.artwork_url), song.title, this.widgetTrack.artist, song, `https://api.soundcloud.com/tracks/${song.id}/download?client_id=${consts.client_id}`,  "javascript:alert('Download link unavailable');"); // Append to history
                     }
                 } else {
                     this.history.push(song); // Push the track so it can be replayed from history. 
-                    this.histContainer.innerHTML += HistItem((song.artwork_url === null ? song.user.avatar_url : song.artwork_url), (song.artwork_url === null ? rndImg : song.artwork_url), song.title, this.widgetTrack.artist, song, "javascript:alert('Download link unavailable');"); // Append to history
+                    this.histContainer.innerHTML += HistItem((song.artwork_url === null ? song.user.avatar_url : song.artwork_url), (song.artwork_url === null ? rndImg : song.artwork_url), song.title, this.widgetTrack.artist, song, `https://api.soundcloud.com/tracks/${song.id}/download?client_id=${consts.client_id}`, "javascript:alert('Download link unavailable');"); // Append to history
                 }
 
                 // Async method to build waveform
@@ -756,6 +759,16 @@ class Player {
             }
         };
         return found;
+    }
+
+    getURLParamsByName(name, url) {
+        if (!url) url = window.location.href;
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
     }
 
 }
