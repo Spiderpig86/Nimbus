@@ -704,18 +704,16 @@ class Player {
 
             SC.get('/tracks', options).then((tracks) => {
                 if (tracks.length > 0) {
-
-                    // Reverse the tracks so the first result shown is the next song, not the opposite
-                    tracks = tracks.reverse();
-
-                    // Queue all tracks to the queue of the user's playlist
-                    for (let i = 0; i < tracks.length; i++) {
-                        this.queue.push(tracks[i]);
-                        //console.log(tracks[i].title);
-                    }
-                    
                     // Load the song
                     this.curPlayer.load(tracks[0].permalink_url);
+
+                    let trackCollection = tracks.reverse();
+
+                    // Queue all tracks to the queue of the user's playlist. Note that queue is actually acting like a stack since we use push() and pop()
+                    for (let i = 0; i < trackCollection.length - 1; i++) { // Skip the first one since we are already playing it at this point (need to subtract upper bound by 1 since we want to exclude the first track from the reversed array)
+                        this.queue.push(trackCollection[i]);
+                    }
+                
                     // Display toast message when done?
                 }
             });
