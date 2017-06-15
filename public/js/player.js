@@ -205,7 +205,15 @@ class Player {
             widget.getCurrentSound((song) => {
                 //console.log(song);
                 console.log('getcurrentsound start');
-                widget.play();
+                if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) { // Attempt to fix on mobile devices
+                    
+                    // Sorry can not auto play on mobile =_(
+                    // https://stackoverflow.com/questions/26066062/autoplay-html5-audio-player-on-mobile-browsers
+                    // Need to use trick.
+                    $('#play-btn').trigger('click'); // Trigger the click event on mobile.
+                } else {
+                    widget.play(); // Play normally on non mobile
+                }
                 this.isPlaying = true;
                 let rndImg = this.fetchRandomImage();
                 this.widgetTrack.cover = song.artwork_url;
@@ -610,16 +618,7 @@ class Player {
     togglePlay() {
         if (!this.isPlaying) {
             // Nuanced but adds that 'break' in the sound so you know it was pressed just in case isPlaying is the wrong value
-            if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) && !this.hasTriggeredPlayBtn) { // Attempt to fix on mobile devices
-                
-                // Sorry can not auto play on mobile =_(
-                // https://stackoverflow.com/questions/26066062/autoplay-html5-audio-player-on-mobile-browsers
-                // Need to use trick.
-                $('#play-btn').trigger('click'); // Trigger the click event on mobile.
-                this.hasTriggeredPlayBtn = true;
-            } else {
-                this.curPlayer.play(); // Play normally on non mobile
-            }
+            this.curPlayer.play(); 
             console.log('isPlaying = true');
             this.isPlaying = true;
             // this.mainPlayer.innerHTML = SongInfo((this.curTrack.track.artwork_url === null ? '../img/cd.png' : this.curTrack.track.artwork_url.replace('large', 't500x500')), this.curTrack.track);
