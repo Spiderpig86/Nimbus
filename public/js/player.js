@@ -211,6 +211,7 @@ class Player {
                     // https://stackoverflow.com/questions/26066062/autoplay-html5-audio-player-on-mobile-browsers
                     // Need to use trick.
                     $('#play-btn').trigger('click'); // Trigger the click event on mobile.
+                    $('#play-btn').trigger('click'); // Second time to make it play instead of pausing
                 } else {
                     widget.play(); // Play normally on non mobile
                 }
