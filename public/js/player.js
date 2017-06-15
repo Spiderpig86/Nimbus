@@ -37,6 +37,7 @@ class Player {
         this.isPlaylist = false; // Check if we are playing a playlist.
         this.setCurIndex = 0; // The current index of the song in the playlist
         this.setTrackCount = 0; // This holds the number of tracks in the playlist so we can tell when we have reached the end.
+        this.hasTriggeredPlayBtn = false; // For mobile to prevent exceeding call stack
 
         // Widget Props
         this.widgetTrack = {
@@ -198,6 +199,7 @@ class Player {
      */
     loadWidgetSong(widget) {
         try {
+            this.hasTriggeredPlayBtn = false;
             console.log('loadwidgetsong called');
             this.waveform = null; // Reset the reference
             widget.getCurrentSound((song) => {
@@ -608,12 +610,13 @@ class Player {
     togglePlay() {
         if (!this.isPlaying) {
             // Nuanced but adds that 'break' in the sound so you know it was pressed just in case isPlaying is the wrong value
-            if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) { // Attempt to fix on mobile devices
+            if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) && !this.hasTriggeredPlayBtn) { // Attempt to fix on mobile devices
                 
                 // Sorry can not auto play on mobile =_(
                 // https://stackoverflow.com/questions/26066062/autoplay-html5-audio-player-on-mobile-browsers
                 // Need to use trick.
                 $('#play-btn').trigger('click'); // Trigger the click event on mobile.
+                this.hasTriggeredPlayBtn = true;
             } else {
                 this.curPlayer.play(); // Play normally on non mobile
             }
@@ -636,6 +639,7 @@ class Player {
      */
     fetchNext() {
         try {
+            this.hasTriggeredPlayBtn = false;
             this.curPlayer.pause();
             this.restartSong();
         } catch (e) {
