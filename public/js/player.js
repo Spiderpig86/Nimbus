@@ -55,16 +55,16 @@ class Player {
         this.bindControlElements();
         this.bindControlEvents();
 
-        // Check url params
-        let id = this.getURLParamsByName('id', window.location);
-
         // Load a track when the app is loaded (take url param into account).
-        document.getElementById('widgettest').setAttribute('src', ((id ? `https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/${id}` : 'https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/170202151')));
+        document.getElementById('widgettest').setAttribute('src', 'https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/170202151');
         let iframeID = document.getElementById('widgettest');
         this.curPlayer = SC.Widget(iframeID);
         // Update the player
         this.bindWidgetEvents(this.curPlayer); // Bind event handlers for widget.
-        this.fetchNext();
+        
+        // Check for params and then decide what to play
+        this.checkParamsAndFetch();
+
         console.log('construct done');
     }
 
@@ -115,12 +115,15 @@ class Player {
             if (url == null)
                 return;
             
+            // EDIT: If the queue is nonempty, preserve the queue elements and just insert the song in between history and queue
             // If the queue is not empty, shift everything to the history so that the order of the songs occur in the same order as shown
-            if (this.queue.length > 0) {
-                let originalQueueLength = this.queue.length;
-                for (let i = 0; i < originalQueueLength; i++) 
-                    this.history.push(this.queue.pop());
-            }
+            // if (this.queue.length > 0) {
+            //     let originalQueueLength = this.queue.length;
+            //     for (let i = 0; i < originalQueueLength; i++) 
+            //         this.history.push(this.queue.pop());
+            // }
+
+            console.log(this.queue);
 
             let iframeID = document.getElementById('widgettest');
             this.curPlayer = SC.Widget(iframeID);
@@ -138,8 +141,8 @@ class Player {
                 if (url.startsWith('playlist:') || url.startsWith('set:')) {
                     this.getSetByKeyWord(url.split(':')[1]);
                     this.isPlaylist = true;
-                } else if (url.startsWith('tag:')) {
-                    this.getTracksByTag(url.split(':')[1]);
+                } else if (url.startsWith('tags:')) {
+                    this.getTracksByTags(url.split(':')[1]);
                     this.isPlaylist = false;
                 } else {
                     this.getTrackByKeyWord(url);
@@ -536,9 +539,8 @@ class Player {
             let nextSong = this.queue.pop(); // Pop the next song
 
             if (nextSong) { // If not null
-                this.history.push(nextSong); // Add it to history
                 this.curPlayer.load(nextSong.permalink_url);
-                setTimeout(() => this.loadWidgetSong(this.curPlayer), 2000); // Update player info
+                setTimeout(() => this.loadWidgetSong(this.curPlayer), 2000); // Update player info, will add song to history
             }
         }
     }
@@ -585,6 +587,7 @@ class Player {
 
         if (prevSong) { // If not null
             this.curPlayer.load(prevSong.permalink_url);
+            console.log(prevSong.permalink_url);
             setTimeout(() => this.loadWidgetSong(this.curPlayer), 2000); // Update player info
         }
     }
@@ -642,8 +645,19 @@ class Player {
      */
     fetchNext() {
         try {
-            this.curPlayer.pause();
-            this.restartSong();
+            console.log('Queue length - ' + this.queue.length);
+            if (this.queue.length > 0) { // First check if the queue is non-empty
+                let nextSong = this.queue.pop(); // Pop the next song
+
+                if (nextSong) { // If not null
+                    this.history.push(nextSong); // Add it to history
+                    this.curPlayer.load(nextSong.permalink_url);
+                    setTimeout(() => this.loadWidgetSong(this.curPlayer), 2000); // Update player info
+                }
+            } else { // If the queue is empty, fetch a new song
+                this.curPlayer.pause();
+                this.restartSong();
+            }
         } catch (e) {
             console.log('fetchNext' + e.toString());
         }
@@ -666,6 +680,18 @@ class Player {
             console.log('track fetch fail' + id);
             this.fetchNext();
             console.log('track fetch fail post' + id);
+        }).catch((err) => {
+            console.log(err.status);
+            if (err.status === 0) { // Invalid API key
+                console.log('0/401 Unauthorized. Possible Invalid SoundCloud key')
+                throw '0/401 Unauthorized. Possible Invalid SoundCloud key'
+            }
+            if (err.status === 403) { // Play the song anyway even if this API requiest returns a forbidden request (Soundcloud problem)
+                this.streamSong(id);
+                return;
+            }
+            // If there is no song with the associated ID, fetch a new one.
+            this.fetchNext();
         });
     }
 
@@ -709,11 +735,11 @@ class Player {
         }
     }
 
-    getTracksByTag(tag) {
+    getTracksByTags(tagList) {
         try {
             // Create options object to hold what we want to search for
             let options = {
-                tags: tag,
+                tags: tagList,
                 limit: 120
             } // TODO: Allow to modify limit later
 
@@ -727,6 +753,7 @@ class Player {
                     // Queue all tracks to the queue of the user's playlist. Note that queue is actually acting like a stack since we use push() and pop()
                     for (let i = 0; i < trackCollection.length - 1; i++) { // Skip the first one since we are already playing it at this point (need to subtract upper bound by 1 since we want to exclude the first track from the reversed array)
                         this.queue.push(trackCollection[i]);
+                        console.log(tracks[i].title);
                     }
                 
                     // Display toast message when done?
@@ -751,6 +778,14 @@ class Player {
         }
     }
 
+    getSongsByArtists(...artist) {
+
+    }
+
+    getSongsByGenre(...genres) {
+
+    }
+
     historyContainsId(id) {
         let found = false;
         for (let i = 0; i < this.history.length; i++) {
@@ -769,6 +804,21 @@ class Player {
         if (!results) return null;
         if (!results[2]) return '';
         return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
+
+    checkParamsAndFetch() {
+        // Fetch param values if present
+        let id = this.getURLParamsByName('id', window.location.href);
+        let url = this.getURLParamsByName('url', window.location.href);
+
+        // Do not fetch a random song if an id was already provided
+        if (id) // id takes takes precedence
+            this.streamSong(id);
+        else if (url)
+            this.curPlayer.load(url); // Load the song by url (Widget API takes care of the rest)
+        else
+            this.fetchNext();
+            
     }
 
 }
