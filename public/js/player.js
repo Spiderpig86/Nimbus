@@ -181,7 +181,9 @@ class Player {
                 let iframeID = document.getElementById('widgettest');
                 this.curPlayer = SC.Widget(iframeID);
 
-                let searchQuery = this.searchField.value; // Assign the search query
+                console.log(this.searchField.value);
+
+                let searchQuery = this.searchField.value.toLowerCase(); // Assign the search query
 
                 // Determine input type
                 if (searchQuery.startsWith('http') && isNaN(searchQuery)) { // Check if this is a url
