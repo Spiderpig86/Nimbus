@@ -167,7 +167,7 @@ class Player {
         }
 
         // Bind search field key combination
-        this.searchField.onkeyup = (e) => {
+        this.searchField.onkeydown = (e) => {
             if (e.keyCode === 13) {
                 // EDIT: If the queue is nonempty, preserve the queue elements and just insert the song in between history and queue (no code)
 
