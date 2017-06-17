@@ -29,7 +29,21 @@
         <!-- Where we will place the player -->
             <div id="background" class="bg-image"></div>
 
-            <!-- maybe add a button that drops down a playlist history when clicked -->
+            <!-- Search Modal -->
+            <div class="hero fullscreen" id="searchModalContainer">
+                <div class="hero-body">
+                    <div class="searchCloseBtn">
+                        <span class="icon">
+                            <i class="fa fa-multiply" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <div class="content">
+                        <h6 class="uppercase">Search for songs, playlists, artists, and more</h6>
+                        <input type="text" placeholder="search" id="searchField"/>
+                    </div>
+                </div>
+            </div>
+
             <section class="hero fullscreen" id="playerHero">
                 <!--top-->
                 <div class="header header-fixed unselectable level">
@@ -52,6 +66,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="hero-body no-padding">
                     <!-- Place history on right side -->
                     <div class="row no-padding no-margin" id="playerInfoContainer">

@@ -7,14 +7,18 @@ import Request from './request';
 let SC = require('soundcloud'); // Import node module
 
 // Soundcloud Properties 
+
+// Oldest range (around 2007 onward)
+
+// Going from 2010
 const RAND_COUNT = 7000000;
 const OFFSET = 3000000;
 
-// IDs to get to get newer tracks
+// More Recent
 const RAND_COUNT_2 = 90000000;
 const OFFSET_2 = 10000000;
 
-// IDs to get to get newer tracks
+// The fresh stuff
 const RAND_COUNT_3 = 300000000;
 const OFFSET_3 = 100000000;
 
@@ -79,6 +83,7 @@ class Player {
         this.btnBk = document.getElementById('seek-bk-btn');
         this.btnCustom = document.getElementById('custom-btn');
         this.btnRepeat = document.getElementById('repeat-btn');
+        this.searchField = document.getElementById('searchField');
     }
 
     /**
@@ -111,50 +116,8 @@ class Player {
 
         // Event handler to play custom song
         this.btnCustom.onclick = (e) => {
-            let url = prompt("Enter song/playlist url, id, or artist/song.");
-            if (url == null)
-                return;
-            
-            // EDIT: If the queue is nonempty, preserve the queue elements and just insert the song in between history and queue
-            // If the queue is not empty, shift everything to the history so that the order of the songs occur in the same order as shown
-            // if (this.queue.length > 0) {
-            //     let originalQueueLength = this.queue.length;
-            //     for (let i = 0; i < originalQueueLength; i++) 
-            //         this.history.push(this.queue.pop());
-            // }
-
-            console.log(this.queue);
-
-            let iframeID = document.getElementById('widgettest');
-            this.curPlayer = SC.Widget(iframeID);
-
-            // Determine input type
-            if (url.startsWith('http') && isNaN(url)) { // Check if this is a url
-                this.isPlaylist = false; // Reset
-                if (url.includes('sets')) {
-                    this.isPlaylist = true;
-                }                    
-                this.curPlayer.load(`${url}`);
-            } else if (isNaN(url)) { // Check if this is a string query
-                // Check tags
-                console.log(url.startsWith('set:'));
-                if (url.startsWith('playlist:') || url.startsWith('set:')) {
-                    this.getSetByKeyWord(url.split(':')[1]);
-                    this.isPlaylist = true;
-                } else if (url.startsWith('tags:')) {
-                    this.getTracksByTags(url.split(':')[1]);
-                    this.isPlaylist = false;
-                } else {
-                    this.getTrackByKeyWord(url);
-                    this.isPlaylist = false;
-                }
-            } else { // Must be a song ID
-                this.curPlayer.load(`https%3A//api.soundcloud.com/tracks/${url}`); // For id
-                this.isPlaylist = false;
-            }
-
-            setTimeout(() => this.loadWidgetSong(this.curPlayer), 2000); // Needs longer delay time so it prevents stalling (track not auto playing)
-            
+            // Show the search dialog
+            $('#searchModalContainer').addClass('shown');
         }
         
         // Event handler for repeats
@@ -171,7 +134,10 @@ class Player {
         document.onkeyup = (e) => {
             if (e.keyCode == 32) {
                 // space key to toggle playback
-                this.togglePlay();
+                var tag = e.target.tagName.toLowerCase();
+                if (tag != 'input') // Ignore the search field
+                    this.togglePlay();
+
             } else if (e.shiftKey && e.keyCode == 38) {
                 // shift up
                 this.volumeUp(0.1);
@@ -192,6 +158,52 @@ class Player {
                 this.bindWidgetEvents(this.curPlayer); // Bind event handlers for widget.
                 this.togglePlay();
                 setTimeout(() => this.loadWidgetSong(this.curPlayer), 1000);
+            }
+        }
+
+        // Bind search field key combination
+        this.searchField.onkeyup = (e) => {
+            if (e.keyCode === 13) {
+                // EDIT: If the queue is nonempty, preserve the queue elements and just insert the song in between history and queue (no code)
+
+                // Hide the search dialog
+                this.hideSearchDialog();
+
+                // Check if input is empty
+                if (this.searchField.value.length === 0)
+                    return; // Exit
+
+                let iframeID = document.getElementById('widgettest');
+                this.curPlayer = SC.Widget(iframeID);
+
+                let searchQuery = this.searchField.value; // Assign the search query
+
+                // Determine input type
+                if (searchQuery.startsWith('http') && isNaN(searchQuery)) { // Check if this is a url
+                    this.isPlaylist = false; // Reset
+                    if (searchQuery.includes('sets')) {
+                        this.isPlaylist = true;
+                    }                    
+                    this.curPlayer.load(`${searchQuery}`);
+                } else if (isNaN(searchQuery)) { // Check if this is a string query
+                    // Check tags
+                    console.log(searchQuery.startsWith('set:'));
+                    if (searchQuery.startsWith('playlist:') || searchQuery.startsWith('set:')) {
+                        this.getSetByKeyWord(searchQuery.split(':')[1]);
+                        this.isPlaylist = true;
+                    } else if (searchQuery.startsWith('tags:')) {
+                        this.getTracksByTags(searchQuery.split(':')[1]);
+                        this.isPlaylist = false;
+                    } else {
+                        this.getTrackByKeyWord(searchQuery);
+                        this.isPlaylist = false;
+                    }
+                } else { // Must be a song ID
+                    this.curPlayer.load(`https%3A//api.soundcloud.com/tracks/${searchQuery}`); // For id
+                    this.isPlaylist = false;
+                }
+
+                setTimeout(() => this.loadWidgetSong(this.curPlayer), 2000); // Needs longer delay time so it prevents stalling (track not auto playing)
             }
         }
     }
@@ -427,9 +439,8 @@ class Player {
                     let nextSong = this.queue.pop(); // Pop the next song
 
                     if (nextSong) { // If not null
-                        this.history.push(nextSong); // Add it to history
                         this.curPlayer.load(nextSong.permalink_url);
-                        setTimeout(() => this.loadWidgetSong(this.curPlayer), 2000); // Update player info
+                        setTimeout(() => this.loadWidgetSong(this.curPlayer), 2000); // Update player info, song will be added to history here
                     }
                 } else if (!this.hasBeenFetched) { // If we have fetched a song already, do not fetch another one.
                     this.fetchNext();
@@ -819,6 +830,11 @@ class Player {
         else
             this.fetchNext();
             
+    }
+
+    hideSearchDialog() {
+        // Reset dialog (must place up here to account for invalid input)
+        $('#searchModalContainer').removeClass('shown'); // Hide the search modal
     }
 
 }

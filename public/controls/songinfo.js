@@ -22,6 +22,7 @@ const SongInfo = (largeArt, track, tags, errorPurchase) => (
                                             ${tags}
                                         </div>
                                     </div>
+                                    <space class="large"></space>
                                     <div class="content">
                                         <pre>${track.description || 'No description available.'}</pre>
                                     </div>

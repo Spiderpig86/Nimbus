@@ -1,3 +1,4 @@
+/* GLOBAL STYLES */
 body {
     color: #fff;
     background-color: #000;
@@ -41,6 +42,8 @@ pre {
     border-radius: 100%;
 }
 
+
+/* HEADER MENU */
 .header {
     background-color: rgb(105, 105, 105);
     -moz-box-shadow: rgba(29,29,31,0.3) 0 10px 60px;
@@ -68,6 +71,56 @@ pre {
     height: 60px;
 }
 
+/* SEARCH DIALOG */
+#searchModalContainer {
+    position: absolute;
+    z-index: 999;
+    background: rgba(238, 238, 238, 0.95);
+    transition: all .2s;
+    opacity: 0;
+    transform: translateY(-100%);
+}
+
+#searchModalContainer.shown {
+    opacity: 1;
+    transform: none;
+}
+
+#searchModalContainer .content {
+    max-width: none;
+}
+
+#searchModalContainer h6 {
+    font-family: 'Montserrat';
+    font-weight: 700;
+    color: #888;
+}
+
+#searchField {
+    background: transparent;
+    outline: 0;
+    border: 0;
+    box-shadow: none;
+    border-bottom: 3px solid #aaa;
+    font-family: 'Montserrat';
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 9rem;
+    color: #363636;
+    border-radius: 0;
+    transition: transform 600ms, -webkit-transform 600ms;
+    -webkit-transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+#searchCloseBtn {
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+    color: #777;
+}
+
+/* MAIN PLAYER UI */
 #background {
     position: fixed;
     opacity: .5;
