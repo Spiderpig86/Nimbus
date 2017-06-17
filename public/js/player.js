@@ -9,10 +9,12 @@ let SC = require('soundcloud'); // Import node module
 // Soundcloud Properties 
 
 // Oldest range (around 2007 onward)
+const RAND_COUNT = 90000;
+const OFFSET = 0;
 
 // Going from 2010
-const RAND_COUNT = 7000000;
-const OFFSET = 3000000;
+const RAND_COUNT_1 = 7000000;
+const OFFSET_1 = 3000000;
 
 // More Recent
 const RAND_COUNT_2 = 90000000;
@@ -84,6 +86,7 @@ class Player {
         this.btnCustom = document.getElementById('custom-btn');
         this.btnRepeat = document.getElementById('repeat-btn');
         this.searchField = document.getElementById('searchField');
+        this.searchCloseBtn = document.getElementById('searchCloseBtn');
     }
 
     /**
@@ -116,8 +119,10 @@ class Player {
 
         // Event handler to play custom song
         this.btnCustom.onclick = (e) => {
+            this.searchField.value = "";
             // Show the search dialog
             $('#searchModalContainer').addClass('shown');
+            $('body').css({'overflow-y': 'hidden'});
         }
         
         // Event handler for repeats
@@ -205,6 +210,11 @@ class Player {
 
                 setTimeout(() => this.loadWidgetSong(this.curPlayer), 2000); // Needs longer delay time so it prevents stalling (track not auto playing)
             }
+        }
+
+        // Event handler for close button for search dialog
+        this.searchCloseBtn.onclick = (e) => {
+            this.hideSearchDialog();
         }
     }
 
@@ -478,8 +488,10 @@ class Player {
             // Generate random song id. Give slight preference to newer tracks 
             if (chooseId > 4) {
                 trackId = Math.floor((Math.random() * RAND_COUNT_3) + OFFSET_3);
-            } else if (chooseId > 1) {
+            } else if (chooseId > 2) {
                 trackId = Math.floor((Math.random() * RAND_COUNT_2) + OFFSET_2);
+            } else if (chooseId > 1) {
+                trackId = Math.floor((Math.random() * RAND_COUNT_1) + OFFSET_1);
             } else {
                 trackId = Math.floor((Math.random() * RAND_COUNT) + OFFSET);
             }
@@ -835,6 +847,7 @@ class Player {
     hideSearchDialog() {
         // Reset dialog (must place up here to account for invalid input)
         $('#searchModalContainer').removeClass('shown'); // Hide the search modal
+        $('body').css({'overflow-y': 'scroll'});
     }
 
 }

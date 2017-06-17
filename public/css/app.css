@@ -118,6 +118,7 @@ pre {
     top: 2rem;
     right: 2rem;
     color: #777;
+    cursor: hand;
 }
 
 /* MAIN PLAYER UI */
@@ -514,6 +515,10 @@ pre {
 
     #histContainer .bg-image {
         background: none !important;
+    }
+
+    #searchField {
+        font-size: 2rem;
     }
 }
 
