@@ -201,6 +201,9 @@ class Player {
                     } else if (searchQuery.startsWith('tags:')) {
                         this.getTracksByTags(searchQuery.split(':')[1]);
                         this.isPlaylist = false;
+                    } else if (searchQuery.startsWith('user:')){
+                        let userId = this.resolveUserID(searchQuery.split(':')[1]);
+                        this.isPlaylist = false;
                     } else {
                         this.getTrackByKeyWord(searchQuery);
                         this.isPlaylist = false;
@@ -803,8 +806,33 @@ class Player {
         }
     }
 
-    getSongsByArtists(...artist) {
+    getSongsByUser(user) {
+         try {
+            // Create options object to hold what we want to search for
+            let options = {
+                tags: tagList,
+                limit: 120
+            } // TODO: Allow to modify limit later
 
+            SC.get('/tracks', options).then((tracks) => {
+                if (tracks.length > 0) {
+                    // Load the song
+                    this.curPlayer.load(tracks[0].permalink_url);
+
+                    let trackCollection = tracks.reverse();
+
+                    // Queue all tracks to the queue of the user's playlist. Note that queue is actually acting like a stack since we use push() and pop()
+                    for (let i = 0; i < trackCollection.length - 1; i++) { // Skip the first one since we are already playing it at this point (need to subtract upper bound by 1 since we want to exclude the first track from the reversed array)
+                        this.queue.push(trackCollection[i]);
+                        console.log(tracks[i].title);
+                    }
+                
+                    // Display toast message when done?
+                }
+            });
+        } catch (e) {
+            console.log('getTrackByKeyWord Error - ' + e.message);
+        }
     }
 
     getSongsByGenre(...genres) {
@@ -850,6 +878,19 @@ class Player {
         // Reset dialog (must place up here to account for invalid input)
         $('#searchModalContainer').removeClass('shown'); // Hide the search modal
         $('body').css({'overflow-y': 'scroll'});
+    }
+
+    resolveUserID(user) {
+        let id = -1;
+        try {
+            SC.resolve(`https://soundcloud.com/${user}`).then((response) => {
+                id = response.id;
+            });
+        } catch (e) {
+            console.log(e);
+        }
+
+        return id;
     }
 
 }

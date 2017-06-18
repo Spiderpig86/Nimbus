@@ -101,7 +101,7 @@ pre {
     outline: 0;
     border: 0;
     box-shadow: none;
-    border-bottom: 3px solid #aaa;
+    border-bottom: 1px solid #aaa;
     font-family: 'Montserrat';
     text-transform: uppercase;
     font-weight: 700;
@@ -113,12 +113,39 @@ pre {
     transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
+#searchField:focus {
+    border-bottom: 1px solid #363636;
+    transition: all .3s;
+    -webkit-transition: all .3s;
+    -moz-transition: all .3s;
+    -ms-transition: all .3s;
+    -o-transition: all .3s;
+}
+
 #searchCloseBtn {
     position: absolute;
     top: 2rem;
     right: 2rem;
     color: #777;
     cursor: hand;
+    transition: all .3s;
+    -webkit-transition: all .3s;
+    -moz-transition: all .3s;
+    -ms-transition: all .3s;
+    -o-transition: all .3s;
+}
+
+#searchCloseBtn:hover {
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+    color: #363636;
+    cursor: hand;
+    transition: all .3s;
+    -webkit-transition: all .3s;
+    -moz-transition: all .3s;
+    -ms-transition: all .3s;
+    -o-transition: all .3s;
 }
 
 /* MAIN PLAYER UI */
