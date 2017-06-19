@@ -196,13 +196,16 @@ class Player {
                     // Check tags
                     console.log(searchQuery.startsWith('set:'));
                     if (searchQuery.startsWith('playlist:') || searchQuery.startsWith('set:')) {
-                        this.getSetByKeyWord(searchQuery.split(':')[1]);
+                        this.getSetByKeyWord(searchQuery.split(':')[1].trim());
                         this.isPlaylist = true;
-                    } else if (searchQuery.startsWith('tags:')) {
-                        this.getTracksByTags(searchQuery.split(':')[1]);
+                    } else if (searchQuery.startsWith('tag:') || searchQuery.startsWith('tags:')) {
+                        this.getTracksByTags(searchQuery.split(':')[1].trim());
                         this.isPlaylist = false;
                     } else if (searchQuery.startsWith('user:')){
-                        this.getSongsByUser(searchQuery.split(':')[1]);
+                        this.getSongsByUser(searchQuery.split(':')[1].trim());
+                        this.isPlaylist = false;
+                    } else if (searchQuery.startsWith('genre:') || searchQuery.startsWith('genres:')) {
+                        this.getSongsByGenres(searchQuery.split(':')[1].trim());
                         this.isPlaylist = false;
                     } else {
                         this.getTrackByKeyWord(searchQuery);
@@ -788,7 +791,7 @@ class Player {
                 }
             });
         } catch (e) {
-            console.log('getTrackByKeyWord Error - ' + e.message);
+            console.log('getTracksByTags Error - ' + e.message);
         }
     }
 
@@ -834,7 +837,7 @@ class Player {
                         }
                     });
                 } catch (e) {
-                    console.log('getTrackByKeyWord Error - ' + e.message);
+                    console.log('getSongsByUser Error - ' + e.message);
                 }
             });
         } catch (e) {
@@ -842,8 +845,33 @@ class Player {
         }
     }
 
-    getSongsByGenre(...genres) {
+    getSongsByGenres(genreList) {
+        try {
+            // Create options object to hold what we want to search for
+            let options = {
+                genres: genreList,
+                limit: 120
+            } // TODO: Allow to modify limit later
 
+            SC.get('/tracks', options).then((tracks) => {
+                if (tracks.length > 0) {
+                    // Load the song
+                    this.curPlayer.load(tracks[0].permalink_url);
+
+                    let trackCollection = tracks.reverse();
+
+                    // Queue all tracks to the queue of the user's playlist. Note that queue is actually acting like a stack since we use push() and pop()
+                    for (let i = 0; i < trackCollection.length - 1; i++) { // Skip the first one since we are already playing it at this point (need to subtract upper bound by 1 since we want to exclude the first track from the reversed array)
+                        this.queue.push(trackCollection[i]);
+                        console.log(tracks[i].genre);
+                    }
+                
+                    // Display toast message when done?
+                }
+            });
+        } catch (e) {
+            console.log('getSongsByGenres Error - ' + e.message);
+        }
     }
 
     historyContainsId(id) {
