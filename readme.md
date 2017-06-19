@@ -20,6 +20,7 @@ Nimbus uses a few packages to help this run on a machine. Some of the dependenci
 ## Screenshots
 ![As of 6/18/17](http://i.imgur.com/b3K7bFX.png "Nimbus")
 <p align="center">Nimbus as of 6/18/17</p>
+
 ![As of 5/19/17](http://i.imgur.com/SvuNuNA.png "Nimbus")
 <p align="center">Nimbus as of 5/19/17</p>
 
