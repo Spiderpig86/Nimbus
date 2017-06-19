@@ -3,6 +3,7 @@ import HistItem from '../controls/HistItem';
 import SongInfo from '../controls/songinfo';
 import WaveForm from '../controls/waveform';
 import Request from './request';
+import SearchDialog from '../controls/search';
 
 let SC = require('soundcloud'); // Import node module
 
@@ -61,6 +62,9 @@ class Player {
         this.bindControlElements();
         this.bindControlEvents();
 
+        // Initialize Search dialog
+        this.searchDialog = new SearchDialog(this);
+
         // Load a track when the app is loaded (take url param into account).
         document.getElementById('widgettest').setAttribute('src', 'https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/170202151');
         let iframeID = document.getElementById('widgettest');
@@ -83,10 +87,9 @@ class Player {
         this.histContainer = document.getElementById('histContainer');
         this.btnFf = document.getElementById('seek-fw-btn');
         this.btnBk = document.getElementById('seek-bk-btn');
-        this.btnCustom = document.getElementById('custom-btn');
+        this.btnSearch = document.getElementById('custom-btn');
         this.btnRepeat = document.getElementById('repeat-btn');
-        this.searchField = document.getElementById('searchField');
-        this.searchCloseBtn = document.getElementById('searchCloseBtn');
+        
     }
 
     /**
@@ -118,11 +121,8 @@ class Player {
         }
 
         // Event handler to play custom song
-        this.btnCustom.onclick = (e) => {
-            this.searchField.value = "";
-            // Show the search dialog
-            $('#searchModalContainer').addClass('shown');
-            $('body').css({'overflow-y': 'hidden'});
+        this.btnSearch.onclick = (e) => {
+            this.searchDialog.toggleSearchDialog();
         }
         
         // Event handler for repeats
@@ -166,64 +166,7 @@ class Player {
             }
         }
 
-        // Bind search field key combination
-        this.searchField.onkeydown = (e) => {
-            if (e.keyCode === 13) {
-                // EDIT: If the queue is nonempty, preserve the queue elements and just insert the song in between history and queue (no code)
-
-                // Hide the search dialog
-                this.hideSearchDialog();
-
-                // Check if input is empty
-                if (this.searchField.value.length === 0)
-                    return; // Exit
-
-                let iframeID = document.getElementById('widgettest');
-                this.curPlayer = SC.Widget(iframeID);
-
-                console.log(this.searchField.value);
-
-                let searchQuery = this.searchField.value.toLowerCase(); // Assign the search query
-
-                // Determine input type
-                if (searchQuery.startsWith('http') && isNaN(searchQuery)) { // Check if this is a url
-                    this.isPlaylist = false; // Reset
-                    if (searchQuery.includes('sets')) {
-                        this.isPlaylist = true;
-                    }                    
-                    this.curPlayer.load(`${searchQuery}`);
-                } else if (isNaN(searchQuery)) { // Check if this is a string query
-                    // Check tags
-                    console.log(searchQuery.startsWith('set:'));
-                    if (searchQuery.startsWith('playlist:') || searchQuery.startsWith('set:')) {
-                        this.getSetByKeyWord(searchQuery.split(':')[1].trim());
-                        this.isPlaylist = true;
-                    } else if (searchQuery.startsWith('tag:') || searchQuery.startsWith('tags:')) {
-                        this.getTracksByTags(searchQuery.split(':')[1].trim());
-                        this.isPlaylist = false;
-                    } else if (searchQuery.startsWith('user:')){
-                        this.getSongsByUser(searchQuery.split(':')[1].trim());
-                        this.isPlaylist = false;
-                    } else if (searchQuery.startsWith('genre:') || searchQuery.startsWith('genres:')) {
-                        this.getSongsByGenres(searchQuery.split(':')[1].trim());
-                        this.isPlaylist = false;
-                    } else {
-                        this.getTrackByKeyWord(searchQuery);
-                        this.isPlaylist = false;
-                    }
-                } else { // Must be a song ID
-                    this.curPlayer.load(`https%3A//api.soundcloud.com/tracks/${searchQuery}`); // For id
-                    this.isPlaylist = false;
-                }
-
-                setTimeout(() => this.loadWidgetSong(this.curPlayer), 2000); // Needs longer delay time so it prevents stalling (track not auto playing)
-            }
-        }
-
-        // Event handler for close button for search dialog
-        this.searchCloseBtn.onclick = (e) => {
-            this.hideSearchDialog();
-        }
+        
     }
 
     /**
@@ -766,6 +709,13 @@ class Player {
         }
     }
 
+    /**
+     * Fetches tracks by a list of tags from the user separated by commas.
+     * 
+     * @param {string} tagList - a string with tags separated by commas
+     * 
+     * @memberof Player
+     */
     getTracksByTags(tagList) {
         try {
             // Create options object to hold what we want to search for
@@ -863,7 +813,6 @@ class Player {
                     // Queue all tracks to the queue of the user's playlist. Note that queue is actually acting like a stack since we use push() and pop()
                     for (let i = 0; i < trackCollection.length - 1; i++) { // Skip the first one since we are already playing it at this point (need to subtract upper bound by 1 since we want to exclude the first track from the reversed array)
                         this.queue.push(trackCollection[i]);
-                        console.log(tracks[i].genre);
                     }
                 
                     // Display toast message when done?
@@ -909,11 +858,7 @@ class Player {
             
     }
 
-    hideSearchDialog() {
-        // Reset dialog (must place up here to account for invalid input)
-        $('#searchModalContainer').removeClass('shown'); // Hide the search modal
-        $('body').css({'overflow-y': 'scroll'});
-    }
+
 
 }
 

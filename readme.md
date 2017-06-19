@@ -18,6 +18,8 @@ Nimbus uses a few packages to help this run on a machine. Some of the dependenci
 * [Cirrus](https://github.com/Spiderpig86/Cirrus) - a CSS framework I developed.
 
 ## Screenshots
+![As of 6/18/17](http://i.imgur.com/b3K7bFX.png "Nimbus")
+<p align="center">Nimbus as of 6/18/17</p>
 ![As of 5/19/17](http://i.imgur.com/SvuNuNA.png "Nimbus")
 <p align="center">Nimbus as of 5/19/17</p>
 
@@ -79,8 +81,6 @@ Although this is for finding random tracks in SoundCloud, sometimes users would 
 Overall Nimbus was quite an ambitious project for me given all the steps I needed to take before being able to start working on the actual functionality itself in the span of a few days. This was a great challenge since I have learned a lot more than I had expected in ES6 standards, npm packages, modularity in JS, and working with APIs. The idea of making a SoundCloud Randomizer was to have something that would really build and play a list of tracks that I would not have searched for myself. Given that SoundCloud is a platform where a lot of budding artists show off their creation, I thought it was appropriate to design something that would reflect the freshness that the platform had. A track that a person had never listened to before that was published a decade ago is still a new song to them.
 
 ## TODO
-* Play songs by artist/genre.
-* Tag searching
 * Search for music when user clicks song tags in song description
 * Add search params for query
 * Create modal dialog for instructions
