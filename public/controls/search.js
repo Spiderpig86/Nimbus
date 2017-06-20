@@ -17,6 +17,18 @@ class Search {
                 <div class="content">
                     <h6 class="uppercase">Search for songs, playlists, artists, and more</h6>
                     <input type="text" placeholder="search" id="searchField"/>
+                    <space></space>
+                    <div class="row level" id="optionsContainer">
+                        <div class="level-left">
+                            <h6 class="title uppercase">Options:</h6>
+                        </div>
+                        <div class="">
+                            <label class="button-switch">
+                                <input type="checkbox" name="shuffle" value="Shuffle" />
+                                <span class="uppercase">Shuffle</span>
+                            </label>
+                        </div>
+                    </div>
                 </div>
             </div>
             `;
@@ -90,6 +102,9 @@ class Search {
     }
 
     toggleSearchDialog() {
+        // Scroll to top to show the search dialog
+        window.scrollTo(0, 0);
+
         this.isShown = !this.isShown;
         console.log(this.isShown);
         if (this.isShown) {

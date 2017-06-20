@@ -456,6 +456,26 @@ class Player {
     }
 
     /**
+     * Extracts address paramters by name and loads the appropriate content.
+     * 
+     * 
+     * @memberof Player
+     */
+    checkParamsAndFetch() {
+        // Fetch param values if present
+        let id = this.getURLParamsByName('id', window.location.href);
+        let url = this.getURLParamsByName('url', window.location.href);
+
+        // Do not fetch a random song if an id was already provided
+        if (id) // id takes takes precedence
+            this.streamSong(id);
+        else if (url)
+            this.curPlayer.load(url); // Load the song by url (Widget API takes care of the rest)
+        else
+            this.fetchNext();
+    }
+
+    /**
      * Simple function to convert milliseconds to a string with minutes and seconds
      * @param {*int} millis - time in milliseconds
      */
@@ -658,7 +678,7 @@ class Player {
             console.log(err.status);
             if (err.status === 0) { // Invalid API key
                 console.log('0/401 Unauthorized. Possible Invalid SoundCloud key')
-                throw '0/401 Unauthorized. Possible Invalid SoundCloud key'
+                throw '0/401 Unauthorized. Possible Invalid SoundCloud key';
             }
             if (err.status === 403) { // Play the song anyway even if this API requiest returns a forbidden request (Soundcloud problem)
                 this.streamSong(id);
@@ -745,6 +765,13 @@ class Player {
         }
     }
 
+    /**
+     * Searches for a playlist by keyword.
+     * 
+     * @param {String} query - name of the playlist
+     * 
+     * @memberof Player
+     */
     getSetByKeyWord(query) {
         try {
             SC.get('/playlists', {q: query}).then((sets) => {
@@ -759,6 +786,13 @@ class Player {
         }
     }
 
+    /**
+     * Searches for the first 120 songs by a user.
+     * 
+     * @param {String} user - username of the user
+     * 
+     * @memberof Player
+     */
     getSongsByUser(user) {
         try {
             SC.resolve(`https://soundcloud.com/${user}`).then((response) => {
@@ -795,6 +829,13 @@ class Player {
         }
     }
 
+    /**
+     * Searches for songs by genres (string of genres separated by commas)
+     * 
+     * @param {String} genreList - comma separated list of genres
+     * 
+     * @memberof Player
+     */
     getSongsByGenres(genreList) {
         try {
             // Create options object to hold what we want to search for
@@ -823,6 +864,14 @@ class Player {
         }
     }
 
+    /**
+     * Checks if song history contains a song by id.
+     * 
+     * @param {Number} id - id of the song we are looking for.
+     * @returns {Boolean}
+     * 
+     * @memberof Player
+     */
     historyContainsId(id) {
         let found = false;
         for (let i = 0; i < this.history.length; i++) {
@@ -833,6 +882,15 @@ class Player {
         return found;
     }
 
+    /**
+     * Extracts the url params to play specific tracks on load.
+     * 
+     * @param {String} name - name of the param
+     * @param {String} url - current address loaded by the user
+     * @returns 
+     * 
+     * @memberof Player
+     */
     getURLParamsByName(name, url) {
         if (!url) url = window.location.href;
         name = name.replace(/[\[\]]/g, "\\$&");
@@ -842,24 +900,6 @@ class Player {
         if (!results[2]) return '';
         return decodeURIComponent(results[2].replace(/\+/g, " "));
     }
-
-    checkParamsAndFetch() {
-        // Fetch param values if present
-        let id = this.getURLParamsByName('id', window.location.href);
-        let url = this.getURLParamsByName('url', window.location.href);
-
-        // Do not fetch a random song if an id was already provided
-        if (id) // id takes takes precedence
-            this.streamSong(id);
-        else if (url)
-            this.curPlayer.load(url); // Load the song by url (Widget API takes care of the rest)
-        else
-            this.fetchNext();
-            
-    }
-
-
-
 }
 
 export default Player;

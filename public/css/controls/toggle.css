@@ -1,0 +1,50 @@
+.button-switch {
+  display: block;
+}
+.button-switch input[type="checkbox"] {
+  display: none;
+}
+.button-switch input[type="checkbox"] + span {
+    text-transform: uppercase;
+    background: #27ae60;
+    color: #fff;
+    font-size: .8rem;
+    text-align: center;
+    cursor: pointer;
+    margin: 0 auto;
+    position: relative;
+    padding: .5rem 1.5rem;
+    border-radius: 3rem;
+    -moz-transition: background 0.1s ease-in;
+    -o-transition: background 0.1s ease-in;
+    -webkit-transition: background 0.1s ease-in;
+    transition: background 0.1s ease-in;
+    user-select: none;
+    font-weight: bolder;
+}
+.button-switch input[type="checkbox"] + span:hover {
+  background: #1e8449;
+}
+/*.button-switch input[type="checkbox"] + span:before {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  margin-left: -12px;
+  font-size: 55px;
+  display: block;
+  content: ":)";
+  -moz-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  -webkit-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
+.button-switch input[type="checkbox"] + span.sad:before {
+  content: ":(";
+}*/
+.button-switch input[type="checkbox"]:checked + span {
+  background: #145b32;
+}
+
+#optionsContainer {
+  justify-content: flex-start;
+}
