@@ -4,6 +4,7 @@ import SongInfo from '../controls/songinfo';
 import WaveForm from '../controls/waveform';
 import Request from './request';
 import SearchDialog from '../controls/search';
+import Toast from '../controls/toast';
 
 let SC = require('soundcloud'); // Import node module
 
@@ -90,7 +91,7 @@ class Player {
         this.btnBk = document.getElementById('seek-bk-btn');
         this.btnSearch = document.getElementById('custom-btn');
         this.btnRepeat = document.getElementById('repeat-btn');
-        
+        this.toastContainer = document.getElementById('toastContainer');
     }
 
     /**
@@ -763,7 +764,10 @@ class Player {
                     // Load the song
                     this.curPlayer.load(trackCollection[0].permalink_url);
                 
-                    // Display toast message when done?
+                    // Display toast message when done
+                    this.showToast(`${tracks.length} tracks added to the queue.`);
+                } else {
+                    this.showToast('Search returned no results. Please try again.');
                 }
             });
         } catch (e) {
@@ -782,9 +786,16 @@ class Player {
         try {
             SC.get('/playlists', {q: query}).then((sets) => {
                 if (sets.length > 0) {
-                    // Load the set
-                    this.curPlayer.load(sets[0].permalink_url); // The "I'm feeling lucky part of the search"
-                    this.setTrackCount = sets[0].track_count;
+                    if (this.shuffleQueue) { // If we want to shuffle the results
+                        // Load the set
+                        let resIndex = Math.floor(Math.random() * (sets.length + 1));
+                        this.curPlayer.load(sets[resIndex].permalink_url); // The "I'm feeling lucky part of the search"
+                        this.setTrackCount = sets[resIndex].track_count;
+                    } else {
+                        // Load the set
+                        this.curPlayer.load(sets[0].permalink_url); // The "I'm feeling lucky part of the search"
+                        this.setTrackCount = sets[0].track_count;
+                    }
                 }
             });
         } catch (e) {
@@ -828,7 +839,10 @@ class Player {
                             // Load the song
                             this.curPlayer.load(trackCollection[0].permalink_url);
                         
-                            // Display toast message when done?
+                            // Display toast message when done
+                            this.showToast(`${tracks.length} tracks added to the queue.`);
+                        } else {
+                            this.showToast('Search returned no results. Please try again.');
                         }
                     });
                 } catch (e) {
@@ -872,7 +886,10 @@ class Player {
                     // Load the song
                     this.curPlayer.load(trackCollection[0].permalink_url);
                 
-                    // Display toast message when done?
+                    // Display toast message when done
+                    this.showToast(`${tracks.length} tracks added to the queue.`);
+                } else {
+                    this.showToast('Search returned no results. Please try again.');
                 }
             });
         } catch (e) {
@@ -919,6 +936,7 @@ class Player {
 
     shuffleTracks(tracks) {
         let temp = null;
+        console.log('shuffling tracks');
         // Using in place Durstenfeld shuffle
         for (let i = tracks.length - 1; i > 0; i --) {
             let j = Math.floor(Math.random() * (i+1)); // Generate a random index [0...i]
@@ -928,6 +946,19 @@ class Player {
         }
 
         return tracks;
+    }
+
+    showToast(message) {
+        this.toastContainer.innerHTML = Toast(message, '');
+        console.log('showing toast');
+        setTimeout(function() { 
+            $('#toast').addClass('shown');
+            //this.toastContainer.innerHTML = ''; // Clear the toast container
+        }, 500);
+        setTimeout(function() { 
+            $('#toast').removeClass('shown');
+            //this.toastContainer.innerHTML = ''; // Clear the toast container
+        }, 3000);
     }
 }
 
