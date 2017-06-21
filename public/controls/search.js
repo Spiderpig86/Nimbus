@@ -15,19 +15,17 @@ class Search {
                     </span>
                 </div>
                 <div class="content">
-                    <h6 class="uppercase">Search for songs, playlists, artists, and more</h6>
+                    <h6 class="uppercase">Search for songs, <span class="search-item" id="searchSets">sets</span>, <span class="search-item" id="searchUser">users</span>, <span class="search-item" id="searchTags">tags</span>, and more</h6>
                     <input type="text" placeholder="search" id="searchField"/>
                     <space></space>
                     <div class="row level" id="optionsContainer">
                         <div class="level-left">
                             <h6 class="title uppercase">Options:</h6>
                         </div>
-                        <div class="">
-                            <label class="button-switch">
-                                <input type="checkbox" name="shuffle" value="Shuffle" />
-                                <span class="uppercase">Shuffle</span>
-                            </label>
-                        </div>
+                        <label class="button-switch">
+                            <input type="checkbox" name="shuffle" value="Shuffle" id="chkShuffle"/>
+                            <span class="uppercase">Shuffle</span>
+                        </label>
                     </div>
                 </div>
             </div>
@@ -38,6 +36,11 @@ class Search {
     bindSearchBoxEvents() {
         this.searchField = document.getElementById('searchField');
         this.searchCloseBtn = document.getElementById('searchCloseBtn');
+        this.chkShuffle = document.getElementById('chkShuffle');
+
+        this.searchSets = document.getElementById('searchSets');
+        this.searchUser = document.getElementById('searchUser');
+        this.searchTags = document.getElementById('searchTags');
 
         // Bind search field key combination
         this.searchField.onkeydown = (e) => {
@@ -46,14 +49,38 @@ class Search {
 
                 // Hide the search dialog
                 this.hideSearchDialog();
-
                 this.processSearchField();
+            }
+        }
+
+        document.onkeyup = (e) => {
+            if (e.keyCode === 27) { // esc
+                this.toggleSearchDialog();
             }
         }
 
         // Event handler for close button for search dialog
         this.searchCloseBtn.onclick = (e) => {
             this.hideSearchDialog();
+        }
+
+        this.chkShuffle.onclick = (e) => {
+            this._player.shuffleQueue = this.chkShuffle.checked;
+        }
+
+        this.searchSets.onclick = (e) => {
+            this.searchItemClick(this.searchSets);
+            this.searchField.focus();
+        }  
+
+        this.searchUser.onclick = (e) => {
+            this.searchItemClick(this.searchUser);
+            this.searchField.focus();
+        }
+
+        this.searchTags.onclick = (e) => {
+            this.searchItemClick(this.searchTags);
+            this.searchField.focus();
         }
     }
 
@@ -84,10 +111,10 @@ class Search {
                 this._player.getTracksByTags(searchQuery.split(':')[1].trim());
                 this._player.isPlaylist = false;
             } else if (searchQuery.startsWith('user:')){
-                this._player.getSongsByUser(searchQuery.split(':')[1].trim());
+                this._player.getTracksByUser(searchQuery.split(':')[1].trim());
                 this._player.isPlaylist = false;
             } else if (searchQuery.startsWith('genre:') || searchQuery.startsWith('genres:')) {
-                this._player.getSongsByGenres(searchQuery.split(':')[1].trim());
+                this._player.getTracksByGenres(searchQuery.split(':')[1].trim());
                 this._player.isPlaylist = false;
             } else {
                 this._player.getTrackByKeyWord(searchQuery);
@@ -106,15 +133,17 @@ class Search {
         window.scrollTo(0, 0);
 
         this.isShown = !this.isShown;
-        console.log(this.isShown);
         if (this.isShown) {
             this.searchField.value = "";
+            this.searchField.focus();
             $('#searchModalContainer').addClass('shown');
-            $('body').css({'overflow-y': 'hidden'});
+            if ($(window).width() <= 768)
+                $('body').css({'overflow-y': 'hidden'});
         } else {
             // Reset dialog (must place up here to account for invalid input)
             $('#searchModalContainer').removeClass('shown'); // Hide the search modal
-            $('body').css({'overflow-y': 'scroll'});
+            if ($(window).width() <= 768) // For mobile UI
+                $('body').css({'overflow-y': 'scroll'});
         }
     }
 
@@ -122,8 +151,23 @@ class Search {
     hideSearchDialog() {
         // Reset dialog (must place up here to account for invalid input)
         $('#searchModalContainer').removeClass('shown'); // Hide the search modal
-        $('body').css({'overflow-y': 'scroll'});
+        if ($(window).width() <= 768) // For mobile UI
+            $('body').css({'overflow-y': 'scroll'});
         this.isShown = false;
+    }
+
+    // Search tag buttons
+    searchItemClick(element) {
+        switch (element.id) {
+            case 'searchSets':
+                this.searchField.value = 'set: ';
+                break;
+            case 'searchUser':
+                this.searchField.value = 'user: ';
+                break;
+            case 'searchTags':
+                this.searchField.value = 'tags: ';
+        }
     }
 
 }

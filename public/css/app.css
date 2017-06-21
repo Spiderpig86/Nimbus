@@ -46,8 +46,6 @@ pre {
 /* HEADER MENU */
 .header {
     background-color: rgb(105, 105, 105);
-    -moz-box-shadow: rgba(29,29,31,0.3) 0 10px 60px;
-    -webkit-box-shadow: rgba(29,29,31,0.3) 0 10px 60px;
     box-shadow: rgba(0, 0, 0, 0.3) 0 10px 60px;
     opacity: .6;
     transition: all .3s;
@@ -76,14 +74,17 @@ pre {
     position: absolute;
     z-index: 999;
     background: rgba(238, 238, 238, 0.95);
+    -webkit-transition: all .2s;
     transition: all .2s;
     opacity: 0;
-    transform: translateY(-100%);
+    -webkit-transform: translateY(-100%);
+            transform: translateY(-100%);
 }
 
 #searchModalContainer.shown {
     opacity: 1;
-    transform: none;
+    -webkit-transform: none;
+            transform: none;
 }
 
 #searchModalContainer .content {
@@ -152,7 +153,8 @@ pre {
 #background {
     position: fixed;
     opacity: .5;
-    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
 }
 
 #mainPlayer {
@@ -197,12 +199,10 @@ pre {
 .flipContainer {
     position: relative;
     -webkit-transition: -webkit-transform 1s;
-    -moz-transition: -moz-transform 1s;
-    -o-transition: -o-transform 1s;
+    transition: -webkit-transform 1s;
     transition: transform 1s;
+    transition: transform 1s, -webkit-transform 1s;
     -webkit-transform-style: preserve-3d;
-    -moz-transform-style: preserve-3d;
-    -o-transform-style: preserve-3d;
     transform-style: preserve-3d;
     -webkit-transform-origin: 50% 50%;
     max-width: 450px;
@@ -211,16 +211,12 @@ pre {
 
 .flipContainer div, .flipContainer img {
     -webkit-backface-visibility: hidden;
-    -moz-backface-visibility: hidden;
-    -o-backface-visibility: hidden;
     backface-visibility: hidden;
 }
 
 /* Flipped state of container */
 .flipContainer.flipped {
     -webkit-transform: rotateY( 180deg );
-    -moz-transform: rotateY( 180deg );
-    -o-transform: rotateY( 180deg );
     transform: rotateY( 180deg );
 }
 
@@ -234,8 +230,6 @@ pre {
     max-width: 450px;
     width: 100%;
     -webkit-transform-style: preserve-3d;
-    -moz-transform-style: preserve-3d;
-    -o-transform-style: preserve-3d;
     transform-style: preserve-3d;
 }
 
@@ -266,7 +260,8 @@ pre {
 .card {
     background-color: rgba(140, 140, 140, 0.05);
     box-shadow: none;
-    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
     -webkit-transition: all 1.0s cubic-bezier(0,0,0.3,1);
     transition: all 1.0s cubic-bezier(0,0,0.3,1);
 }
@@ -289,7 +284,9 @@ pre {
 }
 
 .card .desc {
-    flex-grow: 1;
+    -webkit-box-flex: 1;
+        -ms-flex-positive: 1;
+            flex-grow: 1;
 }
 
 .card p {
@@ -327,7 +324,8 @@ pre {
     overflow-y: auto;
     height: 100%;
     background-color: rgba(148, 148, 148, .1);
-    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
 }
 
 #histContainer:hover .card {
@@ -336,7 +334,8 @@ pre {
 
 #histContainer .card {
     border-radius: 0;
-    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
 }
 
 #histContainer .card:hover {
@@ -351,8 +350,6 @@ pre {
     top: 0;
     max-width: 450px;
     -webkit-transform: rotateY( 180deg );
-    -moz-transform: rotateY( 180deg );
-    -o-transform: rotateY( 180deg );
     transform: rotateY( 180deg );
     width: 100%;
     text-align: center;
@@ -403,6 +400,7 @@ pre {
     margin: 0 10px;
     width: 100%;
     opacity: .8;
+    -webkit-transition: all .3s;
     transition: all .3s;
     bottom: 50px;
 }
@@ -458,10 +456,38 @@ pre {
     overflow-x: auto;
 }
 
+.search-item {
+    cursor: hand;
+    -webkit-transition: all .3s;
+    transition: all .3s;
+}
+
+.search-item:hover {
+    background: #fff;
+    margin: 0 .5rem;
+    padding: 0.2rem 1rem;
+    box-shadow: 0 0 10px 0px rgba(51, 59, 82, 0.25);
+    -webkit-transition: all .3s;
+    transition: all .3s;
+}
+
+.row .level {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+}
+
 /* Mobile / Tablets */
+@media screen and (max-width: 992px) {
+    #searchField {
+        font-size: 2rem;
+    }
+}
+
 @media screen and (max-width: 768px) {
     #background::before {
         content: ' ';
+        background: -webkit-linear-gradient(rgba(0, 0, 0, 0), rgba(21, 19, 30, 0.85));
         background: linear-gradient(rgba(0, 0, 0, 0), rgba(21, 19, 30, 0.85));
         position: absolute;
         top: 0;
@@ -505,7 +531,9 @@ pre {
     }
 
     .header-right {
-        flex-grow: 0.5; /* Allow more space for media controls */
+        -webkit-box-flex: 0.5;
+            -ms-flex-positive: 0.5;
+                flex-grow: 0.5; /* Allow more space for media controls */
     }
 
     /* Shrink font awesome */
@@ -524,6 +552,8 @@ pre {
     }
 
     #songContainer .card {
+        display: -webkit-box;
+        display: -ms-flexbox;
         display: flex;
         margin-top: -2rem;
     }
@@ -571,11 +601,15 @@ pre {
 /* Wide Desktops */
 @media screen and (min-width: 1600px) {
     #playerInfoContainer {
+        display: -webkit-box;
+        display: -ms-flexbox;
         display: flex;
     }
 
     #mainPlayer {
-        flex-grow: 1;
+        -webkit-box-flex: 1;
+            -ms-flex-positive: 1;
+                flex-grow: 1;
     }
 
     #histContainer {

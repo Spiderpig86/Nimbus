@@ -44,6 +44,7 @@ class Player {
         this.isPlaylist = false; // Check if we are playing a playlist.
         this.setCurIndex = 0; // The current index of the song in the playlist
         this.setTrackCount = 0; // This holds the number of tracks in the playlist so we can tell when we have reached the end.
+        this.shuffleQueue = false; // Should the queue be shuffled when we get a list of tracks;
 
         // Widget Props
         this.widgetTrack = {
@@ -746,16 +747,21 @@ class Player {
 
             SC.get('/tracks', options).then((tracks) => {
                 if (tracks.length > 0) {
-                    // Load the song
-                    this.curPlayer.load(tracks[0].permalink_url);
 
-                    let trackCollection = tracks.reverse();
+                    let trackCollection = null;
+                    if (this.shuffleQueue)
+                        trackCollection = this.shuffleTracks(tracks);
+                    else
+                        trackCollection = tracks.reverse();
 
                     // Queue all tracks to the queue of the user's playlist. Note that queue is actually acting like a stack since we use push() and pop()
                     for (let i = 0; i < trackCollection.length - 1; i++) { // Skip the first one since we are already playing it at this point (need to subtract upper bound by 1 since we want to exclude the first track from the reversed array)
                         this.queue.push(trackCollection[i]);
                         console.log(tracks[i].title);
                     }
+
+                    // Load the song
+                    this.curPlayer.load(trackCollection[0].permalink_url);
                 
                     // Display toast message when done?
                 }
@@ -793,7 +799,7 @@ class Player {
      * 
      * @memberof Player
      */
-    getSongsByUser(user) {
+    getTracksByUser(user) {
         try {
             SC.resolve(`https://soundcloud.com/${user}`).then((response) => {
                 console.log(response.id);
@@ -806,16 +812,21 @@ class Player {
                     SC.get(`/users/${response.id}/tracks`, options).then((tracks) => {
                         console.log(tracks);
                         if (tracks.length > 0) {
-                            // Load the song
-                            this.curPlayer.load(tracks[0].permalink_url);
 
-                            let trackCollection = tracks.reverse();
+                            let trackCollection = null;
+                            if (this.shuffleQueue)
+                                trackCollection = this.shuffleTracks(tracks);
+                            else
+                                trackCollection = tracks.reverse();
 
                             // Queue all tracks to the queue of the user's playlist. Note that queue is actually acting like a stack since we use push() and pop()
                             for (let i = 0; i < trackCollection.length - 1; i++) { // Skip the first one since we are already playing it at this point (need to subtract upper bound by 1 since we want to exclude the first track from the reversed array)
                                 this.queue.push(trackCollection[i]);
                                 console.log(tracks[i].title);
                             }
+                            
+                            // Load the song
+                            this.curPlayer.load(trackCollection[0].permalink_url);
                         
                             // Display toast message when done?
                         }
@@ -836,7 +847,7 @@ class Player {
      * 
      * @memberof Player
      */
-    getSongsByGenres(genreList) {
+    getTracksByGenres(genreList) {
         try {
             // Create options object to hold what we want to search for
             let options = {
@@ -846,15 +857,20 @@ class Player {
 
             SC.get('/tracks', options).then((tracks) => {
                 if (tracks.length > 0) {
-                    // Load the song
-                    this.curPlayer.load(tracks[0].permalink_url);
 
-                    let trackCollection = tracks.reverse();
+                    let trackCollection = null;
+                    if (this.shuffleQueue)
+                        trackCollection = this.shuffleTracks(tracks);
+                    else
+                        trackCollection = tracks.reverse();
 
                     // Queue all tracks to the queue of the user's playlist. Note that queue is actually acting like a stack since we use push() and pop()
                     for (let i = 0; i < trackCollection.length - 1; i++) { // Skip the first one since we are already playing it at this point (need to subtract upper bound by 1 since we want to exclude the first track from the reversed array)
                         this.queue.push(trackCollection[i]);
                     }
+
+                    // Load the song
+                    this.curPlayer.load(trackCollection[0].permalink_url);
                 
                     // Display toast message when done?
                 }
@@ -899,6 +915,19 @@ class Player {
         if (!results) return null;
         if (!results[2]) return '';
         return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
+
+    shuffleTracks(tracks) {
+        let temp = null;
+        // Using in place Durstenfeld shuffle
+        for (let i = tracks.length - 1; i > 0; i --) {
+            let j = Math.floor(Math.random() * (i+1)); // Generate a random index [0...i]
+            temp = tracks[i]; // Start swapping
+            tracks[i] = tracks[j];
+            tracks[j] = temp;
+        }
+
+        return tracks;
     }
 }
 
