@@ -5,8 +5,11 @@ const HistItem = (imgurl, bg, title, artist, track, download_url, errorDownloadC
             <div id="histItemBg" class="bg-image" style="background-image: url('${bg}')"></div>
             <div class="player-content overlay">
                 <div class="row level">
-                    <div class="level-left">
+                    <div class="level-left" style="position:relative;">
                         <img src="${imgurl}">
+                        <span class="center-alt hist-play" data-id="${track.id}">
+                            <i class="fa fa-play center-alt" aria-hidden="true"></i>
+                        </span>
                     </div>
                     <div class="desc">
                         <p class="title">${title}</p>

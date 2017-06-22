@@ -138,7 +138,7 @@ class Player {
         }
 
         // Bind keyboard shortcuts
-        document.onkeyup = (e) => {
+        document.onkeydown = (e) => {
             if (e.keyCode == 32) {
                 // space key to toggle playback
                 var tag = e.target.tagName.toLowerCase();
@@ -182,20 +182,21 @@ class Player {
             widget.getCurrentSound((song) => {
                 //console.log(song);
                 console.log('getcurrentsound start');
-                if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) { // Attempt to fix on mobile devices
+                // if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) { // Attempt to fix on mobile devices
                     
-                    // Sorry can not auto play on mobile =_(
-                    // https://stackoverflow.com/questions/26066062/autoplay-html5-audio-player-on-mobile-browsers
-                    // Need to use trick.
-                    widget.play();
-                    setTimeout(() => {
-                            $('#play-btn').trigger('click'); // Cannot fix autoplay issue, but now users can play the track with 1 tap of the play button instead o several (bug fix)
-                            console.log('test play')
-                        }, 2000);
-                    this.togglePlayState(true);
-                } else {
+                //     // Sorry can not auto play on mobile =_(
+                //     // https://stackoverflow.com/questions/26066062/autoplay-html5-audio-player-on-mobile-browsers
+                //     // Need to use trick.
+                //     // widget.play();
+                //     // setTimeout(() => {
+                //     //         $('#play-btn').trigger('click'); // Cannot fix autoplay issue, but now users can play the track with 1 tap of the play button instead o several (bug fix)
+                //     //         console.log('test play')
+                //     //     }, 2000);
+                //     // this.togglePlayState(true);
+                // } else {
                     widget.play(); // Play normally on non mobile
-                }
+                    this.togglePlayState(true);
+                //}
                 this.isPlaying = true;
                 let rndImg = this.fetchRandomImage();
                 this.widgetTrack.cover = song.artwork_url;
@@ -257,10 +258,24 @@ class Player {
                     if (!found) { // Append the song if not found
                         this.history.push(song); // Push the track so it can be replayed from history. 
                         this.histContainer.innerHTML += HistItem((song.artwork_url === null ? song.user.avatar_url : song.artwork_url), (song.artwork_url === null ? rndImg : song.artwork_url), song.title, this.widgetTrack.artist, song, `https://api.soundcloud.com/tracks/${song.id}/download?client_id=${consts.client_id}`,  "javascript:alert('Download link unavailable');"); // Append to history
+
+                        // Add event handler to avatar play button
+                        $( ".hist-play" ).each(function(index) {
+                            $(this).click(() => {
+                                console.log($(this).attr('data-id')); // Stream song associated to id
+                            });
+                        });
                     }
                 } else {
                     this.history.push(song); // Push the track so it can be replayed from history. 
                     this.histContainer.innerHTML += HistItem((song.artwork_url === null ? song.user.avatar_url : song.artwork_url), (song.artwork_url === null ? rndImg : song.artwork_url), song.title, this.widgetTrack.artist, song, `https://api.soundcloud.com/tracks/${song.id}/download?client_id=${consts.client_id}`, "javascript:alert('Download link unavailable');"); // Append to history
+
+                    // Add event handler to avatar play button
+                    $( ".hist-play" ).each(function(index) {
+                        $(this).click(() => {
+                            console.log($(this).attr('data-id')); // Stream song associated to id
+                        });
+                    });
                 }
 
                 // Async method to build waveform
@@ -791,10 +806,12 @@ class Player {
                         let resIndex = Math.floor(Math.random() * (sets.length + 1));
                         this.curPlayer.load(sets[resIndex].permalink_url); // The "I'm feeling lucky part of the search"
                         this.setTrackCount = sets[resIndex].track_count;
+                        this.showToast(`Now playing ${sets[resIndex].title} (${this.setTrackCount} songs)`)
                     } else {
                         // Load the set
                         this.curPlayer.load(sets[0].permalink_url); // The "I'm feeling lucky part of the search"
                         this.setTrackCount = sets[0].track_count;
+                        this.showToast(`Now playing ${sets[0].title} (${this.setTrackCount} songs)`)
                     }
                 }
             });
@@ -950,14 +967,11 @@ class Player {
 
     showToast(message) {
         this.toastContainer.innerHTML = Toast(message, '');
-        console.log('showing toast');
         setTimeout(function() { 
             $('#toast').addClass('shown');
-            //this.toastContainer.innerHTML = ''; // Clear the toast container
         }, 500);
-        setTimeout(function() { 
+        setTimeout(function() { // Hide toast
             $('#toast').removeClass('shown');
-            //this.toastContainer.innerHTML = ''; // Clear the toast container
         }, 3000);
     }
 }

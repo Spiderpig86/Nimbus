@@ -1,7 +1,7 @@
 const Toast = (text, shown) => (
     `
         <div class="toast ${shown}" id="toast">
-            <p>${text}</p>
+            <p class="text-center">${text}</p>
         </div>
     `
 );

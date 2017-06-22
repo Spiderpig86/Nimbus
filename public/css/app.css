@@ -170,6 +170,30 @@ pre {
     z-index: 0;
 }
 
+.hist-play {
+    position: absolute;
+    background: rgba(0, 0, 0, 0.5);
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 100%;
+    width: 100%;
+    border-radius: 50%;
+    -webkit-transform: scale(1.5);
+    transform: scale(1.5);
+    -webkit-transition: all .3s;
+    transition: all .3s;
+    opacity: 0;
+    cursor: hand;
+}
+
+.hist-play:hover {
+    opacity: 1;
+    -webkit-transition: all .3s;
+    transition: all .3s;
+}
+
 .overlay {
     position: relative; /* Keeps the content above the background */
 }
