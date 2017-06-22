@@ -257,25 +257,20 @@ class Player {
 
                     if (!found) { // Append the song if not found
                         this.history.push(song); // Push the track so it can be replayed from history. 
-                        this.histContainer.innerHTML += HistItem((song.artwork_url === null ? song.user.avatar_url : song.artwork_url), (song.artwork_url === null ? rndImg : song.artwork_url), song.title, this.widgetTrack.artist, song, `https://api.soundcloud.com/tracks/${song.id}/download?client_id=${consts.client_id}`,  "javascript:alert('Download link unavailable');"); // Append to history
+                        let h = new HistItem((song.artwork_url === null ? rndImg : song.artwork_url), song, this, "javascript:alert('Download link unavailable');");
+                        this.histContainer.appendChild(h.render()); // Append to history
 
                         // Add event handler to avatar play button
-                        $( ".hist-play" ).each(function(index) {
-                            $(this).click(() => {
-                                console.log($(this).attr('data-id')); // Stream song associated to id
-                            });
-                        });
+                        // $( ".hist-play" ).each(function(index) {
+                        //     $(this).click(() => {
+                        //         this.streamSong($(this).attr('data-id')); // Stream song associated to id
+                        //     });
+                        // });
                     }
                 } else {
                     this.history.push(song); // Push the track so it can be replayed from history. 
-                    this.histContainer.innerHTML += HistItem((song.artwork_url === null ? song.user.avatar_url : song.artwork_url), (song.artwork_url === null ? rndImg : song.artwork_url), song.title, this.widgetTrack.artist, song, `https://api.soundcloud.com/tracks/${song.id}/download?client_id=${consts.client_id}`, "javascript:alert('Download link unavailable');"); // Append to history
-
-                    // Add event handler to avatar play button
-                    $( ".hist-play" ).each(function(index) {
-                        $(this).click(() => {
-                            console.log($(this).attr('data-id')); // Stream song associated to id
-                        });
-                    });
+                    let h = new HistItem((song.artwork_url === null ? rndImg : song.artwork_url), song, this, "javascript:alert('Download link unavailable');");
+                    this.histContainer.appendChild(h.render()); // Append to history
                 }
 
                 // Async method to build waveform

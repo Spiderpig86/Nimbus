@@ -37,7 +37,7 @@ pre {
 }
 
 .player-content .row img {
-    max-width: 100%;
+    max-width: 100px;
     min-width: 100px;
     border-radius: 100%;
 }
@@ -188,10 +188,11 @@ pre {
     cursor: hand;
 }
 
-.hist-play:hover {
+#histContainer .card:hover .hist-play {
     opacity: 1;
     -webkit-transition: all .3s;
     transition: all .3s;
+    transform: none;
 }
 
 .overlay {
@@ -360,6 +361,7 @@ pre {
     border-radius: 0;
     -webkit-backface-visibility: hidden;
             backface-visibility: hidden;
+    cursor: hand;
 }
 
 #histContainer .card:hover {
