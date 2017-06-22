@@ -25,7 +25,7 @@ class HistItem {
                     <div class="row level">
                         <div class="level-left" style="position:relative;">
                             <img src="${this._track.artwork_url === null ? this._track.user.avatar_url : this._track.artwork_url.replace('large', 't500x500')}">
-                            <span class="hist-play">
+                            <span class="hist-play center">
                                 <i class="fa fa-play center-alt" aria-hidden="true"></i>
                             </span>
                         </div>

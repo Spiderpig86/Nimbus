@@ -18,14 +18,16 @@ class Search {
                     <h6 class="uppercase">Search for songs, <span class="search-item" id="searchSets">sets</span>, <span class="search-item" id="searchUser">users</span>, <span class="search-item" id="searchTags">tags</span>, and more</h6>
                     <input type="text" placeholder="search" id="searchField"/>
                     <space></space>
-                    <div class="row level" id="optionsContainer">
-                        <div class="level-left">
-                            <h6 class="title uppercase">Options:</h6>
+                    <div class="overflow-container">
+                        <div class="row level" id="optionsContainer">
+                            <div class="level-left">
+                                <h6 class="title uppercase">Options:</h6>
+                            </div>
+                            <label class="button-switch btn-tooltip" data-tooltip="Shuffle tracks before adding to queue.">
+                                <input type="checkbox" name="shuffle" value="Shuffle" id="chkShuffle"/>
+                                <span class="uppercase">Shuffle</span>
+                            </label>
                         </div>
-                        <label class="button-switch btn-tooltip" data-tooltip="Shuffle tracks before adding to queue.">
-                            <input type="checkbox" name="shuffle" value="Shuffle" id="chkShuffle"/>
-                            <span class="uppercase">Shuffle</span>
-                        </label>
                     </div>
                 </div>
             </div>
