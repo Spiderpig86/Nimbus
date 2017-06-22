@@ -186,6 +186,7 @@ pre {
     transition: all .3s;
     opacity: 0;
     cursor: hand;
+    border: 2px solid #fff;
 }
 
 #histContainer .card:hover .hist-play {

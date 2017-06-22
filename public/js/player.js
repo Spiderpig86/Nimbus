@@ -260,17 +260,17 @@ class Player {
                         let h = new HistItem((song.artwork_url === null ? rndImg : song.artwork_url), song, this, "javascript:alert('Download link unavailable');");
                         this.histContainer.appendChild(h.render()); // Append to history
 
-                        // Add event handler to avatar play button
-                        // $( ".hist-play" ).each(function(index) {
-                        //     $(this).click(() => {
-                        //         this.streamSong($(this).attr('data-id')); // Stream song associated to id
-                        //     });
-                        // });
+                        $('.action-bar-item').click((e) => { // Stop button clicks from triggering playing the song
+                            e.stopPropagation();
+                        });
                     }
                 } else {
                     this.history.push(song); // Push the track so it can be replayed from history. 
                     let h = new HistItem((song.artwork_url === null ? rndImg : song.artwork_url), song, this, "javascript:alert('Download link unavailable');");
                     this.histContainer.appendChild(h.render()); // Append to history
+                    $('.action-bar-item').click((e) => { // Stop button clicks from triggering playing the song
+                        e.stopPropagation();
+                    });
                 }
 
                 // Async method to build waveform
