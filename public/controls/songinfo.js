@@ -2,8 +2,8 @@ const SongInfo = (largeArt, track, tags, errorPurchase) => (
     `
         <div class="card level">
             <div class="content-no-padding text-center">
-                    <div class="row center" id="songArt">
-                        <div class="col-12">
+                    <div class="row center" id="artContainer">
+                        <div class="col-12 no-margin no-padding">
                             <div class="flipContainer" id="flipContainer">
                                 <img id="songArt" src="${largeArt}">
                                 <div class="song-desc">

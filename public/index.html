@@ -1,5 +1,5 @@
 <!-- Internship application for SoundCloud. Here goes nothing... -->
-
+<! DOCTYPE html >
 <html>
     <head>
         <title>Nimbus</title>
@@ -32,12 +32,12 @@
             <div id="background" class="bg-image"></div>
 
             <!-- Search Modal -->
-            <div class="hero fullscreen" id="searchModalContainer">
+            <div class="hero fullscreen overlay-dialog" id="searchModalContainer">
 
             </div>
 
             <!-- Actions/Settings -->
-            <div class="hero fullscreen" id="actionsModalContainer">
+            <div class="hero fullscreen overlay-dialog" id="dashboardModalContainer">
 
             </div>
 
@@ -56,7 +56,7 @@
                     </div>
                     <div class="header-right">
                         <div class="header-item">
-                            <a href="https://github.com/Spiderpig86/Nimbus" target="_blank"><i class="fa fa-github" aria-hidden="true"></i></a>
+                            <a class="header-item" id="dashboard-btn"><i class="fa fa-sliders" aria-hidden="true"></i></a>
                         </div>
                         <div class="header-item">
                             <a class="header-item" id="custom-btn"><i class="fa fa-search" aria-hidden="true"></i></a>

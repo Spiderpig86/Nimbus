@@ -70,7 +70,7 @@ pre {
 }
 
 /* SEARCH DIALOG */
-#searchModalContainer {
+.overlay-dialog {
     position: absolute;
     z-index: 999;
     background: rgba(238, 238, 238, 0.95);
@@ -81,13 +81,13 @@ pre {
             transform: translateY(-100%);
 }
 
-#searchModalContainer.shown {
+.overlay-dialog.shown {
     opacity: 1;
     -webkit-transform: none;
             transform: none;
 }
 
-#searchModalContainer .content {
+.overlay-dialog .content {
     max-width: none;
 }
 
@@ -149,17 +149,8 @@ pre {
     -o-transition: all .3s;
 }
 
-/* ACTION DIALOG */
-#actionsModalContainer {
-    position: absolute;
-    z-index: 999;
-    background: rgba(238, 238, 238, 0.95);
-    -webkit-transition: all .2s;
-    transition: all .2s;
-    opacity: 0;
-    -webkit-transform: translateY(-100%);
-            transform: translateY(-100%);
-}
+/* DASHBOARD */
+
 
 /* MAIN PLAYER UI */
 #background {
@@ -167,6 +158,11 @@ pre {
     opacity: .5;
     -webkit-backface-visibility: hidden;
             backface-visibility: hidden;
+}
+
+#artContainer {
+    margin: 1rem 0;
+    padding: 0;
 }
 
 #mainPlayer {
@@ -239,10 +235,6 @@ pre {
     width: 100%;
     /*height: 80%;*/
     padding-right: 0;
-}
-
-#songArt {
-    padding: 1rem 0;
 }
 
 .flipContainer {

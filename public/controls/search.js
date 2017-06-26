@@ -6,6 +6,11 @@ class Search {
         this._player = player;
         this.isShown = false;
         
+        this.render();
+        this.bindEvents();
+    }
+
+    render() {
         // Create the search dialog html
         document.querySelector('#searchModalContainer').innerHTML += `
             <div class="hero-body">
@@ -32,12 +37,11 @@ class Search {
                 </div>
             </div>
             `;
-        this.bindSearchBoxEvents();
     }
 
-    bindSearchBoxEvents() {
-        this.searchField = document.getElementById('searchField');
+    bindEvents() {
         this.searchCloseBtn = document.getElementById('searchCloseBtn');
+        this.searchField = document.getElementById('searchField');
         this.chkShuffle = document.getElementById('chkShuffle');
 
         this.searchSets = document.getElementById('searchSets');

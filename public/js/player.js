@@ -5,6 +5,7 @@ import WaveForm from '../controls/waveform';
 import Request from './request';
 import SearchDialog from '../controls/search';
 import Toast from '../controls/toast';
+import Dashboard from '../controls/dashboard';
 
 let SC = require('soundcloud'); // Import node module
 
@@ -66,6 +67,9 @@ class Player {
 
         // Initialize Search dialog
         this.searchDialog = new SearchDialog(this);
+        
+        // Initialize the dashboard
+        this.dashboard = new Dashboard(this);
 
         // Load a track when the app is loaded (take url param into account).
         document.getElementById('widgettest').setAttribute('src', 'https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/170202151');
@@ -92,6 +96,7 @@ class Player {
         this.btnSearch = document.getElementById('custom-btn');
         this.btnRepeat = document.getElementById('repeat-btn');
         this.toastContainer = document.getElementById('toastContainer');
+        this.btnDashboard = document.getElementById('dashboard-btn');
     }
 
     /**
@@ -135,6 +140,11 @@ class Player {
             } else {
                 this.btnRepeat.style.color = 'inherit';
             }
+        }
+
+        // Event handler to show dashboard
+        this.btnDashboard.onclick = (e) => {
+            this.dashboard.toggleDashboard();
         }
 
         // Bind keyboard shortcuts
