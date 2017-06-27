@@ -1,0 +1,35 @@
+/* The tab pages (not the tabs in the tab strip) */
+.tabpage {
+    display: none;
+    min-height: 50vh;
+    color: rgba(55, 64, 84, 0.8);
+}
+
+.tabpage.shown {
+    display: block;
+}
+
+.tabpage h3 {
+    color: #374054;
+}
+
+.tabpage .divider {
+    background: rgba(55, 64, 84, 0.2);
+}
+
+.tabpage p {
+    color: rgba(55, 64, 84, 0.8);
+}
+
+.toggle-container {
+    display: flex;
+    align-items: center;
+}
+
+
+
+@media screen and (max-width: 768px) {
+    .tabpage p {
+        font-size: 0.85rem;
+    }
+}

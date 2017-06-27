@@ -10,21 +10,41 @@ class Dashboard {
     render() {
         document.querySelector('#dashboardModalContainer').innerHTML += `
             <div class="hero-body">
-                <div id="dashboardCloseBtn" class="link-btn">
+                <div id="dashboardCloseBtn" class="dialog-close-btn link-btn">
                     <span class="icon">
                         <i class="fa fa-times" aria-hidden="true"></i>
                     </span>
                 </div>
-                <div class="content">
-                    <div class="tab-container">
-                        <ul class="tabs-center">
-                            <li class="selected">
+                <div id="tabs" class="content">
+                    <div class="tab-container tabs-center">
+                        <ul>
+                            <li class="tab-item selected">
                                 <a>Settings</a>
                             </li>
-                            <li>
+                            <li class="tab-item">
                                 <a>Queue</a>
                             </li>
                         </ul>
+                    </div>
+                    <div class="tabpage shown">
+                        <div class="content">
+                            <h3>Settings</h3>
+                            <div class="divider"></div>
+                            <space></space>
+                            <div class="row">
+                                <div class="toggle-container">
+                                    <p>Enable battery saver</p>
+                                    <div class="toggle-switch"><input type="checkbox" id="chkBattery"/><label for="chkBattery"></label></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tabpage">
+                        <div class="content">
+                            <h3>Queue</h3>
+                            <div class="divider"></div>
+                            <space></space>
+                        </div>
                     </div>
                 </div>
             </div>

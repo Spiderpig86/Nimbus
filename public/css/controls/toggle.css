@@ -16,11 +16,12 @@
     position: relative;
     padding: .5rem 1.5rem;
     border-radius: 3rem;
-    -moz-transition: all 0.2s ease-in;
-    -o-transition: all 0.2s ease-in;
     -webkit-transition: all 0.2s ease-in;
     transition: all 0.2s ease-in;
-    user-select: none;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
     font-weight: bolder;
     display: -webkit-inline-box;
     display: -ms-inline-flexbox;
@@ -52,5 +53,56 @@
 }
 
 #optionsContainer {
-  justify-content: flex-start;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+}
+
+/* Settings Toggle Switch */
+.toggle-switch input[type=checkbox]{
+	height: 0;
+	width: 0;
+	visibility: hidden;
+}
+
+.toggle-switch label {
+	cursor: pointer;
+	text-indent: -9999px;
+	width: 60px;
+	height: 30px;
+	background: grey;
+	display: block;
+	border-radius: 100px;
+	position: relative;
+  -webkit-transition: all .3s;
+  transition: all .3s;
+}
+
+.toggle-switch label:after {
+	content: '';
+	position: absolute;
+	top: 5px;
+	left: 5px;
+  width: 20px;  
+  height: 20px;
+	background: #fff;
+	border-radius: 90px;
+  -webkit-transition: all .3s;
+  transition: all .3s;
+}
+
+.toggle-switch input:checked + label {
+	background: #ff1b4c;
+  -webkit-transition: all .3s;
+  transition: all .3s;
+}
+
+.toggle-switch input:checked + label:after {
+	left: calc(100% - 5px);
+	-webkit-transform: translateX(-100%);
+	        transform: translateX(-100%);
+}
+
+.toggle-switch label:active:after {
+	width: 30px;
 }

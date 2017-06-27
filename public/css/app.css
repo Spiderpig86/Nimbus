@@ -69,7 +69,7 @@ pre {
     height: 60px;
 }
 
-/* SEARCH DIALOG */
+/* DIALOG */
 .overlay-dialog {
     position: absolute;
     z-index: 999;
@@ -91,39 +91,7 @@ pre {
     max-width: none;
 }
 
-#searchModalContainer h6 {
-    font-family: 'Montserrat';
-    font-weight: 700;
-    color: #888;
-}
-
-#searchField {
-    background: transparent;
-    outline: 0;
-    border: 0;
-    box-shadow: none;
-    border-bottom: 1px solid #aaa;
-    font-family: 'Montserrat';
-    text-transform: uppercase;
-    font-weight: 700;
-    font-size: 9rem;
-    color: #363636;
-    border-radius: 0;
-    transition: transform 600ms, -webkit-transform 600ms;
-    -webkit-transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
-}
-
-#searchField:focus {
-    border-bottom: 1px solid #363636;
-    transition: all .3s;
-    -webkit-transition: all .3s;
-    -moz-transition: all .3s;
-    -ms-transition: all .3s;
-    -o-transition: all .3s;
-}
-
-#searchCloseBtn {
+.dialog-close-btn {
     position: absolute;
     top: 2rem;
     right: 2rem;
@@ -136,7 +104,7 @@ pre {
     -o-transition: all .3s;
 }
 
-#searchCloseBtn:hover {
+.dialog-close-btn:hover {
     position: absolute;
     top: 2rem;
     right: 2rem;
@@ -493,21 +461,6 @@ pre {
 #descTags {
     white-space: nowrap;
     overflow-x: auto;
-}
-
-.search-item {
-    cursor: hand;
-    -webkit-transition: all .3s;
-    transition: all .3s;
-}
-
-.search-item:hover {
-    background: #fff;
-    margin: 0 .5rem;
-    padding: 0.2rem 1rem;
-    box-shadow: 0 0 10px 0px rgba(51, 59, 82, 0.25);
-    -webkit-transition: all .3s;
-    transition: all .3s;
 }
 
 #optionsContainer {

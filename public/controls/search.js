@@ -14,7 +14,7 @@ class Search {
         // Create the search dialog html
         document.querySelector('#searchModalContainer').innerHTML += `
             <div class="hero-body">
-                <div id="searchCloseBtn" class="link-btn">
+                <div id="searchCloseBtn" class="dialog-close-btn link-btn">
                     <span class="icon">
                         <i class="fa fa-times" aria-hidden="true"></i>
                     </span>
