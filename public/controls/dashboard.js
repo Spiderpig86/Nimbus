@@ -70,11 +70,14 @@ class Dashboard {
         this.queueTab.onclick = (e) => {
             // Update queue items
             this.queueItemCount = 0;
-            for (let i = 0; i < this._player.queue.length; i++) {
-                let q = new QueueItem(this._player, this._player.queue[i]);
-                this.queueContainer.innerHTML += q.render();
+            let q = null;
+            let frag = '';
+            for (let i = this._player.queue.length - 1; i >= 0; i--) {
+                q = new QueueItem(this._player, this._player.queue[i]);
+                frag += q.render();
                 this.queueItemCount += 1;
             }
+            this.queueContainer.innerHTML = frag;
         }
     }
 

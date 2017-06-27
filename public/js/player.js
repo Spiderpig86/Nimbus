@@ -6,8 +6,9 @@ import Request from './request';
 import SearchDialog from '../controls/search';
 import Toast from '../controls/toast';
 import Dashboard from '../controls/dashboard';
+import Utils from './utils';
 
-let SC = require('soundcloud'); // Import node module
+const SC = require('soundcloud'); // Import node module
 
 // Soundcloud Properties 
 
@@ -208,7 +209,7 @@ class Player {
                     this.togglePlayState(true);
                 //}
                 this.isPlaying = true;
-                let rndImg = this.fetchRandomImage();
+                let rndImg = Utils.fetchRandomImage();
                 this.widgetTrack.cover = song.artwork_url;
                 this.widgetTrack.title = song.title;
                 this.widgetTrack.id = song.id;
@@ -368,8 +369,8 @@ class Player {
             // Bind when the song is playing
             widget.bind(SC.Widget.Events.PLAY_PROGRESS, (e) => {
                 this.curPosition = e.currentPosition;
-                let curTimeStr = this.millisToMinutesAndSeconds(e.currentPosition);
-                let totalTimeStr = this.millisToMinutesAndSeconds(this.widgetTrack.duration);
+                let curTimeStr = Utils.millisToMinutesAndSeconds(e.currentPosition);
+                let totalTimeStr = Utils.millisToMinutesAndSeconds(this.widgetTrack.duration);
                 document.getElementById('curTime').innerText = `${curTimeStr} / ${totalTimeStr}`;
             });
 
@@ -495,16 +496,6 @@ class Player {
             this.curPlayer.load(url); // Load the song by url (Widget API takes care of the rest)
         else
             this.fetchNext();
-    }
-
-    /**
-     * Simple function to convert milliseconds to a string with minutes and seconds
-     * @param {*int} millis - time in milliseconds
-     */
-    millisToMinutesAndSeconds(millis) {
-        let minutes = Math.floor(millis / 60000);
-        let seconds = ((millis % 60000) / 1000).toFixed(0);
-        return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
     }
 
     /**
@@ -720,14 +711,6 @@ class Player {
         this.curPlayer.load(`https%3A//api.soundcloud.com/tracks/${id}`);
         this.togglePlayState(true);
         setTimeout(() => this.loadWidgetSong(this.curPlayer), 2000);
-    }
-
-    /**
-     * Grab a random image when a song does not have cover art.
-     */
-    fetchRandomImage() {
-        let i = Math.floor(Math.random() * 4050) + 1;
-        return `http://img.infinitynewtab.com/wallpaper/${i}.jpg`;
     }
 
     /**

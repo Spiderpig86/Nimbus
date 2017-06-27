@@ -35,6 +35,12 @@
     flex-shrink: 1;
 }
 
+/*  QUEUE */
+#queueContainer {
+    height: 55vh;
+    overflow: auto;
+}
+
 /* QUEUE ITEM */
 .queue-item {
     padding: 0.5rem 1rem;
@@ -65,8 +71,14 @@
 }
 
 .queue-item .queue-item-actions {
-
+    text-align: right;
 }
+
+/*.btn-tooltip:focus::after, .btn-tooltip:hover::after {
+    -webkit-transform: translate(-50%, 2rem);
+    -ms-transform: translate(-50%, 2rem);
+    transform: translate(-50%, 2rem);
+}*/
 
 @media screen and (max-width: 768px) {
     .tabpage p {
