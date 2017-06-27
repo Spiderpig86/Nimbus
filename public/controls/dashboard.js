@@ -1,14 +1,17 @@
+import QueueItem from '../controls/queueitem';
+
 class Dashboard {
 
     constructor(player) {
         this._player = player;
         this.isShown = false;
-        this.render();
+        this.queueItemCount = 0; // Counts number of songs on queue
+        document.querySelector('#dashboardModalContainer').innerHTML += this.render();
         this.bindEvents();
     }
 
     render() {
-        document.querySelector('#dashboardModalContainer').innerHTML += `
+        return `
             <div class="hero-body">
                 <div id="dashboardCloseBtn" class="dialog-close-btn link-btn">
                     <span class="icon">
@@ -21,7 +24,7 @@ class Dashboard {
                             <li class="tab-item selected">
                                 <a>Settings</a>
                             </li>
-                            <li class="tab-item">
+                            <li id="queueTab" class="tab-item">
                                 <a>Queue</a>
                             </li>
                         </ul>
@@ -44,6 +47,9 @@ class Dashboard {
                             <h3>Queue</h3>
                             <div class="divider"></div>
                             <space></space>
+                            <div id="queueContainer">
+
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -53,10 +59,22 @@ class Dashboard {
 
     bindEvents() {
         this.dashboardCloseBtn = document.getElementById('dashboardCloseBtn');
+        this.queueTab = document.getElementById('queueTab');
+        this.queueContainer = document.getElementById('queueContainer');
 
         // Event handler for close button for search dialog
         this.dashboardCloseBtn.onclick = (e) => {
             this.hideDashboard();
+        }
+
+        this.queueTab.onclick = (e) => {
+            // Update queue items
+            this.queueItemCount = 0;
+            for (let i = 0; i < this._player.queue.length; i++) {
+                let q = new QueueItem(this._player, this._player.queue[i]);
+                this.queueContainer.innerHTML += q.render();
+                this.queueItemCount += 1;
+            }
         }
     }
 
@@ -69,6 +87,7 @@ class Dashboard {
             $('#dashboardModalContainer').addClass('shown');
             if ($(window).width() <= 768)
                 $('body').css({'overflow-y': 'hidden'});
+
         } else {
             // Reset dialog (must place up here to account for invalid input)
             $('#dashboardModalContainer').removeClass('shown'); // Hide the search modal

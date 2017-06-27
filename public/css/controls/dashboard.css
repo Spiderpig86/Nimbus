@@ -26,7 +26,47 @@
     align-items: center;
 }
 
+.toggle-container p {
+    flex-grow: 1;
+    flex-shrink: 0;
+}
 
+.toggle-container .toggle-switch {
+    flex-shrink: 1;
+}
+
+/* QUEUE ITEM */
+.queue-item {
+    padding: 0.5rem 1rem;
+    border-bottom: 1px solid rgba(55, 64, 84, 0.15);
+}
+
+.queue-item h6 {
+    color: #374054;
+    display: flex;
+}
+
+/* Style the song title */
+.queue-item h6 > span, .queue-item p > span {
+    flex-grow: 1;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.queue-item .pull-right {
+    margin-left: 1rem;
+    text-align: right;
+}
+
+.queue-item p {
+    margin-bottom: 0.5rem;
+    display: flex;
+}
+
+.queue-item .queue-item-actions {
+
+}
 
 @media screen and (max-width: 768px) {
     .tabpage p {
