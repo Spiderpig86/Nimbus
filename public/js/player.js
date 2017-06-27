@@ -28,6 +28,9 @@ const OFFSET_2 = 10000000;
 const RAND_COUNT_3 = 300000000;
 const OFFSET_3 = 100000000;
 
+// Widget Parameters
+const WIDGET_PARAMS = '&liking=false&show_artwork=false&show_comments=false&show_playcount=false&visual=false'
+
 class Player {
 
     /**
@@ -73,7 +76,7 @@ class Player {
         this.dashboard = new Dashboard(this);
 
         // Load a track when the app is loaded (take url param into account).
-        document.getElementById('widgettest').setAttribute('src', 'https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/170202151');
+        document.getElementById('widgettest').setAttribute('src', 'https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/170202151' + WIDGET_PARAMS);
         let iframeID = document.getElementById('widgettest');
         this.curPlayer = SC.Widget(iframeID);
         // Update the player
@@ -168,10 +171,10 @@ class Player {
                 if (id == null)
                     return;
 
-                document.getElementById('widgettest').setAttribute('src', `https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/${id}`);
+                document.getElementById('widgettest').setAttribute('src', `https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/${id}` + WIDGET_PARAMS);
                 let iframeID = document.getElementById('widgettest');
                 this.curPlayer = SC.Widget(iframeID);
-                this.curPlayer.load(`https%3A//api.soundcloud.com/tracks/${id}`);
+                this.curPlayer.load(`https%3A//api.soundcloud.com/tracks/${id}` + WIDGET_PARAMS);
                 // Update the player
                 this.bindWidgetEvents(this.curPlayer); // Bind event handlers for widget.
                 this.togglePlay();
@@ -708,7 +711,7 @@ class Player {
      */
     streamSong(id) {
         console.log('track fetch success ' + id);
-        this.curPlayer.load(`https%3A//api.soundcloud.com/tracks/${id}`);
+        this.curPlayer.load(`https%3A//api.soundcloud.com/tracks/${id}` + WIDGET_PARAMS);
         this.togglePlayState(true);
         setTimeout(() => this.loadWidgetSong(this.curPlayer), 2000);
     }

@@ -42,7 +42,7 @@ class WaveForm {
         this.canvas = null;
 
         this.waveFormFrame = 0;
-        this.updateInterval = 10; // Update every whatever metric SC uses
+        this.updateInterval = 100; // Update every whatever metric SC uses
 
         // Create the config file for the waveform settings
         this.config = {
