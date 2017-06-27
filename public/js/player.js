@@ -137,7 +137,7 @@ class Player {
         this.btnRepeat.onclick = (e) => {
             this.isRepeating = !this.isRepeating; // Toggle the value
             if (this.isRepeating) {
-                this.btnRepeat.style.color = '#ff5b02';
+                this.btnRepeat.style.color = '#ff2160';
             } else {
                 this.btnRepeat.style.color = 'inherit';
             }
@@ -303,20 +303,20 @@ class Player {
                         mouseOverEvents: true,
                         mouseClickEvents: true,
                         color: {
-                            background: "#8C8C8C",
-                            footer: "#B2B2B2",
-                            footerPlayback: "#FFAA80",
+                            background: "rgba(140, 140, 140, 0.7)",
+                            footer: "rgba(90, 90, 90, 0.6)",
+                            footerPlayback: "#5d1835",
                             hoverGradient: {
-                                from: "#FF7200",
-                                to: "#DA4218"
+                                from: "#d91e53",
+                                to: "#d91e53"
                             },
                             playbackGradient: {
-                                from: "#FF7200",
-                                to: "#DA4218"
+                                from: "#d91e53",
+                                to: "#d91e53"
                             },
                             hoverPlaybackGradient: {
-                                from: "#AB5D20",
-                                to: "#A84024"
+                                from: "#ff2160",
+                                to: "#ff2160"
                             }
                         }
                     });

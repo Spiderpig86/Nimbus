@@ -484,11 +484,6 @@ pre {
 }
 
 /* Mobile / Tablets */
-@media screen and (max-width: 992px) {
-    #searchField {
-        font-size: 2rem;
-    }
-}
 
 @media screen and (max-width: 768px) {
     #background::before {

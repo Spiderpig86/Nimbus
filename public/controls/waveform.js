@@ -51,7 +51,7 @@ class WaveForm {
             duration: 0,
             data: null,
             peakWidth: 2, // Pixel width of the vertical lines in the waveform
-            peakSpace: 1, // The space between the peaks in pixels
+            peakSpace: 2, // The space between the peaks in pixels
             responsive: true,
             mouseOverEvents: true,
             mouseClickEvents: true,

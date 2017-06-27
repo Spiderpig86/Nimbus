@@ -30,26 +30,22 @@ class Dashboard {
                         </ul>
                     </div>
                     <div class="tabpage shown">
-                        <div class="content">
-                            <h3>Settings</h3>
-                            <div class="divider"></div>
-                            <space></space>
-                            <div class="row">
-                                <div class="toggle-container">
-                                    <p>Enable battery saver</p>
-                                    <div class="toggle-switch"><input type="checkbox" id="chkBattery"/><label for="chkBattery"></label></div>
-                                </div>
+                        <h3>Settings</h3>
+                        <div class="divider"></div>
+                        <space></space>
+                        <div class="row">
+                            <div class="toggle-container">
+                                <p>Enable battery saver</p>
+                                <div class="toggle-switch"><input type="checkbox" id="chkBattery"/><label for="chkBattery"></label></div>
                             </div>
                         </div>
                     </div>
                     <div class="tabpage">
-                        <div class="content">
-                            <h3>Queue</h3>
-                            <div class="divider"></div>
-                            <space></space>
-                            <div id="queueContainer">
+                        <h3>Queue</h3>
+                        <div class="divider"></div>
+                        <space></space>
+                        <div id="queueContainer">
 
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -69,15 +65,7 @@ class Dashboard {
 
         this.queueTab.onclick = (e) => {
             // Update queue items
-            this.queueItemCount = 0;
-            let q = null;
-            let frag = '';
-            for (let i = this._player.queue.length - 1; i >= 0; i--) {
-                q = new QueueItem(this._player, this._player.queue[i]);
-                frag += q.render();
-                this.queueItemCount += 1;
-            }
-            this.queueContainer.innerHTML = frag;
+            this.refreshQueueContainer();
         }
     }
 
@@ -90,7 +78,7 @@ class Dashboard {
             $('#dashboardModalContainer').addClass('shown');
             if ($(window).width() <= 768)
                 $('body').css({'overflow-y': 'hidden'});
-
+            this.refreshQueueContainer();
         } else {
             // Reset dialog (must place up here to account for invalid input)
             $('#dashboardModalContainer').removeClass('shown'); // Hide the search modal
@@ -106,6 +94,27 @@ class Dashboard {
         if ($(window).width() <= 768) // For mobile UI
             $('body').css({'overflow-y': 'scroll'});
         this.isShown = false;
+    }
+    
+    refreshQueueContainer() {
+        if (this._player.queue.length > 0 ) {
+            this.queueItemCount = 0;
+            let q = null;
+            let frag = '';
+            for (let i = this._player.queue.length - 1; i >= 0; i--) {
+                q = new QueueItem(this._player, this._player.queue[i]);
+                frag += q.render();
+                this.queueItemCount += 1;
+            }
+            this.queueContainer.innerHTML = frag;
+        } else {
+            this.queueItemCount = 0;
+            // Notification that queue is empty
+            this.queueContainer.innerHTML = `<div class="text-center">
+                <h6 class="light" style="color: #717579;">
+                Looks like your queue is empty. Nimbus will continue to fetch music in the background.</h6>
+            </div>`;
+        }
     }
 }
 
