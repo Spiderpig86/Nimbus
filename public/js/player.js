@@ -29,7 +29,8 @@ const RAND_COUNT_3 = 300000000;
 const OFFSET_3 = 100000000;
 
 // Widget Parameters
-const WIDGET_PARAMS = '&liking=false&show_artwork=false&show_comments=false&show_playcount=false&visual=false'
+//const WIDGET_PARAMS = '&liking=false&show_artwork=false&show_comments=false&show_playcount=false&visual=false';
+const WIDGET_PARAMS = '';
 
 class Player {
 
