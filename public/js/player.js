@@ -7,6 +7,7 @@ import SearchDialog from '../controls/search';
 import Toast from '../controls/toast';
 import Dashboard from '../controls/dashboard';
 import Utils from './utils';
+import Settings from './settings';
 
 const SC = require('soundcloud'); // Import node module
 
@@ -73,8 +74,13 @@ class Player {
         // Initialize Search dialog
         this.searchDialog = new SearchDialog(this);
         
-        // Initialize the dashboard
+        // Initialize the dashboard, also initializes settings
         this.dashboard = new Dashboard(this);
+
+        // Settings already Initialized
+        if (JSON.parse(Settings.getPref('batterySaver'))) {
+            $(Settings.batterySaverCSS).appendTo("head");
+        }
 
         // Load a track when the app is loaded (take url param into account).
         document.getElementById('widgettest').setAttribute('src', 'https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/170202151' + WIDGET_PARAMS);
@@ -351,7 +357,7 @@ class Player {
                 }
             });
         } else {
-            waveform.updateWaveformData(data.samples);
+            await waveform.updateWaveformData(data.samples);
         }
         })();
 

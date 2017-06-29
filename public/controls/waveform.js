@@ -1,7 +1,7 @@
 /**
  * Draws the waveform component of the player.
  */
-
+import Settings from '../js/settings';
 let SC = require('soundcloud');
 
 class WaveForm {
@@ -42,7 +42,7 @@ class WaveForm {
         this.canvas = null;
 
         this.waveFormFrame = 0;
-        this.updateInterval = 100; // Update every whatever metric SC uses
+        this.updateInterval = (Settings.getPref('batterySaver') ? 100 : 10); // Update every whatever metric SC uses
 
         // Create the config file for the waveform settings
         this.config = {
@@ -417,7 +417,7 @@ class WaveForm {
      * 
      * @memberof WaveForm
      */
-    updateWaveformData(data) {
+    async updateWaveformData(data) {
         this.config.data = data;
         this.drawWaveForm();
     }

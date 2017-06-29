@@ -1,4 +1,6 @@
-import QueueItem from '../controls/queueitem';
+import QueueItem from './queueitem';
+import Utils from '../js/utils';
+import Settings from '../js/settings';
 
 class Dashboard {
 
@@ -8,6 +10,8 @@ class Dashboard {
         this.queueItemCount = 0; // Counts number of songs on queue
         document.querySelector('#dashboardModalContainer').innerHTML += this.render();
         this.bindEvents();
+        Settings.loadPrefs(); // Init settings
+        this.updateControls(); // Update settings controls
     }
 
     render() {
@@ -32,7 +36,6 @@ class Dashboard {
                     <div class="tabpage shown">
                         <h3>Settings</h3>
                         <div class="divider"></div>
-                        <space></space>
                         <div class="row">
                             <div class="toggle-container">
                                 <p>Enable battery saver</p>
@@ -58,6 +61,8 @@ class Dashboard {
         this.queueTab = document.getElementById('queueTab');
         this.queueContainer = document.getElementById('queueContainer');
 
+        this.chkBattery = document.getElementById('chkBattery');
+
         // Event handler for close button for search dialog
         this.dashboardCloseBtn.onclick = (e) => {
             this.hideDashboard();
@@ -67,6 +72,22 @@ class Dashboard {
             // Update queue items
             this.refreshQueueContainer();
         }
+
+        // Settings controls
+        this.chkBattery.onclick = (e) => {
+            Settings.storePref('batterySaver', this.chkBattery.checked);
+            if (this.chkBattery.checked && !document.getElementById("batterySaver")) {
+                $(Settings.batterySaverCSS).appendTo("head");
+            } else {
+                $('#batterySaver').remove(); // Remove the style sheet
+            }
+        }
+    }
+
+    updateControls() {
+
+        // Update settings controls
+        this.chkBattery.checked = JSON.parse(Settings.getPref('batterySaver'));
     }
 
     toggleDashboard() {
