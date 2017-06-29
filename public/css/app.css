@@ -140,9 +140,14 @@ pre {
 
 #histItemBg {
     position: absolute;
-    /*-webkit-transform: translateZ(0);*/
+    -webkit-transform: translate3d(0, 0, 0);
+    -webkit-transform: translateZ(0);
     -webkit-perspective: 1000;
     -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    perspective: 1000;
+    transform: translate3d(0, 0, 0);
+    transform: translateZ(0);
     z-index: 0;
 }
 
@@ -514,6 +519,11 @@ pre {
         text-align: center;
     }
 
+    .card:hover {
+        box-shadow: none;
+        -webkit-box-shadow: none;
+    }
+
     .header-fixed {
         position: fixed;
     }
@@ -564,15 +574,19 @@ pre {
         min-height: 100%;
         height: inherit;
         background-color: rgba(35, 35, 35, .95);
-        top: 100%;
+        top: 110%;
         position: absolute;
-        box-shadow: rgba(29, 29, 31, 0.55) 0 -10px 60px;
+        /*box-shadow: rgba(29, 29, 31, 0.55) 0 -10px 60px;
         -webkit-box-shadow: rgba(29, 29, 31, 0.55) 0 -10px 60px;
-        -moz-box-shadow: rgba(29, 29, 31, 0.55) 0 -10px 60px;
+        -moz-box-shadow: rgba(29, 29, 31, 0.55) 0 -10px 60px;*/
     }
 
     #histContainer .bg-image {
         background: none !important;
+    }
+
+    #histContainer:hover .card {
+        opacity: .6;
     }
 
     #searchField {

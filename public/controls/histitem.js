@@ -24,7 +24,7 @@ class HistItem {
                 <div class="player-content overlay">
                     <div class="row level">
                         <div class="level-left" style="position:relative;">
-                            <img src="${this._track.artwork_url === null ? this._track.user.avatar_url : this._track.artwork_url.replace('large', 't500x500')}">
+                            <img src="${this._track.artwork_url === null ? this._track.user.avatar_url : this._track.artwork_url}">
                             <span class="hist-play center">
                                 <i class="fa fa-play center-alt" aria-hidden="true"></i>
                             </span>

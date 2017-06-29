@@ -112,6 +112,13 @@ class Player {
             // if (this.curPlayer === null && !this.isPlaying)
             //     this.updateStream(this.getRandomTrack());
             this.togglePlay();
+
+            // Check if song title matches title in app
+            if ($('#songTitle').value !== this.curPlayer.title) {
+                this.curPlayer.getCurrentSound((song) => {
+                    this.updateSongInfo(song);
+                });
+            }
         }
 
         // Event handler for seeking forward / fetch new song
@@ -196,70 +203,8 @@ class Player {
             this.waveform = null; // Reset the reference
             widget.getCurrentSound((song) => {
                 //console.log(song);
-                console.log('getcurrentsound start');
-                // if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) { // Attempt to fix on mobile devices
-                    
-                //     // Sorry can not auto play on mobile =_(
-                //     // https://stackoverflow.com/questions/26066062/autoplay-html5-audio-player-on-mobile-browsers
-                //     // Need to use trick.
-                //     // widget.play();
-                //     // setTimeout(() => {
-                //     //         $('#play-btn').trigger('click'); // Cannot fix autoplay issue, but now users can play the track with 1 tap of the play button instead o several (bug fix)
-                //     //         console.log('test play')
-                //     //     }, 2000);
-                //     // this.togglePlayState(true);
-                // } else {
-                    widget.play(); // Play normally on non mobile
-                    this.togglePlayState(true);
-                //}
-                this.isPlaying = true;
                 let rndImg = Utils.fetchRandomImage();
-                this.widgetTrack.cover = song.artwork_url;
-                this.widgetTrack.title = song.title;
-                this.widgetTrack.id = song.id;
-                this.widgetTrack.artist = song.user.username || 'N/A'; // Some tracks don't have a usernme associated
-                this.widgetTrack.permalink_url = song.permalink_url;
-                this.widgetTrack.description = song.description || 'N/A';
-                this.widgetTrack.created_at = song.created_at;
-                this.widgetTrack.duration = song.duration || 'N/A';
-                this.widgetTrack.currentPosition = 0;
-
-                document.title = `\u25B6   Nimbus - ${this.widgetTrack.title}`;
-
-                // Create tag list
-                let tagBtns = ``;
-                let tagCollection = song.tag_list;
-                
-                // Get tags that are inside quotes already (treat multiple words as 1 tag)
-                let quotedTags = song.tag_list.match(/(["'])(?:(?=(\\?))\2.)*?\1/g);
-
-                // Clean the original list
-                tagCollection = tagCollection.replace(/(["'])(?:(?=(\\?))\2.)*?\1/g, ''); // Remove all double quoted entries
-                tagCollection = tagCollection.split(' ');
-                tagCollection = tagCollection.concat(quotedTags);
-
-                if (song.tag_list !== '') {
-                    for (let i = 0; i < tagCollection.length; i++) {
-                        let tagName = tagCollection[i];
-                        if (tagName !== '' && tagName !== null) {
-                            tagName = tagName.replace(/\"/g, '');
-                            tagBtns += `<a href="https://soundcloud.com/tags/${tagName}" target="_blank"><button class="btn-transparent">
-                                #${tagName}
-                            </button></a>
-                            `;
-                        }
-                    }
-                }
-
-                this.mainPlayer.innerHTML = SongInfo((song.artwork_url === null ? song.user.avatar_url : song.artwork_url.replace('large', 't500x500')), song, tagBtns, "javascript:alert('Purchase link unavailable');");
-                //this.curTrack.track = track;
-                document.getElementById('background').style.backgroundImage = 'url(' + (song.artwork_url === null ? rndImg : song.artwork_url.replace('large', 't500x500')) + ')';
-
-                // Add listener for flipContainer
-                this.flipContainer = document.getElementById('flipContainer');
-                this.flipContainer.onclick = (e) => {
-                    $('#flipContainer').toggleClass('flipped');
-                }
+                this.updateSongInfo(song);
 
                 let found = false; // Boolean to see if the song exists
                 if (this.history.length > 0 || this.queue.length > 0) {
@@ -288,47 +233,6 @@ class Player {
                     });
                 }
 
-                // Async method to build waveform
-                (async () => {
-                    let req = new Request(); // Construct it
-                    let data = await req.getJSON(song.waveform_url);
-
-                    // Draw the waveform
-                    const waveFormContainer = document.querySelector('.waveform');
-                    if (!this.waveform) {
-                        this.waveform = new WaveForm({
-                        container: waveFormContainer,
-                        audio: widget,
-                        duration: song.duration,
-                        data: data.samples,
-                        peakWidth: 2,
-                        peakSpace: 1,
-                        responsive: true,
-                        mouseOverEvents: true,
-                        mouseClickEvents: true,
-                        color: {
-                            background: "rgba(140, 140, 140, 0.7)",
-                            footer: "rgba(90, 90, 90, 0.6)",
-                            footerPlayback: "#5d1835",
-                            hoverGradient: {
-                                from: "#d91e53",
-                                to: "#d91e53"
-                            },
-                            playbackGradient: {
-                                from: "#d91e53",
-                                to: "#d91e53"
-                            },
-                            hoverPlaybackGradient: {
-                                from: "#ff2160",
-                                to: "#ff2160"
-                            }
-                        }
-                    });
-                } else {
-                    waveform.updateWaveformData(data.samples);
-                }
-                })();
-
                 this.hasBeenFetched = false; // Reset
 
                 console.log('getcurrentsound done');
@@ -342,6 +246,115 @@ class Player {
         } catch (ex) {
             console.log(ex.message);
         }
+    }
+
+    updateSongInfo(song) {
+        console.log('getcurrentsound start');
+        // if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) { // Attempt to fix on mobile devices
+            
+        //     // Sorry can not auto play on mobile =_(
+        //     // https://stackoverflow.com/questions/26066062/autoplay-html5-audio-player-on-mobile-browsers
+        //     // Need to use trick.
+        //     // widget.play();
+        //     // setTimeout(() => {
+        //     //         $('#play-btn').trigger('click'); // Cannot fix autoplay issue, but now users can play the track with 1 tap of the play button instead o several (bug fix)
+        //     //         console.log('test play')
+        //     //     }, 2000);
+        //     // this.togglePlayState(true);
+        // } else {
+        this.curPlayer.play(); // Play normally on non mobile
+        this.togglePlayState(true);
+        //}
+        this.isPlaying = true;
+        let rndImg = Utils.fetchRandomImage();
+        this.widgetTrack.cover = song.artwork_url;
+        this.widgetTrack.title = song.title;
+        this.widgetTrack.id = song.id;
+        this.widgetTrack.artist = song.user.username || 'N/A'; // Some tracks don't have a usernme associated
+        this.widgetTrack.permalink_url = song.permalink_url;
+        this.widgetTrack.description = song.description || 'N/A';
+        this.widgetTrack.created_at = song.created_at;
+        this.widgetTrack.duration = song.duration || 'N/A';
+        this.widgetTrack.currentPosition = 0;
+
+        document.title = `\u25B6   Nimbus - ${this.widgetTrack.title}`;
+
+        // Create tag list
+        let tagBtns = ``;
+        let tagCollection = song.tag_list;
+        
+        // Get tags that are inside quotes already (treat multiple words as 1 tag)
+        let quotedTags = song.tag_list.match(/(["'])(?:(?=(\\?))\2.)*?\1/g);
+
+        // Clean the original list
+        tagCollection = tagCollection.replace(/(["'])(?:(?=(\\?))\2.)*?\1/g, ''); // Remove all double quoted entries
+        tagCollection = tagCollection.split(' ');
+        tagCollection = tagCollection.concat(quotedTags);
+
+        if (song.tag_list !== '') {
+            for (let i = 0; i < tagCollection.length; i++) {
+                let tagName = tagCollection[i];
+                if (tagName !== '' && tagName !== null) {
+                    tagName = tagName.replace(/\"/g, '');
+                    tagBtns += `<a href="https://soundcloud.com/tags/${tagName}" target="_blank"><button class="btn-transparent">
+                        #${tagName}
+                    </button></a>
+                    `;
+                }
+            }
+        }
+
+        this.mainPlayer.innerHTML = SongInfo((song.artwork_url === null ? song.user.avatar_url : song.artwork_url.replace('large', 't500x500')), song, tagBtns, "javascript:alert('Purchase link unavailable');");
+        //this.curTrack.track = track;
+        document.getElementById('background').style.backgroundImage = 'url(' + (song.artwork_url === null ? rndImg : song.artwork_url.replace('large', 't500x500')) + ')';
+
+        // Add listener for flipContainer
+        this.flipContainer = document.getElementById('flipContainer');
+        this.flipContainer.onclick = (e) => {
+            $('#flipContainer').toggleClass('flipped');
+        }
+
+        // Async method to build waveform
+        (async () => {
+            let req = new Request(); // Construct it
+            let data = await req.getJSON(song.waveform_url);
+
+            // Draw the waveform
+            const waveFormContainer = document.querySelector('.waveform');
+            if (!this.waveform) {
+                this.waveform = new WaveForm({
+                container: waveFormContainer,
+                audio: this.curPlayer,
+                duration: song.duration,
+                data: data.samples,
+                peakWidth: 2,
+                peakSpace: 1,
+                responsive: true,
+                mouseOverEvents: true,
+                mouseClickEvents: true,
+                color: {
+                    background: "rgba(140, 140, 140, 0.7)",
+                    footer: "rgba(90, 90, 90, 0.6)",
+                    footerPlayback: "#5d1835",
+                    hoverGradient: {
+                        from: "#d91e53",
+                        to: "#d91e53"
+                    },
+                    playbackGradient: {
+                        from: "#d91e53",
+                        to: "#d91e53"
+                    },
+                    hoverPlaybackGradient: {
+                        from: "#ff2160",
+                        to: "#ff2160"
+                    }
+                }
+            });
+        } else {
+            waveform.updateWaveformData(data.samples);
+        }
+        })();
+
     }
 
     /**
