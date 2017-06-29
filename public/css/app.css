@@ -77,8 +77,8 @@ pre {
     -webkit-transition: all .2s;
     transition: all .2s;
     opacity: 0;
-    -webkit-transform: translateY(-100%);
-            transform: translateY(-100%);
+    -webkit-transform: translateY(-110%);
+            transform: translateY(-110%);
 }
 
 .overlay-dialog.shown {
@@ -196,9 +196,6 @@ pre {
     background-size: cover; 
     filter: blur(15px);
     -webkit-filter: blur(15px);
-    -webkit-transform: scale(1.2);
-            transform: scale(1.2); /* Removes the white edges from the player image */
-    z-index: -1; /* Make the scrollbar visible */
     -webkit-perspective: 1000;
     -webkit-backface-visibility: hidden;
     will-change: transform;
@@ -491,6 +488,11 @@ pre {
 /* Mobile / Tablets */
 
 @media screen and (max-width: 768px) {
+
+    .level {
+        display: flex; /* Keep flex */
+    }
+
     #background::before {
         content: ' ';
         background: -webkit-linear-gradient(rgba(0, 0, 0, 0), rgba(21, 19, 30, 0.85));
@@ -600,6 +602,9 @@ pre {
     .bg-image {
         filter: blur(15px) brightness(.5);
         -webkit-filter: blur(15px) brightness(.5);
+        -webkit-transform: scale(1.2);
+            transform: scale(1.2); /* Removes the white edges from the player image */
+        z-index: -1; /* Make the scrollbar visible */
     }
 
     #histContainer {
