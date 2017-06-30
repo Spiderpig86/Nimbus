@@ -419,6 +419,7 @@ class WaveForm {
      */
     async updateWaveformData(data) {
         this.config.data = data;
+        this.updateInterval = (Settings.getPref('batterySaver') ? 100 : 10); 
         this.drawWaveForm();
     }
 

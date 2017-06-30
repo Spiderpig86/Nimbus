@@ -44,7 +44,9 @@ class Dashboard {
                         </div>
                     </div>
                     <div class="tabpage">
-                        <h3>Queue</h3>
+                        <div class="row level">
+                            <h3 style="flex-grow: 1;">Queue</h3><button id="btnClearQueue" class="btn-small">Clear Queue</button>
+                        </div>
                         <div class="divider"></div>
                         <space></space>
                         <div id="queueContainer">
@@ -60,6 +62,7 @@ class Dashboard {
         this.dashboardCloseBtn = document.getElementById('dashboardCloseBtn');
         this.queueTab = document.getElementById('queueTab');
         this.queueContainer = document.getElementById('queueContainer');
+        this.btnClearQueue = document.getElementById('btnClearQueue');
 
         this.chkBattery = document.getElementById('chkBattery');
 
@@ -81,6 +84,10 @@ class Dashboard {
             } else {
                 $('#batterySaver').remove(); // Remove the style sheet
             }
+        }
+
+        this.btnClearQueue.onclick = (e) => {
+            this.clearQueue();
         }
     }
 
@@ -136,6 +143,14 @@ class Dashboard {
                 Looks like your queue is empty. Nimbus will continue to fetch music in the background.</h6>
             </div>`;
         }
+    }
+
+    clearQueue() {
+        this._player.queue = []; // Clear the queue
+        this.queueContainer.innerHTML = `<div class="text-center">
+                <h6 class="light" style="color: #717579;">
+                Looks like your queue is empty. Nimbus will continue to fetch music in the background.</h6>
+            </div>`;
     }
 }
 
