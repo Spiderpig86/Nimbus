@@ -26,7 +26,7 @@ class Search {
                     <div class="overflow-container">
                         <div class="row level" id="optionsContainer">
                             <div class="level-left">
-                                <h6 class="title uppercase">Search Options:</h6>
+                                <h6 class="title uppercase">Options:</h6>
                             </div>
                             <label class="button-switch btn-tooltip" data-tooltip="Shuffle tracks before adding to queue.">
                                 <input type="checkbox" name="shuffle" value="Shuffle" id="chkShuffle"/>

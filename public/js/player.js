@@ -382,9 +382,6 @@ class Player {
      * @param {SoundCloudWidget} widget - widget loaded from API
      */
     bindWidgetEvents(widget) {
-        // if (this.curPlayer === null)
-        //     return; // We don't want any accidents
-
         console.log("cool");
         this.curPlayer = widget;
         widget.bind(SC.Widget.Events.READY, (e) => {
@@ -392,8 +389,8 @@ class Player {
             // Bind when the song is playing
             widget.bind(SC.Widget.Events.PLAY_PROGRESS, (e) => {
                 this.curPosition = e.currentPosition;
-                let curTimeStr = Utils.millisToMinutesAndSeconds(e.currentPosition);
-                let totalTimeStr = Utils.millisToMinutesAndSeconds(this.widgetTrack.duration);
+                let curTimeStr = Utils.convertMillisecondsToDigitalClock(e.currentPosition).clock;
+                let totalTimeStr = Utils.convertMillisecondsToDigitalClock(this.widgetTrack.duration).clock;
                 document.getElementById('curTime').innerText = `${curTimeStr} / ${totalTimeStr}`;
             });
 

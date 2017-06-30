@@ -260,8 +260,19 @@ pre {
     letter-spacing: 2px;
 }
 
-#songContainer h5 {
+#trackTitle {
     font-family: 'proxima_nova_ltthin';
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#trackUser {
+    opacity: .75;
+}
+
+#curTime {
+    letter-spacing: 1px;
 }
 
 .title {
@@ -405,8 +416,8 @@ pre {
 
 .waveform {
     vertical-align: middle;
-    height: 100px;
-    margin: 0 10px;
+    height: 75px;
+    margin: 0 5px;
     width: 100%;
     opacity: .8;
     -webkit-transition: all .3s;
@@ -515,10 +526,6 @@ pre {
         perspective: 1000;
         transform: translate3d(0,0,0);
         transform: translateZ(0);
-    }
-
-    .card {
-        text-align: center;
     }
 
     .card:hover {

@@ -31,7 +31,7 @@ const SongInfo = (largeArt, track, tags, errorPurchase) => (
                         </div>
                     </div>
                     <h5 id="trackTitle" class="light">${track.title}</h5>
-                    <p class="title uppercase">${track.user.username}</p>
+                    <p class="title uppercase" id="trackUser">${track.user.username}</p>
                     <p class="subtitle" id="curTime">0:00 / 4:20</p>
                     <div class="waveform"></div>
             </div>

@@ -41,6 +41,10 @@ class Dashboard {
                                 <p>Enable battery saver</p>
                                 <div class="toggle-switch"><input type="checkbox" id="chkBattery"/><label for="chkBattery"></label></div>
                             </div>
+                            <div class="toggle-container">
+                                <p>Dark Theme</p>
+                                <div class="toggle-switch"><input type="checkbox" id="chkDark"/><label for="chkDark"></label></div>
+                            </div>
                         </div>
                     </div>
                     <div class="tabpage">

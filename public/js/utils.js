@@ -4,10 +4,16 @@ class Utils {
      * Simple function to convert milliseconds to a string with minutes and seconds
      * @param {*int} millis - time in milliseconds
      */
-    static millisToMinutesAndSeconds(millis) {
-        let minutes = Math.floor(millis / 60000);
-        let seconds = ((millis % 60000) / 1000).toFixed(0);
-        return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
+    static convertMillisecondsToDigitalClock(ms) {
+        let hours = Math.floor(ms / 3600000), // 1 Hour = 36000 Milliseconds
+        minutes = Math.floor((ms % 3600000) / 60000), // 1 Minutes = 60000 Milliseconds
+        seconds = Math.floor(((ms % 360000) % 60000) / 1000) // 1 Second = 1000 Milliseconds
+        return {
+            hours : hours,
+            minutes : minutes,
+            seconds : seconds,
+            clock : ((hours === 0) ? '' : hours + ':') + minutes + ':' + (seconds < 10 ? '0' : '') + seconds
+        };
     }
 
     /**
