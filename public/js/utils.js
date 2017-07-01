@@ -1,3 +1,5 @@
+import Toast from '../controls/toast';
+
 class Utils {
 
      /**
@@ -22,6 +24,17 @@ class Utils {
     static fetchRandomImage() {
         let i = Math.floor(Math.random() * 4050) + 1;
         return `http://img.infinitynewtab.com/wallpaper/${i}.jpg`;
+    }
+
+    static showToast(message) {
+        this.toastContainer = document.getElementById('toastContainer');
+        this.toastContainer.innerHTML = Toast(message, '');
+        setTimeout(function() { 
+            $('#toast').addClass('shown');
+        }, 500);
+        setTimeout(function() { // Hide toast
+            $('#toast').removeClass('shown');
+        }, 3000);
     }
 
 }

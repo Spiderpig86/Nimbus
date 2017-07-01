@@ -29,6 +29,7 @@
 .toggle-container p {
     flex-grow: 1;
     flex-shrink: 0;
+    margin: 1rem 0;
 }
 
 .toggle-container .toggle-switch {

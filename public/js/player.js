@@ -53,6 +53,7 @@ class Player {
         this.setCurIndex = 0; // The current index of the song in the playlist
         this.setTrackCount = 0; // This holds the number of tracks in the playlist so we can tell when we have reached the end.
         this.shuffleQueue = false; // Should the queue be shuffled when we get a list of tracks;
+        this.queueNum = 120; // How many results to add to the queue
 
         // Widget Props
         this.widgetTrack = {
@@ -106,7 +107,6 @@ class Player {
         this.btnBk = document.getElementById('seek-bk-btn');
         this.btnSearch = document.getElementById('custom-btn');
         this.btnRepeat = document.getElementById('repeat-btn');
-        this.toastContainer = document.getElementById('toastContainer');
         this.btnDashboard = document.getElementById('dashboard-btn');
     }
 
@@ -766,7 +766,7 @@ class Player {
             // Create options object to hold what we want to search for
             let options = {
                 tags: tagList,
-                limit: 120
+                limit: this.queueNum
             } // TODO: Allow to modify limit later
 
             SC.get('/tracks', options).then((tracks) => {
@@ -788,9 +788,9 @@ class Player {
                     this.curPlayer.load(trackCollection[0].permalink_url);
                 
                     // Display toast message when done
-                    this.showToast(`${tracks.length} tracks added to the queue.`);
+                    Utils.showToast(`${tracks.length} tracks added to the queue.`);
                 } else {
-                    this.showToast('Search returned no results. Please try again.');
+                    Utils.showToast('Search returned no results. Please try again.');
                 }
             });
         } catch (e) {
@@ -814,12 +814,12 @@ class Player {
                         let resIndex = Math.floor(Math.random() * (sets.length + 1));
                         this.curPlayer.load(sets[resIndex].permalink_url); // The "I'm feeling lucky part of the search"
                         this.setTrackCount = sets[resIndex].track_count;
-                        this.showToast(`Now playing ${sets[resIndex].title} (${this.setTrackCount} songs)`)
+                        Utils.showToast(`Now playing ${sets[resIndex].title} (${this.setTrackCount} songs)`)
                     } else {
                         // Load the set
                         this.curPlayer.load(sets[0].permalink_url); // The "I'm feeling lucky part of the search"
                         this.setTrackCount = sets[0].track_count;
-                        this.showToast(`Now playing ${sets[0].title} (${this.setTrackCount} songs)`)
+                        Utils.showToast(`Now playing ${sets[0].title} (${this.setTrackCount} songs)`)
                     }
                 }
             });
@@ -829,7 +829,7 @@ class Player {
     }
 
     /**
-     * Searches for the first 120 songs by a user.
+     * Searches for the first queueNum songs by a user.
      * 
      * @param {String} user - username of the user
      * 
@@ -842,7 +842,7 @@ class Player {
                 try {
                     // Create options object to hold what we want to search for
                     let options = {
-                        limit: 120
+                        limit: this.queueNum
                     } // TODO: Allow to modify limit later
 
                     SC.get(`/users/${response.id}/tracks`, options).then((tracks) => {
@@ -865,9 +865,9 @@ class Player {
                             this.curPlayer.load(trackCollection[0].permalink_url);
                         
                             // Display toast message when done
-                            this.showToast(`${tracks.length} tracks added to the queue.`);
+                            Utils.showToast(`${tracks.length} tracks added to the queue.`);
                         } else {
-                            this.showToast('Search returned no results. Please try again.');
+                            Utils.showToast('Search returned no results. Please try again.');
                         }
                     });
                 } catch (e) {
@@ -891,7 +891,7 @@ class Player {
             // Create options object to hold what we want to search for
             let options = {
                 genres: genreList,
-                limit: 120
+                limit: this.queueNum
             } // TODO: Allow to modify limit later
 
             SC.get('/tracks', options).then((tracks) => {
@@ -912,9 +912,9 @@ class Player {
                     this.curPlayer.load(trackCollection[0].permalink_url);
                 
                     // Display toast message when done
-                    this.showToast(`${tracks.length} tracks added to the queue.`);
+                    Utils.showToast(`${tracks.length} tracks added to the queue.`);
                 } else {
-                    this.showToast('Search returned no results. Please try again.');
+                    Utils.showToast('Search returned no results. Please try again.');
                 }
             });
         } catch (e) {
@@ -971,16 +971,6 @@ class Player {
         }
 
         return tracks;
-    }
-
-    showToast(message) {
-        this.toastContainer.innerHTML = Toast(message, '');
-        setTimeout(function() { 
-            $('#toast').addClass('shown');
-        }, 500);
-        setTimeout(function() { // Hide toast
-            $('#toast').removeClass('shown');
-        }, 3000);
     }
 }
 

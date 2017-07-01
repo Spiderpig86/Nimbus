@@ -4,6 +4,7 @@
     transition: .3s;
     box-shadow: 0 0 20px 2px rgba(37, 42, 53, 0.45);
     border: 0;
+    z-index: 9999;
 }
 
 .toast.shown {

@@ -1,7 +1,7 @@
 class Settings {
 
     static loadPrefs() {
-        this.batterySaverCSS = "<style id='batterySaver'>* {-webkit-filter: none !important;filter: none !important; transition: none !important; -webkit-transition: none; !important}</style>";
+        this.batterySaverCSS = "<style id='batterySaver'>* {-webkit-filter: none !important;filter: none !important; transition: none !important; -webkit-transition: none; !important}#histItemBg {-webkit-filter: brightness(.5) !important;filter: brightness(.5) !important; }</style>";
         
         // Default settings object
         this._settings = {

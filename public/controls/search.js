@@ -1,3 +1,5 @@
+import Utils from '../js/utils'
+
 let SC = require('soundcloud');
 
 class Search {
@@ -32,6 +34,10 @@ class Search {
                                 <input type="checkbox" name="shuffle" value="Shuffle" id="chkShuffle"/>
                                 <span class="uppercase">Shuffle</span>
                             </label>
+                            <label class="button-switch btn-tooltip" data-tooltip="Number of results to queue.">
+                                <input type="checkbox" name="results" value="results" id="chkNumber">
+                                <span id="chkNumberText" class="uppercase">120 results</span>
+                            </label>
                         </div>
                     </div>
                 </div>
@@ -43,6 +49,7 @@ class Search {
         this.searchCloseBtn = document.getElementById('searchCloseBtn');
         this.searchField = document.getElementById('searchField');
         this.chkShuffle = document.getElementById('chkShuffle');
+        this.chkNumber = document.getElementById('chkNumber');
 
         this.searchSets = document.getElementById('searchSets');
         this.searchUser = document.getElementById('searchUser');
@@ -72,6 +79,10 @@ class Search {
 
         this.chkShuffle.onclick = (e) => {
             this._player.shuffleQueue = this.chkShuffle.checked;
+        }
+
+        this.chkNumber.onclick = (e) => {
+            this.setResultCount();
         }
 
         this.searchSets.onclick = (e) => {
@@ -174,6 +185,16 @@ class Search {
             case 'searchTags':
                 this.searchField.value = 'tags: ';
         }
+    }
+
+    setResultCount() {
+        let count = prompt('How many results do you want to queue?');
+        if (!isFinite(count)) {
+            Utils.showToast('Please enter a numerical value and try again.');
+            return;
+        }
+        $('#chkNumberText').text(`${count} results`);
+        this._player.queueNum = count;
     }
 
 }
