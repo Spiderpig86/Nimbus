@@ -67,6 +67,7 @@ pre {
 .header-item {
     width: 48px;
     height: 60px;
+    cursor: hand;
 }
 
 /* DIALOG */
@@ -203,7 +204,7 @@ pre {
 
 #playerInfoContainer {
     width: 100%;
-    /*height: 80%;*/
+    height: 100vh;
     padding-right: 0;
 }
 
@@ -242,6 +243,10 @@ pre {
     width: 100%;
     -webkit-transform-style: preserve-3d;
     transform-style: preserve-3d;
+}
+
+#songContainer {
+    height: 100%;
 }
 
 #songContainer .card {

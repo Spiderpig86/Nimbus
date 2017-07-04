@@ -16,4 +16,17 @@ module.exports = {
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.optimize.UglifyJsPlugin({ mangle: false, sourcemap: false }),
   ],
+
+  // module: {
+  //   loaders: [
+  //     {
+  //       test: /\.js$/,
+  //       loader: 'babel-loader',
+  //       exclude: ['/node_modules/', '/consts-sec.json', '/consts.json', '/js/sc.js', '.../sdk.js'],
+  //       query: {
+  //         presets: ['es2015']
+  //       }
+  //     }
+  //   ]
+  // }
 };
