@@ -36,7 +36,6 @@ class Utils {
             $('#toast').removeClass('shown');
         }, 3000);
     }
-
 }
 
 export default Utils;

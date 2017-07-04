@@ -55,6 +55,9 @@ class Player {
         this.shuffleQueue = false; // Should the queue be shuffled when we get a list of tracks;
         this.queueNum = 120; // How many results to add to the queue
 
+        // Experimental API v2 Endpoint
+        this.SOUNDCLOUD_API_V2 = 'https://api-v2.soundcloud.com/';
+
         // Widget Props
         this.widgetTrack = {
             cover: '',
@@ -975,23 +978,12 @@ class Player {
     }
 
     async getTracksFromCharts(_kind, _genres, _limit, $_partition = 1) {
+        // kind=top&genre=soundcloud%3Agenres%3Aall-music&limit=50
         try {
-            // console.log(`https://api-v2.soundcloud.com/charts?kind=${_kind}&genre=${_genres}&limit=${_limit}&linked_partitioning=${$_partition}&client_id=${consts.client_id}`);
-            // let req = new Request(); // Construct it
-            // let tracks = await req.getJSON(`https://api-v2.soundcloud.com/charts?kind=${_kind}&genre=${_genres}&limit=${_limit}&linked_partitioning=${$_partition}&client_id=${consts.client_id}`);
-
-            $.ajax({
-                url: `https://cors-anywhere.herokuapp.com/https://api-v2.soundcloud.com/charts?kind=${_kind}&genre=${_genres}&limit=${_limit}&linked_partitioning=${$_partition}&client_id=${consts.client_id}`,
-                dataType: 'jsonp',
-                jsonpCallback: 'callback',
-                type: 'GET',
-                success: function(data) {
-                    // your code to handle data here
-                    console.log(data);
-                }
-            });
-
-            
+            console.log(`https://api-v2.soundcloud.com/charts?kind=${_kind}&genre=${_genres}&limit=${_limit}&linked_partitioning=${$_partition}&client_id=${consts.client_id}`);
+            let req = new Request(); // Construct it
+            let tracks = await req.getJSON(`https://api-v2.soundcloud.com/charts?kind=${_kind}&genre=${_genres}&limit=${_limit}&linked_partitioning=${$_partition}&client_id=${consts.client_id}`);
+            console.log(tracks);
         } catch (e) {
             console.log('getTracksFromCharts Error - ' + e.message);
         }
