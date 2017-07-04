@@ -5,8 +5,6 @@ class QueueItem {
     constructor(player, track) {
         this._player = player;
         this._track = track;
-
-        
     }
 
     render() {

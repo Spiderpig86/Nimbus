@@ -67,7 +67,7 @@ pre {
 .header-item {
     width: 48px;
     height: 60px;
-    cursor: hand;
+    cursor: pointer;
 }
 
 /* DIALOG */
@@ -80,6 +80,7 @@ pre {
     opacity: 0;
     -webkit-transform: translateY(-110%);
             transform: translateY(-110%);
+            overflow: scroll;
 }
 
 .overlay-dialog.shown {
@@ -97,7 +98,7 @@ pre {
     top: 2rem;
     right: 2rem;
     color: #777;
-    cursor: hand;
+    cursor: pointer;
     transition: all .3s;
     -webkit-transition: all .3s;
     -moz-transition: all .3s;
@@ -110,7 +111,7 @@ pre {
     top: 2rem;
     right: 2rem;
     color: #363636;
-    cursor: hand;
+    cursor: pointer;
     transition: all .3s;
     -webkit-transition: all .3s;
     -moz-transition: all .3s;
@@ -167,7 +168,7 @@ pre {
     -webkit-transition: all .3s;
     transition: all .3s;
     opacity: 0;
-    cursor: hand;
+    cursor: pointer;
     border: 2px solid #fff;
 }
 
@@ -363,7 +364,7 @@ pre {
     border-radius: 0;
     -webkit-backface-visibility: hidden;
             backface-visibility: hidden;
-    cursor: hand;
+    cursor: pointer;
     user-select: none;
 }
 

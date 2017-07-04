@@ -972,6 +972,22 @@ class Player {
 
         return tracks;
     }
+
+    getTracksFromCharts(_kind, _genres, _limit, $_partition = 1) {
+        try {
+            let options = {
+                kind: _kind,
+                genre: _genres,
+                limit: _limit,
+                linked_partitioning: $_partition
+            }
+            SC.get('/charts', options).then((tracks) => {
+                console.log(tracks);
+            });
+        } catch (e) {
+
+        }
+    }
 }
 
 export default Player;

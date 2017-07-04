@@ -87,6 +87,16 @@
     text-align: right;
 }
 
+.chart-item {
+    background: #fff;
+    cursor: pointer;
+}
+
+.chart-item .card-container {
+    padding-bottom: 100%;
+    min-height: inherit;
+}
+
 /*.btn-tooltip:focus::after, .btn-tooltip:hover::after {
     -webkit-transform: translate(-50%, 2rem);
     -ms-transform: translate(-50%, 2rem);

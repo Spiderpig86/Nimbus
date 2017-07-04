@@ -2,24 +2,26 @@ import consts from '../../consts-sec.json';
 
 let SC = require('soundcloud');
 
-class HistItem {
+class ChartItem {
+    constructor(player, title, artist, kind, genre, limit) {
+        this._player = player;
+        this._title = title;
+        this._artist = artist;
+        this._kind = kind;
+        this._genre = genre;
+        this._limit = limit;
 
-    constructor(bg, track, player, errorDownloadCallback) {
-        this._bg = bg;
-        this._track = track;
-        this._errorDownloadCallback = errorDownloadCallback;
-
-        this.histItem = document.createElement('div');
-        this.histItem.className = 'card';
-        this.histItem.setAttribute('id', 'histItem');
-        this.histItem.setAttribute('data-id', track.id);
-        this.histItem.addEventListener('click', (e) => {
-            player.streamSong(track.id);
+        this.chartItem = document.createElement('div');
+        this.chartItem.className = 'col-4 chart-item';
+        this.chartItem.setAttribute('data-genre', this._genre);
+        this.chartItem.setAttribute('data-limit', this._limit);
+        this.chartItem.addEventListener('click', (e) => {
+            player.getTracksFromCharts(this._kind, this._genre, this._limit);
         }, false);
         let tempInner = document.createElement('div');
         tempInner.innerHTML = `
             <div class="card" data-id="${this._track.id}">
-                <div id="histItemBg" class="bg-image" style="background-image: url('${this._bg}')"></div>
+                <div id="chartItemBg" class="bg-image" style="background-image: url('${this._bg}')"></div>
                 <div class="player-content overlay">
                     <div class="row level">
                         <div class="level-left" style="position:relative;">
@@ -47,12 +49,14 @@ class HistItem {
                 </div>
             </div>
         `;
-        this.histItem.appendChild(tempInner); // Must use this method to preserve listeners
+        this.chartItem.appendChild(tempInner); // Must use this method to preserve listeners
     }
 
     render() {
-         return this.histItem; // Cannot return innerHTML since that removes all listeners
+        return this.chartItem;
+    }
+
+    bindEvents() {
+
     }
 }
-
-export default HistItem
