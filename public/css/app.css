@@ -607,6 +607,10 @@ pre {
     #searchField {
         font-size: 2rem;
     }
+
+    #playerInfoContainer {
+        min-height: 100vh;
+    }
 }
 
 /* Laptops / Desktops */

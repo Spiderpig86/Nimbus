@@ -10,7 +10,10 @@ app.use('/css', express.static(path.join(__dirname, '../public/css')));
 app.use('/fonts', express.static(path.join(__dirname, '../public/fonts')));
 
 app.get('/', (req, res) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     res.sendFile(path.join(__dirname, '../public/', 'index.html'))
+    
 })
 
 app.listen(port, () => {

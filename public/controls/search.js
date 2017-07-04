@@ -1,3 +1,4 @@
+import ChartItem from './chartitem'
 import Utils from '../js/utils'
 
 let SC = require('soundcloud');
@@ -10,6 +11,8 @@ class Search {
         
         this.render();
         this.bindEvents();
+
+        this.loadCharts();
     }
 
     render() {
@@ -203,6 +206,12 @@ class Search {
         }
         $('#chkNumberText').text(`${count} results`);
         this._player.queueNum = count;
+    }
+
+    loadCharts() {
+        this.chartContainer = document.querySelector('#chartContainer');
+        let c = new ChartItem(this._player, "Dance & EDMTop 50", "SoundCloud", "top", "soundcloud%3Agenres%3Adanceedm", 50);
+        this.chartContainer.appendChild(c.render());
     }
 
 }

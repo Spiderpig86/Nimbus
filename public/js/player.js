@@ -324,6 +324,7 @@ class Player {
         (async () => {
             let req = new Request(); // Construct it
             let data = await req.getJSON(song.waveform_url);
+            console.log(song.waveform_url);
 
             // Draw the waveform
             const waveFormContainer = document.querySelector('.waveform');
@@ -973,19 +974,26 @@ class Player {
         return tracks;
     }
 
-    getTracksFromCharts(_kind, _genres, _limit, $_partition = 1) {
+    async getTracksFromCharts(_kind, _genres, _limit, $_partition = 1) {
         try {
-            let options = {
-                kind: _kind,
-                genre: _genres,
-                limit: _limit,
-                linked_partitioning: $_partition
-            }
-            SC.get('/charts', options).then((tracks) => {
-                console.log(tracks);
-            });
-        } catch (e) {
+            // console.log(`https://api-v2.soundcloud.com/charts?kind=${_kind}&genre=${_genres}&limit=${_limit}&linked_partitioning=${$_partition}&client_id=${consts.client_id}`);
+            // let req = new Request(); // Construct it
+            // let tracks = await req.getJSON(`https://api-v2.soundcloud.com/charts?kind=${_kind}&genre=${_genres}&limit=${_limit}&linked_partitioning=${$_partition}&client_id=${consts.client_id}`);
 
+            $.ajax({
+                url: `https://cors-anywhere.herokuapp.com/https://api-v2.soundcloud.com/charts?kind=${_kind}&genre=${_genres}&limit=${_limit}&linked_partitioning=${$_partition}&client_id=${consts.client_id}`,
+                dataType: 'jsonp',
+                jsonpCallback: 'callback',
+                type: 'GET',
+                success: function(data) {
+                    // your code to handle data here
+                    console.log(data);
+                }
+            });
+
+            
+        } catch (e) {
+            console.log('getTracksFromCharts Error - ' + e.message);
         }
     }
 }
