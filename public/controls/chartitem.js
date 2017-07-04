@@ -12,38 +12,20 @@ class ChartItem {
         this._limit = limit;
 
         this.chartItem = document.createElement('div');
-        this.chartItem.className = 'col-4 chart-item';
-        this.chartItem.setAttribute('data-genre', this._genre);
-        this.chartItem.setAttribute('data-limit', this._limit);
+        this.chartItem.className = 'col-4';
+        // this.chartItem.setAttribute('data-genre', this._genre);
+        // this.chartItem.setAttribute('data-limit', this._limit);
         this.chartItem.addEventListener('click', (e) => {
-            player.getTracksFromCharts(this._kind, this._genre, this._limit);
+            this._player.getTracksFromCharts(this._kind, this._genre, this._limit);
         }, false);
         let tempInner = document.createElement('div');
         tempInner.innerHTML = `
-            <div class="card" data-id="${this._track.id}">
-                <div id="chartItemBg" class="bg-image" style="background-image: url('${this._bg}')"></div>
-                <div class="player-content overlay">
-                    <div class="row level">
-                        <div class="level-left" style="position:relative;">
-                            <img src="${this._track.artwork_url === null ? this._track.user.avatar_url : this._track.artwork_url}">
-                            <span class="hist-play center">
-                                <i class="fa fa-play center-alt" aria-hidden="true"></i>
-                            </span>
-                        </div>
-                        <div class="desc">
-                            <p class="title">${this._track.title}</p>
-                            <p class="subtitle">${this._track.artist}</p>
-                            <p class="subtitle">${this._track.genre || 'N/A'}</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="row overlay">
-                    <div class="action-bar center no-padding">
-                        <div class="action-bar-item">
-                            <a href="${this._track.downloadable === false ? this._errorDownloadCallback : `https://api.soundcloud.com/tracks/${this._track.id}/download?client_id=${consts.client_id}`}" target="_blank"><button class="btn-transparent">Download</button></a>
-                        </div>
-                        <div class="action-bar-item">
-                            <a href="${this._track.permalink_url}" target="_blank"><button class="btn-transparent">View</button></a>
+                <div class="chart-item card>
+                    <div class="card-container">
+                        <div class="card-image" style="background-image: url(https://images.unsplash.com/photo-1467952497026-86722ef1916f?dpr=1.25&amp;auto=compress,format&amp;fit=crop&amp;w=1199&amp;h=799&amp;q=80&amp;cs=tinysrgb&amp;crop=);"></div>
+
+                        <div class="title-container">
+                            <p class="title">${this._title}</p><span class="subtitle">By SoundCloud</span>
                         </div>
                     </div>
                 </div>

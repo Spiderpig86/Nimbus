@@ -43,29 +43,8 @@ class Search {
                     </div>
                     <div class="row">
                         <h3 class="uppercase">Charts</h3>
-                        <div class="row">
-                            <div class="col-4">
-                                <div class="chart-item card" data-chart="soundcloud%3Agenres%3Acountry" data-limit="50">
-                                    <div class="card-container">
-                                        <div class="card-image" style="background-image: url(https://images.unsplash.com/photo-1467952497026-86722ef1916f?dpr=1.25&amp;auto=compress,format&amp;fit=crop&amp;w=1199&amp;h=799&amp;q=80&amp;cs=tinysrgb&amp;crop=);"></div>
+                        <div class="row" id="chartContainer">
 
-                                        <div class="title-container">
-                                            <p class="title">EDM Top 50</p><span class="subtitle">By SoundCloud</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-4">
-                                <div class="chart-item card">
-                                    <div class="card-container">
-                                        <div class="card-image" style="background-image: url(https://images.unsplash.com/photo-1467952497026-86722ef1916f?dpr=1.25&amp;auto=compress,format&amp;fit=crop&amp;w=1199&amp;h=799&amp;q=80&amp;cs=tinysrgb&amp;crop=);"></div>
-
-                                        <div class="title-container">
-                                            <p class="title">EDM New Releases</p><span class="subtitle">By SoundCloud</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
