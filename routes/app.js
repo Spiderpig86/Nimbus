@@ -8,6 +8,7 @@ app.use(express.static(path.join(__dirname, '../public/')));
 app.use('/js', express.static(path.join(__dirname, '../public/js')));
 app.use('/css', express.static(path.join(__dirname, '../public/css')));
 app.use('/fonts', express.static(path.join(__dirname, '../public/fonts')));
+app.use('/php', express.static(path.join(__dirname, '../public/php')));
 
 app.get('/', (req, res) => {
     res.header("Access-Control-Allow-Origin", "*");

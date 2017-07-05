@@ -980,10 +980,21 @@ class Player {
     async getTracksFromCharts(_kind, _genres, _limit, $_partition = 1) {
         // kind=top&genre=soundcloud%3Agenres%3Aall-music&limit=50
         try {
-            console.log(`https://api-v2.soundcloud.com/charts?kind=${_kind}&genre=${_genres}&limit=${_limit}&linked_partitioning=${$_partition}&client_id=${consts.client_id}`);
-            let req = new Request(); // Construct it
-            let tracks = await req.getJSON(`https://api-v2.soundcloud.com/charts?kind=${_kind}&genre=${_genres}&limit=${_limit}&linked_partitioning=${$_partition}&client_id=${consts.client_id}`);
-            console.log(tracks);
+            let oReq = new XMLHttpRequest(); //New request object
+            oReq.onload = () => {
+                //This is where you handle what to do with the response.
+                //The actual data is found on this.responseText
+                console.log(this.responseText);
+            };
+            console.log(`php/charts.php?kind=${_kind}&genre=${_genres}&limit=${_limit}&linked_partitioning=${$_partition}&client_id=${consts.client_id}`);
+            oReq.open("get", `php/charts.php?kind=${_kind}&genre=${_genres}&limit=${_limit}&linked_partitioning=${$_partition}&client_id=${consts.client_id}`, true);
+            //                               ^ Don't block the rest of the execution.
+            //                                 Don't wait until the request finishes to 
+            //                                 continue.
+            oReq.send();
+            // console.log(`https://api-v2.soundcloud.com/charts?kind=${_kind}&genre=${_genres}&limit=${_limit}&linked_partitioning=${$_partition}&client_id=${consts.client_id}`);
+            // let req = new Request(); // Construct it
+            // let tracks = await req.getJSON(`https://api-v2.soundcloud.com/charts?kind=${_kind}&genre=${_genres}&limit=${_limit}&linked_partitioning=${$_partition}&client_id=${consts.client_id}`);
         } catch (e) {
             console.log('getTracksFromCharts Error - ' + e.message);
         }
