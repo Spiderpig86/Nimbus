@@ -986,8 +986,8 @@ class Player {
                 //The actual data is found on this.responseText
                 console.log(this.responseText);
             };
-            console.log(`${window.location.href}php/charts.php?kind=${_kind}&genre=${_genres}&limit=${_limit}&linked_partitioning=${$_partition}&client_id=${consts.client_id}`);
-            oReq.open("get", `${window.location.href}php/charts.php?kind=${_kind}&genre=${_genres}&limit=${_limit}&linked_partitioning=${$_partition}&client_id=${consts.client_id}`, true);
+            console.log(`${window.location.href}php/index.php?kind=${_kind}&genre=${_genres}&limit=${_limit}&linked_partitioning=${$_partition}&client_id=${consts.client_id}`);
+            oReq.open("get", `${window.location.href}php/index.php?kind=${_kind}&genre=${_genres}&limit=${_limit}&linked_partitioning=${$_partition}&client_id=${consts.client_id}`, true);
             //                               ^ Don't block the rest of the execution.
             //                                 Don't wait until the request finishes to 
             //                                 continue.
