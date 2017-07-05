@@ -996,7 +996,8 @@ class Player {
             // let req = new Request(); // Construct it
             // let tracks = await req.getJSON(`https://api-v2.soundcloud.com/charts?kind=${_kind}&genre=${_genres}&limit=${_limit}&linked_partitioning=${$_partition}&client_id=${consts.client_id}`);
         } catch (e) {
-            console.log('getTracksFromCharts Error - ' + e.message);
+            console.log('getTracksFromCharts Error - ' + e.message); 
+            
         }
     }
 }
