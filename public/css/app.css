@@ -585,7 +585,6 @@ pre {
     }
 
     #histContainer {
-        overflow: hidden;
         min-height: 100%;
         height: inherit;
         background-color: rgba(35, 35, 35, .95);

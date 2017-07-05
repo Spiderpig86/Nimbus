@@ -1012,7 +1012,7 @@ class Player {
                     if (this.shuffleQueue)
                         trackCollection = this.shuffleTracks(data.collection);
                     else
-                        trackCollection = data.collection;
+                        trackCollection = data.collection.reverse();
 
                     for (let i = 0; i < trackCollection.length - 1; i++) {
                         this.queue.push(trackCollection[i].track);
@@ -1021,7 +1021,7 @@ class Player {
                     console.log(trackCollection);
 
                      // Load the song
-                    this.curPlayer.load(trackCollection[0].track.permalink_url);
+                    this.curPlayer.load(trackCollection[trackCollection.length - 1].track.permalink_url);
                     setTimeout(() => this.loadWidgetSong(this.curPlayer), 2000);
                 }
             });  
