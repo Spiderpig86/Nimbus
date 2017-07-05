@@ -3,6 +3,21 @@ let app = express()
 let path = require('path')
 const port = process.env.PORT || 8000
 
+// must specify options hash even if no options provided!
+var phpExpress = require('php-express')({
+ 
+  // assumes php is in your PATH
+  binPath: 'php'
+});
+ 
+// set view engine to php-express
+app.set('views', './php');
+app.engine('php', phpExpress.engine);
+app.set('view engine', 'php');
+ 
+// routing all .php file to php-express
+app.all(/.+\.php$/, phpExpress.router);
+
 // Set up static file paths
 app.use(express.static(path.join(__dirname, '../public/')));
 app.use('/js', express.static(path.join(__dirname, '../public/js')));
