@@ -4,19 +4,11 @@ let path = require('path')
 const port = process.env.PORT || 8000
 
 // must specify options hash even if no options provided!
-var phpExpress = require('php-express')({
+let phpExpress = require('php-express')({
  
   // assumes php is in your PATH
   binPath: 'php'
 });
- 
-// set view engine to php-express
-app.set('views', './php');
-app.engine('php', phpExpress.engine);
-app.set('view engine', 'php');
- 
-// routing all .php file to php-express
-app.all(/.+\.php$/, phpExpress.router);
 
 // Set up static file paths
 app.use(express.static(path.join(__dirname, '../public/')));
@@ -24,6 +16,16 @@ app.use('/js', express.static(path.join(__dirname, '../public/js')));
 app.use('/css', express.static(path.join(__dirname, '../public/css')));
 app.use('/fonts', express.static(path.join(__dirname, '../public/fonts')));
 app.use('/php', express.static(path.join(__dirname, '../public/php')));
+ 
+// set view engine to php-express
+app.set('views', express.static(path.join(__dirname, '/php')));
+app.engine('php', phpExpress.engine);
+app.set('view engine', 'php');
+ 
+// routing all .php file to php-express
+app.all(/.+\.php$/, phpExpress.router);
+
+
 
 app.get('/', (req, res) => {
     res.header("Access-Control-Allow-Origin", "*");
