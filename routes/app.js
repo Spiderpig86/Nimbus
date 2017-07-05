@@ -18,7 +18,6 @@ app.use('/fonts', express.static(path.join(__dirname, '../public/fonts')));
 app.use('/php', express.static(path.join(__dirname, '../public/php')));
  
 // set view engine to php-express
-app.set('views', express.static(path.join(__dirname, '/php')));
 app.engine('php', phpExpress.engine);
 app.set('view engine', 'php');
  
