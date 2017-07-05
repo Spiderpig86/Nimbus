@@ -120,8 +120,6 @@ pre {
     -o-transition: all .3s;
 }
 
-/* DASHBOARD */
-
 
 /* MAIN PLAYER UI */
 #background {
@@ -616,6 +614,12 @@ pre {
     #playerInfoContainer {
         min-height: 100vh;
         height: inherit;
+    }
+
+    .waveform {
+        vertical-align: middle;
+        height: 50px;
+        margin: 0;
     }
 }
 

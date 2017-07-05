@@ -407,6 +407,20 @@ class Player {
                 let curTimeStr = Utils.convertMillisecondsToDigitalClock(e.currentPosition).clock;
                 let totalTimeStr = Utils.convertMillisecondsToDigitalClock(this.widgetTrack.duration).clock;
                 document.getElementById('curTime').innerText = `${curTimeStr} / ${totalTimeStr}`;
+                
+                // For some reason FINISH event no longer fires when changing songs in playlist, manual override here
+                if (e.currentPosition === 0) {
+                    if (this.isPlaylist && !this.isRepeating) {
+                        this.loadWidgetSong(this.curPlayer); // Update track info to the next song in the playlist
+                    } else if (this.isPlaylist && this.isRepeating) { // Replay set
+                        this.curPlayer.pause();
+                        setTimeout(() => {
+                            this.curPlayer.prev();
+                            this.loadWidgetSong(this.curPlayer);
+                        }, 500);
+
+                    }
+                }
             });
 
             // Bind when the song has finished

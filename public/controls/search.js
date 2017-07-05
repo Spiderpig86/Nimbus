@@ -44,6 +44,7 @@ class Search {
                             </label>
                         </div>
                     </div>
+                    <space class="large"></space>
                     <div class="row">
                         <h3 class="uppercase">Charts</h3>
                         <div class="row" id="chartContainer">
@@ -210,7 +211,9 @@ class Search {
 
     loadCharts() {
         this.chartContainer = document.querySelector('#chartContainer');
-        let c = new ChartItem(this._player, "Dance & EDM Top 50", "SoundCloud", "top", "soundcloud%3Agenres%3Adanceedm", 50);
+        let c = new ChartItem(this._player, "SoundCloud Top 50", "SoundCloud", "top", "soundcloud%3Agenres%3Aall-music", 50);
+        this.chartContainer.appendChild(c.render());
+        c = new ChartItem(this._player, "Dance & EDM Top 50", "SoundCloud", "top", "soundcloud%3Agenres%3Adanceedm", 50);
         this.chartContainer.appendChild(c.render());
         c = new ChartItem(this._player, "Rap Top 50", "SoundCloud", "top", "soundcloud%3Agenres%3Ahiphoprap", 50);
         this.chartContainer.appendChild(c.render());

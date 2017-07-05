@@ -1,3 +1,7 @@
+#dashboardModalContainer .hero-body {
+    padding: 0 1.5rem;
+}
+
 /* The tab pages (not the tabs in the tab strip) */
 .tabpage {
     display: none;
