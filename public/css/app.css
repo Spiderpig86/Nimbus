@@ -4,6 +4,7 @@ body {
     background-color: #000;
     -webkit-font-smoothing: antialiased;
 -moz-osx-font-smoothing: grayscale;
+    user-select: none;
 }
 
 .hero-body h1,
@@ -80,7 +81,7 @@ pre {
     opacity: 0;
     -webkit-transform: translateY(-110%);
             transform: translateY(-110%);
-            overflow: scroll;
+            overflow: auto;
 }
 
 .overlay-dialog.shown {
@@ -508,6 +509,10 @@ pre {
 
     .level {
         display: flex; /* Keep flex */
+    }
+
+    .header-item {
+        height: 56px;
     }
 
     #background::before {

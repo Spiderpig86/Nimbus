@@ -178,10 +178,10 @@ class Player {
 
             } else if (e.shiftKey && e.keyCode == 38) {
                 // shift up
-                this.volumeUp(0.1);
+                this.volumeUp(10);
             } else if (e.shiftKey && e.keyCode == 40) {
                 // shift down
-                this.volumeDown(0.1);
+                this.volumeDown(10);
 
             } else if (e.shiftKey && e.keyCode == 66) {
                 let id = prompt("Enter song id.");
@@ -199,7 +199,6 @@ class Player {
             }
         }
 
-        
     }
 
     /**
@@ -322,6 +321,18 @@ class Player {
         this.flipContainer.onclick = (e) => {
             $('#flipContainer').toggleClass('flipped');
         }
+
+        this.volumeSlider = document.getElementById('volumeSlider');
+
+        // Update the volume
+        this.curPlayer.getVolume((vol) => {
+            console.log(vol);
+            this.volumeSlider.value = vol;
+        });
+
+        this.volumeSlider.addEventListener('change', () => {
+            this.curPlayer.setVolume(this.volumeSlider.value);
+        }, false);
 
         // Async method to build waveform
         (async () => {
@@ -631,12 +642,13 @@ class Player {
     }
 
     /**
-     * Increases the volume with the maximum bound being 1.
+     * Increases the volume with the maximum bound being 100.
      * @param {float} offset - how much to increase the volume by
      */
     volumeUp(offset) {
         this.curPlayer.getVolume((vol) => {
-            this.curPlayer.setVolume(Math.min(1, vol + offset));
+            this.curPlayer.setVolume(Math.min(100, vol + offset));
+            this.volumeSlider.value = Math.min(100, vol + offset);
         });
     }
 
@@ -646,7 +658,8 @@ class Player {
      */
     volumeDown(offset) {
         this.curPlayer.getVolume((vol) => {
-            this.curPlayer.setVolume(Math.min(1, vol - offset));
+            this.curPlayer.setVolume(Math.max(0, vol - offset));
+            this.volumeSlider.value = Math.max(0, vol - offset);
         });
     }
 
@@ -1022,7 +1035,10 @@ class Player {
 
                      // Load the song
                     this.curPlayer.load(trackCollection[trackCollection.length - 1].track.permalink_url);
-                    setTimeout(() => this.loadWidgetSong(this.curPlayer), 2000);
+                    setTimeout(() => this.loadWidgetSong(this.curPlayer), 1000);
+                    
+                    // Display toast message when done
+                    Utils.showToast(`${trackCollection.length} tracks added to the queue.`);
                 }
             });  
         } catch (e) {
