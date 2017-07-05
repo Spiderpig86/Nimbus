@@ -977,23 +977,54 @@ class Player {
         return tracks;
     }
 
-    async getTracksFromCharts(_kind, _genres, _limit, $_partition = 1) {
+    getTracksFromCharts(_kind, _genres, _limit, $_partition = 1) {
         // kind=top&genre=soundcloud%3Agenres%3Aall-music&limit=50
         try {
-            let oReq = new XMLHttpRequest(); //New request object
-            oReq.onload = function() {
-                //This is where you handle what to do with the response.
-                //The actual data is found on this.responseText
-                alert(this.responseText); //Will alert: 42
-            };
-            oReq.open("get", `${window.location.href}php/index.php?kind=top&genre=soundcloud%3Agenres%3Adanceedm&limit=50&linked_partitioning=1&client_id=2t9loNQH90kzJcsFCODdigxfp325aq4z`, true);
-            //                               ^ Don't block the rest of the execution.
-            //                                 Don't wait until the request finishes to 
-            //                                 continue.
-            oReq.send();
-            // console.log(`https://api-v2.soundcloud.com/charts?kind=${_kind}&genre=${_genres}&limit=${_limit}&linked_partitioning=${$_partition}&client_id=${consts.client_id}`);
-            // let req = new Request(); // Construct it
-            // let tracks = await req.getJSON(`https://api-v2.soundcloud.com/charts?kind=${_kind}&genre=${_genres}&limit=${_limit}&linked_partitioning=${$_partition}&client_id=${consts.client_id}`);
+            // let oReq = new XMLHttpRequest(); //New request object
+            // oReq.onload = function() {
+            //     // Callback
+            //     let songs = JSON.parse(this.responseText);
+            //     console.log(songs);
+            //     console.log(this.queue);
+            // };
+            // oReq.open("get", `http://polarity.x10.mx/test.php?kind=${_kind}&genre=${_genres}&limit=${_limit}&linked_partitioning=${$_partition}&client_id=${consts.client_id}`, true);
+            // //                               ^ Don't block the rest of the execution.
+            // //                                 Don't wait until the request finishes to 
+            // //                                 continue.
+            // oReq.send();
+            // // console.log(`https://api-v2.soundcloud.com/charts?kind=${_kind}&genre=${_genres}&limit=${_limit}&linked_partitioning=${$_partition}&client_id=${consts.client_id}`);
+            // // let req = new Request(); // Construct it
+            // // let tracks = await req.getJSON(`https://api-v2.soundcloud.com/charts?kind=${_kind}&genre=${_genres}&limit=${_limit}&linked_partitioning=${$_partition}&client_id=${consts.client_id}`);
+
+            $.ajax({
+                url: 'http://polarity.x10.mx/test.php', //This is the current doc
+                type: "GET",
+                dataType:'json', // add json datatype to get json
+                data: ({
+                    kind: _kind,
+                    genre: _genres,
+                    limit: _limit,
+                    linked_partitioning: $_partition,
+                    client_id: consts.client_id
+                }),
+                success: (data) => {
+                    let trackCollection = null;
+                    if (this.shuffleQueue)
+                        trackCollection = this.shuffleTracks(data.collection);
+                    else
+                        trackCollection = data.collection;
+
+                    for (let i = 0; i < trackCollection.length - 1; i++) {
+                        this.queue.push(trackCollection[i].track);
+                    }
+
+                    console.log(trackCollection);
+
+                     // Load the song
+                    this.curPlayer.load(trackCollection[0].track.permalink_url);
+                    setTimeout(() => this.loadWidgetSong(this.curPlayer), 2000);
+                }
+            });  
         } catch (e) {
             console.log('getTracksFromCharts Error - ' + e.message); 
         }

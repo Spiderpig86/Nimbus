@@ -210,7 +210,9 @@ class Search {
 
     loadCharts() {
         this.chartContainer = document.querySelector('#chartContainer');
-        let c = new ChartItem(this._player, "Dance & EDMTop 50", "SoundCloud", "top", "soundcloud%3Agenres%3Adanceedm", 50);
+        let c = new ChartItem(this._player, "Dance & EDM Top 50", "SoundCloud", "top", "soundcloud%3Agenres%3Adanceedm", 50);
+        this.chartContainer.appendChild(c.render());
+        c = new ChartItem(this._player, "Rap Top 50", "SoundCloud", "top", "soundcloud%3Agenres%3Ahiphoprap", 50);
         this.chartContainer.appendChild(c.render());
     }
 
