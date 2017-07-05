@@ -13,7 +13,6 @@
     "babel-loader": "^7.1.1",
     "babel-preset-es2015": "^6.24.1",
     "express": "^4.15.2",
-    "php-express": "0.0.3",
     "webpack": "^2.3.3"
   },
   "scripts": {

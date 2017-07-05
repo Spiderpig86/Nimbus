@@ -981,13 +981,12 @@ class Player {
         // kind=top&genre=soundcloud%3Agenres%3Aall-music&limit=50
         try {
             let oReq = new XMLHttpRequest(); //New request object
-            oReq.onload = () => {
+            oReq.onload = function() {
                 //This is where you handle what to do with the response.
                 //The actual data is found on this.responseText
-                console.log(this.responseText);
+                alert(this.responseText); //Will alert: 42
             };
-            console.log(`${window.location.href}php/index.php?kind=${_kind}&genre=${_genres}&limit=${_limit}&linked_partitioning=${$_partition}&client_id=${consts.client_id}`);
-            oReq.open("get", `${window.location.href}php/index.php?kind=${_kind}&genre=${_genres}&limit=${_limit}&linked_partitioning=${$_partition}&client_id=${consts.client_id}`, true);
+            oReq.open("get", `${window.location.href}php/index.php?kind=top&genre=soundcloud%3Agenres%3Adanceedm&limit=50&linked_partitioning=1&client_id=2t9loNQH90kzJcsFCODdigxfp325aq4z`, true);
             //                               ^ Don't block the rest of the execution.
             //                                 Don't wait until the request finishes to 
             //                                 continue.
