@@ -4,7 +4,10 @@ body {
     background-color: #000;
     -webkit-font-smoothing: antialiased;
 -moz-osx-font-smoothing: grayscale;
-    user-select: none;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
 }
 
 .hero-body h1,
@@ -69,6 +72,23 @@ pre {
     width: 48px;
     height: 60px;
     cursor: pointer;
+}
+
+.btn-nimbus {
+    border-radius: 50px;
+    background: transparent;
+    border: 1px solid #bbb;
+    color: #888;
+    -webkit-transition: all .3s;
+    transition: all .3s;
+}
+
+.btn-nimbus:hover {
+    background: #374054;
+    border-color: #374054;
+    color: #fff;
+    -webkit-transition: all .3s;
+    transition: all .3s;
 }
 
 /* DIALOG */
@@ -176,7 +196,8 @@ pre {
     opacity: 1;
     -webkit-transition: all .3s;
     transition: all .3s;
-    transform: none;
+    -webkit-transform: none;
+            transform: none;
 }
 
 #histContainer .card:hover,
@@ -364,7 +385,10 @@ pre {
     -webkit-backface-visibility: hidden;
             backface-visibility: hidden;
     cursor: pointer;
-    user-select: none;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
 }
 
 .song-desc {
@@ -506,6 +530,8 @@ pre {
 @media screen and (max-width: 768px) {
 
     .level {
+        display: -webkit-box;
+        display: -ms-flexbox;
         display: flex; /* Keep flex */
     }
 

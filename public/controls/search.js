@@ -31,9 +31,6 @@ class Search {
                     <space></space>
                     <div class="overflow-container">
                         <div class="row level" id="optionsContainer">
-                            <div class="level-left">
-                                <h6 class="title uppercase">Options:</h6>
-                            </div>
                             <label class="button-switch btn-tooltip" data-tooltip="Shuffle tracks before adding to queue.">
                                 <input type="checkbox" name="shuffle" value="Shuffle" id="chkShuffle"/>
                                 <span class="uppercase">Shuffle</span>
@@ -44,9 +41,9 @@ class Search {
                             </label>
                         </div>
                     </div>
-                    <space class="large"></space>
+                    <space class="x-large"></space>
                     <div class="row">
-                        <h3 class="uppercase">Charts</h3>
+                        <h3>Charts</h3>
                         <div class="row" id="chartContainer">
 
                         </div>
@@ -203,6 +200,7 @@ class Search {
 
         if (count === null || !isFinite(count)) {
             Utils.showToast('Please enter a numerical value and try again.');
+            this.chkNumber.checked = false;
             return;
         }
         $('#chkNumberText').text(`${count} results`);
@@ -211,12 +209,17 @@ class Search {
 
     loadCharts() {
         this.chartContainer = document.querySelector('#chartContainer');
-        let c = new ChartItem(this._player, "SoundCloud Top 50", "SoundCloud", "top", "soundcloud%3Agenres%3Aall-music", 50);
+        let c = new ChartItem(this._player, 'SoundCloud Top 50', 'SoundCloud', 'top', 'soundcloud%3Agenres%3Aall-music', 50, `../img/soundcloud_top50.jpg`);
         this.chartContainer.appendChild(c.render());
-        c = new ChartItem(this._player, "Dance & EDM Top 50", "SoundCloud", "top", "soundcloud%3Agenres%3Adanceedm", 50);
+        c = new ChartItem(this._player, 'Rap Top 50', 'SoundCloud', 'top', 'soundcloud%3Agenres%3Ahiphoprap', 50, `../img/rap_top50.png`);
         this.chartContainer.appendChild(c.render());
-        c = new ChartItem(this._player, "Rap Top 50", "SoundCloud", "top", "soundcloud%3Agenres%3Ahiphoprap", 50);
+        c = new ChartItem(this._player, 'Fresh Hip-hop & Rap', 'SoundCloud', 'trending', 'soundcloud%3Agenres%3Ahiphoprap', 50, `../img/fresh_rap.png`);
         this.chartContainer.appendChild(c.render());
+        c = new ChartItem(this._player, 'Dance & EDM Top 50', 'SoundCloud', 'top', 'soundcloud%3Agenres%3Adanceedm', 50, `../img/edm_top50.jpg`);
+        this.chartContainer.appendChild(c.render());
+        c = new ChartItem(this._player, 'Essential EDM', 'SoundCloud', 'trending', 'soundcloud%3Agenres%3Adanceedm', 50, `../img/essential_edm.png`);
+        this.chartContainer.appendChild(c.render());
+        
     }
 
 }

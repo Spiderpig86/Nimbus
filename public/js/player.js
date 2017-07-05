@@ -326,7 +326,6 @@ class Player {
 
         // Update the volume
         this.curPlayer.getVolume((vol) => {
-            console.log(vol);
             this.volumeSlider.value = vol;
         });
 

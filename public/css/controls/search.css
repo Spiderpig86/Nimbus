@@ -63,6 +63,29 @@
     transition: all .3s;
 }
 
+/* CHART ITEMS */
+
+.chart-item {
+    background: #fff;
+    cursor: pointer;
+    margin: 1rem auto;
+    backface-visibility: hidden;
+}
+
+.chart-item .card-image {
+    border-radius: 5px;
+}
+
+.chart-item .card-container {
+    padding-bottom: 100%;
+    min-height: inherit;
+}
+
+.chart-item .title-container .title {
+    font-family: 'Montserrat';
+    font-weight: 700;
+}
+
 @media screen and (max-width: 992px) {
     #searchField {
         font-size: 2rem;

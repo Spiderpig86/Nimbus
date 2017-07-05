@@ -49,7 +49,7 @@ class Dashboard {
                     </div>
                     <div class="tabpage">
                         <div class="row level">
-                            <h3 style="flex-grow: 1;">Queue</h3><button id="btnClearQueue" class="btn-small">Clear Queue</button>
+                            <h3 style="flex-grow: 1;">Queue</h3><button id="btnClearQueue" class="btn-small btn-nimbus">Clear Queue</button>
                         </div>
                         <div class="divider"></div>
                         <space></space>
