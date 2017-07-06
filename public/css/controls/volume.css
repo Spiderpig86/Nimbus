@@ -7,11 +7,8 @@
 input[type=range]::-webkit-slider-runnable-track {
   -webkit-appearance: none;
   background: rgba(59,173,227,1);
-  background: -moz-linear-gradient(45deg, rgba(59,173,227,1) 0%, rgba(87,111,230,1) 25%, rgba(152,68,183,1) 51%, rgba(255,53,127,1) 100%);
   background: -webkit-gradient(left bottom, right top, color-stop(0%, rgba(59,173,227,1)), color-stop(25%, rgba(87,111,230,1)), color-stop(51%, rgba(152,68,183,1)), color-stop(100%, rgba(255,53,127,1)));
   background: -webkit-linear-gradient(45deg, rgba(59,173,227,1) 0%, rgba(87,111,230,1) 25%, rgba(152,68,183,1) 51%, rgba(255,53,127,1) 100%);
-  background: -o-linear-gradient(45deg, rgba(59,173,227,1) 0%, rgba(87,111,230,1) 25%, rgba(152,68,183,1) 51%, rgba(255,53,127,1) 100%);
-  background: -ms-linear-gradient(45deg, rgba(59,173,227,1) 0%, rgba(87,111,230,1) 25%, rgba(152,68,183,1) 51%, rgba(255,53,127,1) 100%);
   background: linear-gradient(45deg, rgba(59,173,227,1) 0%, rgba(87,111,230,1) 25%, rgba(152,68,183,1) 51%, rgba(255,53,127,1) 100%);
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3bade3 ', endColorstr='#ff357f ', GradientType=1 );
   /*background: rgba(255, 255, 255, 0.7);*/
@@ -25,11 +22,8 @@ input[type=range]:focus {
 input[type=range]::-moz-range-track {
   -moz-appearance: none;
   background: rgba(59,173,227,1);
-  background: -moz-linear-gradient(45deg, rgba(59,173,227,1) 0%, rgba(87,111,230,1) 25%, rgba(152,68,183,1) 51%, rgba(255,53,127,1) 100%);
   background: -webkit-gradient(left bottom, right top, color-stop(0%, rgba(59,173,227,1)), color-stop(25%, rgba(87,111,230,1)), color-stop(51%, rgba(152,68,183,1)), color-stop(100%, rgba(255,53,127,1)));
   background: -webkit-linear-gradient(45deg, rgba(59,173,227,1) 0%, rgba(87,111,230,1) 25%, rgba(152,68,183,1) 51%, rgba(255,53,127,1) 100%);
-  background: -o-linear-gradient(45deg, rgba(59,173,227,1) 0%, rgba(87,111,230,1) 25%, rgba(152,68,183,1) 51%, rgba(255,53,127,1) 100%);
-  background: -ms-linear-gradient(45deg, rgba(59,173,227,1) 0%, rgba(87,111,230,1) 25%, rgba(152,68,183,1) 51%, rgba(255,53,127,1) 100%);
   background: linear-gradient(45deg, rgba(59,173,227,1) 0%, rgba(87,111,230,1) 25%, rgba(152,68,183,1) 51%, rgba(255,53,127,1) 100%);
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3bade3 ', endColorstr='#ff357f ', GradientType=1 );
   /*background: rgba(255, 255, 255, 0.7);*/
@@ -49,9 +43,17 @@ input[type=range]::-webkit-slider-thumb {
   box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.5);
   cursor: -webkit-grab;
     border-color: #fff;
-  -webkit-transition: border 1000ms ease;
-  transition: border 1000ms ease;
+  -webkit-transition: all .3s;
+    transition: all .3s;
   
+}
+
+#volumeContainer:hover input[type=range]::-webkit-slider-thumb {
+    height: 1.5rem;
+    width: 1.5rem;
+    bottom: 11px;
+    -webkit-transition: all .3s;
+    transition: all .3s;
 }
 
 input[type=range]::-moz-range-thumb {
@@ -66,11 +68,17 @@ input[type=range]::-moz-range-thumb {
   background-color: #fff;
   cursor: -webkit-grab;
     border-color: #fff;
-  -webkit-transition: border 1000ms ease;
-  transition: border 1000ms ease;
+  -webkit-transition: all .3s;
+  transition: all .3s;
 }
 
-
+#volumeContainer:hover input[type=range]::-moz-slider-thumb {
+    height: 1.5rem;
+    width: 1.5rem;
+    bottom: 11px;
+    -webkit-transition: all .3s;
+    transition: all .3s;
+}
 
 .range.blue::-webkit-slider-thumb {
    border-color: rgb(59,173,227);

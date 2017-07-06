@@ -43,8 +43,8 @@ class Search {
                     </div>
                     <space class="x-large"></space>
                     <div class="row">
-                        <h3>Charts</h3>
-                        <div class="row" id="chartContainer">
+                        <h3>Featured</h3>
+                        <div class="row flex expand" id="chartContainer">
 
                         </div>
                     </div>

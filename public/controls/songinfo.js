@@ -35,7 +35,7 @@ const SongInfo = (largeArt, track, tags, errorPurchase) => (
                     <p class="subtitle" id="curTime">0:00 / 4:20</p>
                     <div class="waveform"></div>
                     <space></space>
-                    <div class="level">
+                    <div class="level" id="volumeContainer">
                         <span class="icon"><i class="fa fa-volume-off" aria-hidden="true"></i></span>
                         <input id="volumeSlider" type="range" min="0" max="100" value="0" class="range"/>
                     </div>

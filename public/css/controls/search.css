@@ -91,3 +91,14 @@
         font-size: 2rem;
     }
 }
+
+@media screen and (max-width: 768px) {
+    #searchModalContainer .content {
+        margin: 0;
+        width: 100%;
+    }
+
+    .chart-item {
+        margin-left: -0.5rem;
+    }
+}
