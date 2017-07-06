@@ -334,7 +334,7 @@ class Player {
         }, false);
 
         // Async method to build waveform
-        (async () => {
+        (async function() {
             let req = new Request(); // Construct it
             let data = await req.getJSON(song.waveform_url);
             console.log(song.waveform_url);
@@ -373,7 +373,7 @@ class Player {
         } else {
             await waveform.updateWaveformData(data.samples);
         }
-        })();
+        }).bind(this)();
 
     }
 
