@@ -55,6 +55,8 @@ class Player {
         this.shuffleQueue = false; // Should the queue be shuffled when we get a list of tracks;
         this.queueNum = 120; // How many results to add to the queue
 
+        this.seekingForward = false; // Work around for the bug in PROGRESS event
+
         // Experimental API v2 Endpoint
         this.SOUNDCLOUD_API_V2 = 'https://api-v2.soundcloud.com/';
 
@@ -264,21 +266,24 @@ class Player {
 
     updateSongInfo(song) {
         console.log('getcurrentsound start');
-        // if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) { // Attempt to fix on mobile devices
+        if ( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) { // Attempt to fix on mobile devices
             
-        //     // Sorry can not auto play on mobile =_(
-        //     // https://stackoverflow.com/questions/26066062/autoplay-html5-audio-player-on-mobile-browsers
-        //     // Need to use trick.
-        //     // widget.play();
-        //     // setTimeout(() => {
-        //     //         $('#play-btn').trigger('click'); // Cannot fix autoplay issue, but now users can play the track with 1 tap of the play button instead o several (bug fix)
-        //     //         console.log('test play')
-        //     //     }, 2000);
-        //     // this.togglePlayState(true);
-        // } else {
+            // Sorry cannot auto play on mobile =_(
+            // https://stackoverflow.com/questions/26066062/autoplay-html5-audio-player-on-mobile-browsers
+            // Need to use trick.
+            // widget.play();
+            // setTimeout(() => {
+            //         $('#play-btn').trigger('click'); // Cannot fix autoplay issue, but now users can play the track with 1 tap of the play button instead o several (bug fix)
+            //         console.log('test play')
+            //     }, 2000);
+            // this.togglePlayState(true);
+            //this.curPlayer.play(); // Extra call for forcing auto playing in mobile
+
+            // Android app workaround https://developer.android.com/reference/android/webkit/WebSettings.html
+        }
         this.curPlayer.play(); // Play normally on non mobile
         this.togglePlayState(true);
-        //}
+
         this.isPlaying = true;
         let rndImg = Utils.fetchRandomImage();
         this.widgetTrack.cover = song.artwork_url;
@@ -412,13 +417,15 @@ class Player {
                 if (e.currentPosition === 0) {
                     if (this.isPlaylist && !this.isRepeating) {
                         this.loadWidgetSong(this.curPlayer); // Update track info to the next song in the playlist
-                    } else if (this.isPlaylist && this.isRepeating) { // Replay set
+                    } else if (this.isPlaylist && this.isRepeating && !this.seekingForward) { // Replay set
                         this.curPlayer.pause();
                         setTimeout(() => {
                             this.curPlayer.prev();
                             this.loadWidgetSong(this.curPlayer);
                         }, 500);
-
+                    } else if (this.seekingForward) {
+                        this.curPlayer.seekTo(1);
+                        setTimeout(() => {this.seekingForward = false, 500}); // Prevent this event from firing more than once.
                     }
                 }
             });
@@ -570,6 +577,7 @@ class Player {
         console.log(this.isPlaylist);
         if (this.isPlaylist) {
             let nextSongID = this.widgetTrack.id;
+            this.seekingForward = true;
             this.restartSong();
             this.curPlayer.pause();
             this.curPlayer.pause(); // Widget not really responsive when user goes back and forth quickly
