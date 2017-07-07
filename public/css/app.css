@@ -136,7 +136,7 @@ pre {
     position: absolute;
     top: 2rem;
     right: 2rem;
-    color: #777;
+    color: #b1b1b1;
     cursor: pointer;
     transition: all .3s;
     -webkit-transition: all .3s;
@@ -301,6 +301,7 @@ pre {
     font-size: .8rem;
     font-weight: 400;
     letter-spacing: 2px;
+    font-family: 'Montserrat';
 }
 
 #trackTitle {
@@ -580,12 +581,13 @@ pre {
     #background {
         -webkit-backface-visibility: hidden;
         -webkit-perspective: 1000;
-        -webkit-transform: translate3d(0,0,0);
-        -webkit-transform: translateZ(0);
+        /*-webkit-transform: translate3d(0,0,0);
+        -webkit-transform: translateZ(0);*/
         backface-visibility: hidden;
         perspective: 1000;
-        transform: translate3d(0,0,0);
-        transform: translateZ(0);
+        /*transform: translate3d(0,0,0);
+        transform: translateZ(0);*/
+        transform: scale(1.1); /* Get rid of black border in blur */
     }
 
     .card:hover {

@@ -217,6 +217,9 @@ class Player {
                 let rndImg = Utils.fetchRandomImage();
                 this.updateSongInfo(song);
 
+                // Set the volume (player always resets to 100 again)
+                this.setVolume(Settings.getPref('playerVolume'));
+
                 let found = false; // Boolean to see if the song exists
                 if (this.history.length > 0 || this.queue.length > 0) {
                     let songList = this.history.concat(this.queue); // Use this to prevent adding any duplicates
@@ -327,13 +330,8 @@ class Player {
 
         this.volumeSlider = document.getElementById('volumeSlider');
 
-        // Update the volume
-        this.curPlayer.getVolume((vol) => {
-            this.volumeSlider.value = vol;
-        });
-
         this.volumeSlider.addEventListener('change', () => {
-            this.curPlayer.setVolume(this.volumeSlider.value);
+            this.setVolume(this.volumeSlider.value);
         }, false);
 
         // Async method to build waveform
@@ -663,8 +661,8 @@ class Player {
      */
     volumeUp(offset) {
         this.curPlayer.getVolume((vol) => {
-            this.curPlayer.setVolume(Math.min(100, vol + offset));
-            this.volumeSlider.value = Math.min(100, vol + offset);
+            let newVol = Math.min(100, vol + offset);
+            this.setVolume(newVol);
         });
     }
 
@@ -674,9 +672,23 @@ class Player {
      */
     volumeDown(offset) {
         this.curPlayer.getVolume((vol) => {
-            this.curPlayer.setVolume(Math.max(0, vol - offset));
-            this.volumeSlider.value = Math.max(0, vol - offset);
+            let newVol = Math.max(0, vol - offset);
+            this.setVolume(newVol);
         });
+    }
+
+    /**
+     * Sets the volume of the player while updating UI components and user setting.
+     * 
+     * @param {Number} vol - volume level
+     * 
+     * @memberof Player
+     * 
+     */
+    setVolume(vol) {
+        this.curPlayer.setVolume(vol);
+        this.volumeSlider.value = vol;
+        Settings.storePref('playerVolume', vol);
     }
 
     /**
@@ -871,7 +883,6 @@ class Player {
     getTracksByUser(user) {
         try {
             SC.resolve(`https://soundcloud.com/${user}`).then((response) => {
-                console.log(response.id);
                 try {
                     // Create options object to hold what we want to search for
                     let options = {

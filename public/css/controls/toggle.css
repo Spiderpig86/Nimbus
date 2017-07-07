@@ -30,9 +30,8 @@
      display: inline-flex; 
 }
 .button-switch input[type="checkbox"] + span:hover {
-    background: #374054;
+    background: rgba(169, 169, 169, 0.4);
     color: #fff;
-    border-color: #374054;
 }
 /*.button-switch input[type="checkbox"] + span:before {
   position: absolute;
@@ -51,8 +50,9 @@
   content: ":(";
 }*/
 .button-switch input[type="checkbox"]:checked + span {
-  background: rgba(169, 169, 169, 0.7);
+  background: #374054;
   color: #fff;
+  border-color: #374054;
 }
 
 #optionsContainer {
