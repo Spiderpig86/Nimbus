@@ -38,12 +38,12 @@ class Dashboard {
                         <div class="divider"></div>
                         <div class="row">
                             <div class="toggle-container">
-                                <p>Enable battery saver</p>
-                                <div class="toggle-switch"><input type="checkbox" id="chkBattery"/><label for="chkBattery"></label></div>
+                                <p>Disable Animations</p>
+                                <div class="toggle-switch"><input type="checkbox" id="chkAnimations"/><label for="chkAnimations"></label></div>
                             </div>
                             <div class="toggle-container">
-                                <p>Dark Theme</p>
-                                <div class="toggle-switch"><input type="checkbox" id="chkDark"/><label for="chkDark"></label></div>
+                                <p>Disable Blur</p>
+                                <div class="toggle-switch"><input type="checkbox" id="chkBlur"/><label for="chkBlur"></label></div>
                             </div>
                         </div>
                     </div>
@@ -68,7 +68,8 @@ class Dashboard {
         this.queueContainer = document.getElementById('queueContainer');
         this.btnClearQueue = document.getElementById('btnClearQueue');
 
-        this.chkBattery = document.getElementById('chkBattery');
+        this.chkAnimations = document.getElementById('chkAnimations');
+        this.chkBlur = document.getElementById('chkBlur');
 
         // Event handler for close button for search dialog
         this.dashboardCloseBtn.onclick = (e) => {
@@ -81,12 +82,21 @@ class Dashboard {
         }
 
         // Settings controls
-        this.chkBattery.onclick = (e) => {
-            Settings.storePref('batterySaver', this.chkBattery.checked);
-            if (this.chkBattery.checked && !document.getElementById("batterySaver")) {
-                $(Settings.batterySaverCSS).appendTo("head");
+        this.chkAnimations.onclick = (e) => {
+            Settings.storePref('disableAnimations', this.chkAnimations.checked);
+            if (this.chkAnimations.checked && !document.getElementById("disableAnimations")) {
+                $(Settings.disableAnimationsCSS).appendTo("head");
             } else {
-                $('#batterySaver').remove(); // Remove the style sheet
+                $('#disableAnimations').remove(); // Remove the style sheet
+            }
+        }
+
+        this.chkBlur.onclick = (e) => {
+            Settings.storePref('disableBlur', this.chkBlur.checked);
+            if (this.chkBlur.checked && !document.getElementById("disableBlur")) {
+                $(Settings.disableBlurCSS).appendTo("head");
+            } else {
+                $('#disableBlur').remove(); // Remove the style sheet
             }
         }
 
@@ -98,7 +108,8 @@ class Dashboard {
     updateControls() {
 
         // Update settings controls
-        this.chkBattery.checked = JSON.parse(Settings.getPref('batterySaver'));
+        this.chkAnimations.checked = JSON.parse(Settings.getPref('disableAnimations'));
+        this.chkBlur.checked = JSON.parse(Settings.getPref('disableBlur'));
     }
 
     toggleDashboard() {

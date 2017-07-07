@@ -82,8 +82,11 @@ class Player {
         this.dashboard = new Dashboard(this);
 
         // Settings already Initialized
-        if (JSON.parse(Settings.getPref('batterySaver'))) {
-            $(Settings.batterySaverCSS).appendTo("head");
+        if (JSON.parse(Settings.getPref('disableAnimations'))) {
+            $(Settings.disableAnimationsCSS).appendTo("head");
+        }
+        if (JSON.parse(Settings.getPref('disableBlur'))) {
+            $(Settings.disableBlurCSS).appendTo("head");
         }
 
         // Load a track when the app is loaded (take url param into account).

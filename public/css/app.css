@@ -16,7 +16,7 @@ body {
 .hero-body h4,
 .hero-body h5,
 .hero-body h6 {
-    color: #fff;
+    color: #fff; 
 }
 
 a {
@@ -300,7 +300,6 @@ pre {
 #songContainer .title {
     font-size: .8rem;
     font-weight: 400;
-    font-family: 'Montserrat';
     letter-spacing: 2px;
 }
 

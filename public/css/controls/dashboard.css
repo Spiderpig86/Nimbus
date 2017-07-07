@@ -94,6 +94,8 @@
 
 .tab-container li a {
     color: rgba(255, 255, 255, 0.8);
+    font-size: .7rem;
+    letter-spacing: 3px;
 }
 
 /*.btn-tooltip:focus::after, .btn-tooltip:hover::after {
