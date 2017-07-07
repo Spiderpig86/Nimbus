@@ -83,9 +83,22 @@ pre {
     border-radius: 50px;
     background: transparent;
     border: 1px solid #bbb;
-    color: #888;
-    -webkit-transition: all .3s;
-    transition: all .3s;
+    color: #a9a9a9;
+    -webkit-transition: all 0.2s ease-in;
+    transition: all 0.2s ease-in;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    border: 1px solid rgba(169, 169, 169, 0.3);
+    font-size: .6rem;
+    line-height: 1rem;
+    letter-spacing: 3px;
+    text-align: center;
+    cursor: pointer;
+    margin: .1rem;
+    position: relative;
+    padding: .5rem 1.5rem;
+    border-radius: 3rem;
 }
 
 .btn-nimbus:hover {
@@ -115,9 +128,9 @@ pre {
             transform: none;
 }
 
-.overlay-dialog .content {
+/*.overlay-dialog .content {
     max-width: none;
-}
+}*/
 
 .dialog-close-btn {
     position: absolute;
@@ -136,7 +149,7 @@ pre {
     position: absolute;
     top: 2rem;
     right: 2rem;
-    color: #363636;
+    color: #eee;
     cursor: pointer;
     transition: all .3s;
     -webkit-transition: all .3s;
@@ -530,8 +543,8 @@ pre {
 }
 
 .unfocused {
-    -webkit-transform: scale(0.85);
-            transform: scale(0.85);
+    -webkit-transform: scale(0.9);
+            transform: scale(0.9);
     opacity: 0;
     -webkit-transition: all .3s;
     transition: all .3s;

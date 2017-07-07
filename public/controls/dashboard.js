@@ -111,11 +111,18 @@ class Dashboard {
             if ($(window).width() <= 768)
                 $('body').css({'overflow-y': 'hidden'});
             this.refreshQueueContainer();
+            //if (window.innerWidth > 768) {
+                $('#playerHero').addClass('unfocused');
+            //}
         } else {
             // Reset dialog (must place up here to account for invalid input)
             $('#dashboardModalContainer').removeClass('shown'); // Hide the search modal
             if ($(window).width() <= 768) // For mobile UI
                 $('body').css({'overflow-y': 'scroll'});
+
+            //if (window.innerWidth > 768) {
+                $('#playerHero').removeClass('unfocused');
+            //}
         }
     }
 
@@ -126,6 +133,9 @@ class Dashboard {
         if ($(window).width() <= 768) // For mobile UI
             $('body').css({'overflow-y': 'scroll'});
         this.isShown = false;
+        //if (window.innerWidth > 768) {
+            $('#playerHero').removeClass('unfocused');
+        //}
     }
     
     refreshQueueContainer() {
