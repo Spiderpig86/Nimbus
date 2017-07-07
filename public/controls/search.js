@@ -164,11 +164,19 @@ class Search {
             $('#searchModalContainer').addClass('shown');
             if ($(window).width() <= 768)
                 $('body').css({'overflow-y': 'hidden'});
+
+            //if (window.innerWidth > 768) {
+                $('#playerHero').addClass('unfocused');
+            //}
         } else {
             // Reset dialog (must place up here to account for invalid input)
             $('#searchModalContainer').removeClass('shown'); // Hide the search modal
             if ($(window).width() <= 768) // For mobile UI
                 $('body').css({'overflow-y': 'scroll'});
+
+            //if (window.innerWidth > 768) {
+                $('#playerHero').removeClass('unfocused');
+            //}
         }
     }
 
@@ -178,6 +186,10 @@ class Search {
         $('#searchModalContainer').removeClass('shown'); // Hide the search modal
         if ($(window).width() <= 768) // For mobile UI
             $('body').css({'overflow-y': 'scroll'});
+
+        //if (window.innerWidth > 768) {
+            $('#playerHero').removeClass('unfocused');
+        //}
         this.isShown = false;
     }
 

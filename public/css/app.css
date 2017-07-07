@@ -36,6 +36,11 @@ pre {
     font-family: 'Nunito Sans';
 }
 
+#playerHero {
+    -webkit-transition: all .3s;
+    transition: all .3s;
+}
+
 .btn-transparent {
     color: #fff;
 }
@@ -95,9 +100,9 @@ pre {
 .overlay-dialog {
     position: absolute;
     z-index: 999;
-    background: rgba(238, 238, 238, 0.95);
-    -webkit-transition: all .2s;
-    transition: all .2s;
+    /*background: rgba(238, 238, 238, 0.95);*/
+    -webkit-transition: all .3s;
+    transition: all .3s;
     opacity: 0;
     -webkit-transform: translateY(-110%);
             transform: translateY(-110%);
@@ -307,7 +312,6 @@ pre {
 
 .card {
     background-color: rgba(140, 140, 140, 0.05);
-    box-shadow: none;
     -webkit-backface-visibility: hidden;
             backface-visibility: hidden;
     -webkit-transition: all 1.0s cubic-bezier(0,0,0.3,1);
@@ -523,6 +527,15 @@ pre {
     left: 0;
     right: 0;
     position: absolute;
+}
+
+.unfocused {
+    -webkit-transform: scale(0.85);
+            transform: scale(0.85);
+    opacity: 0;
+    -webkit-transition: all .3s;
+    transition: all .3s;
+    animation-timing-function: cubic-bezier(.17,.67,1,1.23);
 }
 
 /* Mobile / Tablets */

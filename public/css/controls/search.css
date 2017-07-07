@@ -32,7 +32,7 @@
     text-transform: uppercase;
     font-weight: 700;
     font-size: 9rem;
-    color: #363636;
+    color: #fafafa;
     border-radius: 0;
     transition: transform 600ms, -webkit-transform 600ms;
     -webkit-transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
@@ -40,7 +40,7 @@
 }
 
 #searchField:focus {
-    border-bottom: 1px solid #363636;
+    border-bottom: 1px solid rgba(119, 119, 119, 0.5);
     transition: all .3s;
     -webkit-transition: all .3s;
     -moz-transition: all .3s;
@@ -66,7 +66,7 @@
 /* CHART ITEMS */
 
 .chart-item {
-    background: #fff;
+    background: transparent;
     cursor: pointer;
     margin: 1rem auto;
     backface-visibility: hidden;
@@ -92,7 +92,7 @@
     }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 512px) {
     #searchModalContainer .content {
         margin: 0;
         width: 100%;
