@@ -2,9 +2,8 @@ import Utils from '../js/utils';
 
 class QueueItem {
 
-    constructor(player, dashboard, track) {
+    constructor(player, track) {
         this._player = player;
-        this._dashboard = dashboard;
         this._track = track;
 
         this.queueItem = document.createElement('div');

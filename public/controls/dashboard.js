@@ -156,16 +156,16 @@ class Dashboard {
             let q = null;
             let frag = document.createElement('div');;
             for (let i = this._player.queue.length - 1; i >= 0; i--) {
-                q = new QueueItem(this._player, this, this._player.queue[i].track);
+                q = new QueueItem(this._player, this._player.queue[i].track);
                 frag.appendChild(q.render());
-                q.bindEvents(); // Add the event handlers
                 this.queueItemCount += 1;
             }
             this.queueContainer.appendChild(frag);
 
             $('.queueDelete').on('click', () => { // Add event handler on all tracks
-                console.log('test');
-                let curIndex = this._player.queue.map((track) => {return track.id}).indexOf($(event.currentTarget).attr('data-id')); // Find the song's id associated with this object in the queue
+                let curIndex = this._player.queue.map((track) => {return String(track.id)}).indexOf(String($(event.currentTarget).attr('data-id'))); // Find the song's id associated with this object in the queue
+                // NOTE: Must convert mapped vars to string or same datatype in order to check for equality
+                if (curIndex === -1) return; // In case we couldn't find it, which is an error
                 this._player.queue.splice(curIndex, 1); // Remove the element
                 this.refreshQueueContainer(); // Update the queue container
             });

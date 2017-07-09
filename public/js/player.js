@@ -910,7 +910,7 @@ class Player {
 
                             // Queue all tracks to the queue of the user's playlist. Note that queue is actually acting like a stack since we use push() and pop()
                             for (let i = 0; i < trackCollection.length - 1; i++) { // Skip the first one since we are already playing it at this point (need to subtract upper bound by 1 since we want to exclude the first track from the reversed array)
-                                this.queue.push({id: trackCollection[i].id, track: trackCollection[i].track});
+                                this.queue.push({id: trackCollection[i].id, track: trackCollection[i]});
                                 console.log(tracks[i].title);
                             }
                             
@@ -958,7 +958,7 @@ class Player {
 
                     // Queue all tracks to the queue of the user's playlist. Note that queue is actually acting like a stack since we use push() and pop()
                     for (let i = 0; i < trackCollection.length - 1; i++) { // Skip the first one since we are already playing it at this point (need to subtract upper bound by 1 since we want to exclude the first track from the reversed array)
-                        this.queue.push({id: trackCollection[i].id, track: trackCollection[i].track});
+                        this.queue.push({id: trackCollection[i].id, track: trackCollection[i]});
                     }
 
                     // Load the song
@@ -1064,7 +1064,7 @@ class Player {
                         trackCollection = data.collection.reverse();
 
                     for (let i = 0; i < trackCollection.length - 1; i++) {
-                        this.queue.push({id: trackCollection[i].id, track: trackCollection[i].track});
+                        this.queue.push({id: trackCollection[i].id, track: trackCollection[i]});
                     }
 
                     console.log(trackCollection);
