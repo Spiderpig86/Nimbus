@@ -415,16 +415,20 @@ class Player {
                 
                 // For some reason FINISH event no longer fires when changing songs in playlist, manual override here
                 if (e.currentPosition === 0) {
-                    if (this.isPlaylist && !this.isRepeating) {
+                    if (this.isPlaylist && !this.isRepeating && !this.seekingForward) {
                         this.loadWidgetSong(this.curPlayer); // Update track info to the next song in the playlist
+                        this.curPlayer.seekTo(1); // Might want to do checking to see if song is in history in loadwidgetsong instead
+                        console.log(1);
                     } else if (this.isPlaylist && this.isRepeating && !this.seekingForward) { // Replay set
                         this.curPlayer.pause();
                         setTimeout(() => {
                             this.curPlayer.prev();
                             this.loadWidgetSong(this.curPlayer);
                         }, 500);
+                        console.log(2);
                     } else if (this.seekingForward) {
                         this.curPlayer.seekTo(1);
+                        console.log(3);
                         setTimeout(() => {this.seekingForward = false, 500}); // Prevent this event from firing more than once.
                     }
                 }
@@ -574,7 +578,6 @@ class Player {
      */
     seekForward() {
         // If we are in playlist mode, play the next song in the playlist and do not fetch a new song
-        console.log(this.isPlaylist);
         if (this.isPlaylist) {
             let nextSongID = this.widgetTrack.id;
             this.seekingForward = true;
