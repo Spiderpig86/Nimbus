@@ -226,7 +226,7 @@ class Player {
                 if (this.history.length > 0 || this.queue.length > 0) {
                     let songList = this.history.concat(this.queue); // Use this to prevent adding any duplicates
                     for (let i = 0; i < songList.length; i++) {
-                        if (songList[i]._resource_id === song._resource_id) {
+                        if (songList[i].track.id === song.id) {
                             found = true;
                         }
                     };
@@ -417,18 +417,14 @@ class Player {
                 if (e.currentPosition === 0) {
                     if (this.isPlaylist && !this.isRepeating && !this.seekingForward) {
                         this.loadWidgetSong(this.curPlayer); // Update track info to the next song in the playlist
-                        this.curPlayer.seekTo(1); // Might want to do checking to see if song is in history in loadwidgetsong instead
-                        console.log(1);
                     } else if (this.isPlaylist && this.isRepeating && !this.seekingForward) { // Replay set
                         this.curPlayer.pause();
                         setTimeout(() => {
                             this.curPlayer.prev();
                             this.loadWidgetSong(this.curPlayer);
                         }, 500);
-                        console.log(2);
                     } else if (this.seekingForward) {
                         this.curPlayer.seekTo(1);
-                        console.log(3);
                         setTimeout(() => {this.seekingForward = false, 500}); // Prevent this event from firing more than once.
                     }
                 }
