@@ -155,7 +155,7 @@ class Dashboard {
             let q = null;
             let frag = '';
             for (let i = this._player.queue.length - 1; i >= 0; i--) {
-                q = new QueueItem(this._player, this._player.queue[i]);
+                q = new QueueItem(this._player, this._player.queue[i].track);
                 frag += q.render();
                 this.queueItemCount += 1;
             }

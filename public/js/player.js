@@ -232,7 +232,7 @@ class Player {
                     };
 
                     if (!found) { // Append the song if not found
-                        this.history.push(song); // Push the track so it can be replayed from history. 
+                        this.history.push({id: song.id, track: song}); // Push the track so it can be replayed from history. 
                         let h = new HistItem((song.artwork_url === null ? rndImg : song.artwork_url), song, this, "javascript:alert('Download link unavailable');");
                         this.histContainer.appendChild(h.render()); // Append to history
 
@@ -241,7 +241,7 @@ class Player {
                         });
                     }
                 } else {
-                    this.history.push(song); // Push the track so it can be replayed from history. 
+                    this.history.push({id: song.id, track: song}); // Push the track so it can be replayed from history. 
                     let h = new HistItem((song.artwork_url === null ? rndImg : song.artwork_url), song, this, "javascript:alert('Download link unavailable');");
                     this.histContainer.appendChild(h.render()); // Append to history
                     $('.action-bar-item').click((e) => { // Stop button clicks from triggering playing the song
@@ -603,7 +603,7 @@ class Player {
             let nextSong = this.queue.pop(); // Pop the next song
 
             if (nextSong) { // If not null
-                this.curPlayer.load(nextSong.permalink_url);
+                this.curPlayer.load(nextSong.track.permalink_url);
                 setTimeout(() => this.loadWidgetSong(this.curPlayer), 2000); // Update player info, will add song to history
             }
         }
@@ -647,7 +647,7 @@ class Player {
 
          // Pop current song and add it to queue so it is our next song
         this.queue.push(this.history.pop());
-        let prevSong = this.history[this.history.length - 1];
+        let prevSong = this.history[this.history.length - 1].track;
 
         if (prevSong) { // If not null
             this.curPlayer.load(prevSong.permalink_url);
@@ -730,7 +730,7 @@ class Player {
                 let nextSong = this.queue.pop(); // Pop the next song
 
                 if (nextSong) { // If not null
-                    this.history.push(nextSong); // Add it to history
+                    this.history.push({id: nextSong.id, track: nextSong}); // Add it to history
                     this.curPlayer.load(nextSong.permalink_url);
                     setTimeout(() => this.loadWidgetSong(this.curPlayer), 2000); // Update player info
                 }
@@ -833,7 +833,7 @@ class Player {
 
                     // Queue all tracks to the queue of the user's playlist. Note that queue is actually acting like a stack since we use push() and pop()
                     for (let i = 0; i < trackCollection.length - 1; i++) { // Skip the first one since we are already playing it at this point (need to subtract upper bound by 1 since we want to exclude the first track from the reversed array)
-                        this.queue.push(trackCollection[i]);
+                        this.queue.push({id: trackCollection[i].id, track: trackCollection[i]});
                         console.log(tracks[i].title);
                     }
 
@@ -909,7 +909,7 @@ class Player {
 
                             // Queue all tracks to the queue of the user's playlist. Note that queue is actually acting like a stack since we use push() and pop()
                             for (let i = 0; i < trackCollection.length - 1; i++) { // Skip the first one since we are already playing it at this point (need to subtract upper bound by 1 since we want to exclude the first track from the reversed array)
-                                this.queue.push(trackCollection[i]);
+                                this.queue.push({id: trackCollection[i].id, track: trackCollection[i].track});
                                 console.log(tracks[i].title);
                             }
                             
@@ -957,7 +957,7 @@ class Player {
 
                     // Queue all tracks to the queue of the user's playlist. Note that queue is actually acting like a stack since we use push() and pop()
                     for (let i = 0; i < trackCollection.length - 1; i++) { // Skip the first one since we are already playing it at this point (need to subtract upper bound by 1 since we want to exclude the first track from the reversed array)
-                        this.queue.push(trackCollection[i]);
+                        this.queue.push({id: trackCollection[i].id, track: trackCollection[i].track});
                     }
 
                     // Load the song
@@ -1063,7 +1063,7 @@ class Player {
                         trackCollection = data.collection.reverse();
 
                     for (let i = 0; i < trackCollection.length - 1; i++) {
-                        this.queue.push(trackCollection[i].track);
+                        this.queue.push({id: trackCollection[i].id, track: trackCollection[i].track});
                     }
 
                     console.log(trackCollection);
