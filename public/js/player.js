@@ -1064,7 +1064,7 @@ class Player {
                         trackCollection = data.collection.reverse();
 
                     for (let i = 0; i < trackCollection.length - 1; i++) {
-                        this.queue.push({id: trackCollection[i].id, track: trackCollection[i]});
+                        this.queue.push({id: trackCollection[i].track.id, track: trackCollection[i].track}); // This needs the track identifier
                     }
 
                     console.log(trackCollection);

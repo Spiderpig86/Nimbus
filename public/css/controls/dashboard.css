@@ -92,6 +92,25 @@
     text-align: right;
 }
 
+.queueDelete {
+    color: #b1b1b1;
+    cursor: pointer;
+    transition: all .3s;
+    -webkit-transition: all .3s;
+    -moz-transition: all .3s;
+    -ms-transition: all .3s;
+    -o-transition: all .3s;
+}
+
+.queueDelete:hover {
+    color: #eee;
+    transition: all .3s;
+    -webkit-transition: all .3s;
+    -moz-transition: all .3s;
+    -ms-transition: all .3s;
+    -o-transition: all .3s;
+}
+
 .tab-container li a {
     color: rgba(255, 255, 255, 0.8);
     font-size: .7rem;

@@ -162,7 +162,7 @@ class Dashboard {
             }
             this.queueContainer.appendChild(frag);
 
-            $('.queueDelete').on('click', () => { // Add event handler on all tracks
+            $('.queueDelete').on('click', () => { // Add event handler on all tracks, not the most efficient: https://stackoverflow.com/questions/11248855/how-do-i-use-jquery-get-the-id-of-the-div-which-has-been-clicked-on
                 let curIndex = this._player.queue.map((track) => {return String(track.id)}).indexOf(String($(event.currentTarget).attr('data-id'))); // Find the song's id associated with this object in the queue
                 // NOTE: Must convert mapped vars to string or same datatype in order to check for equality
                 if (curIndex === -1) return; // In case we couldn't find it, which is an error
