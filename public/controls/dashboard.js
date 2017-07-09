@@ -150,16 +150,25 @@ class Dashboard {
     }
     
     refreshQueueContainer() {
+        this.queueContainer.innerHTML = `<div></div>`; // Clear the container
         if (this._player.queue.length > 0 ) {
             this.queueItemCount = 0;
             let q = null;
-            let frag = '';
+            let frag = document.createElement('div');;
             for (let i = this._player.queue.length - 1; i >= 0; i--) {
-                q = new QueueItem(this._player, this._player.queue[i].track);
-                frag += q.render();
+                q = new QueueItem(this._player, this, this._player.queue[i].track);
+                frag.appendChild(q.render());
+                q.bindEvents(); // Add the event handlers
                 this.queueItemCount += 1;
             }
-            this.queueContainer.innerHTML = frag;
+            this.queueContainer.appendChild(frag);
+
+            $('.queueDelete').on('click', () => { // Add event handler on all tracks
+                console.log('test');
+                let curIndex = this._player.queue.map((track) => {return track.id}).indexOf($(event.currentTarget).attr('data-id')); // Find the song's id associated with this object in the queue
+                this._player.queue.splice(curIndex, 1); // Remove the element
+                this.refreshQueueContainer(); // Update the queue container
+            });
         } else {
             this.queueItemCount = 0;
             // Notification that queue is empty

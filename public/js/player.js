@@ -479,7 +479,7 @@ class Player {
                     let nextSong = this.queue.pop(); // Pop the next song
 
                     if (nextSong) { // If not null
-                        this.curPlayer.load(nextSong.permalink_url);
+                        this.curPlayer.load(nextSong.track.permalink_url);
                         setTimeout(() => this.loadWidgetSong(this.curPlayer), 2000); // Update player info, song will be added to history here
                     }
                 } else if (!this.hasBeenFetched) { // If we have fetched a song already, do not fetch another one.
@@ -824,6 +824,7 @@ class Player {
 
             SC.get('/tracks', options).then((tracks) => {
                 if (tracks.length > 0) {
+                    console.log(tracks);
 
                     let trackCollection = null;
                     if (this.shuffleQueue)
@@ -838,7 +839,7 @@ class Player {
                     }
 
                     // Load the song
-                    this.curPlayer.load(trackCollection[0].permalink_url);
+                    this.curPlayer.load(trackCollection[trackCollection.length - 1].permalink_url);
                 
                     // Display toast message when done
                     Utils.showToast(`${tracks.length} tracks added to the queue.`);
@@ -914,7 +915,7 @@ class Player {
                             }
                             
                             // Load the song
-                            this.curPlayer.load(trackCollection[0].permalink_url);
+                            this.curPlayer.load(trackCollection[trackCollection.length - 1].permalink_url); // Top of the result
                         
                             // Display toast message when done
                             Utils.showToast(`${tracks.length} tracks added to the queue.`);
@@ -961,7 +962,7 @@ class Player {
                     }
 
                     // Load the song
-                    this.curPlayer.load(trackCollection[0].permalink_url);
+                    this.curPlayer.load(trackCollection[trackCollection.length - 1].permalink_url);
                 
                     // Display toast message when done
                     Utils.showToast(`${tracks.length} tracks added to the queue.`);
