@@ -31,7 +31,8 @@
     align-items: center;
 }
 
-.toggle-container p {
+.toggle-container p,
+.toggle-container h3 {
     flex-grow: 1;
     flex-shrink: 0;
     margin: 1rem 0;

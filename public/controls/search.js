@@ -43,7 +43,10 @@ class Search {
                     </div>
                     <space class="x-large"></space>
                     <div class="row">
-                        <h3 class="white">Featured</h3>
+                        <div class="row level toggle-container">
+                            <h3 class="white">Featured</h3>
+                            <button id="charts-btn" class="btn-nimbus">View All</button>
+                        </div>
                         <div class="row flex expand" id="chartContainer">
 
                         </div>
@@ -58,6 +61,7 @@ class Search {
         this.searchField = document.getElementById('searchField');
         this.chkShuffle = document.getElementById('chkShuffle');
         this.chkNumber = document.getElementById('chkNumber');
+        this.btnCharts = document.getElementById('charts-btn');
 
         this.searchSets = document.getElementById('searchSets');
         this.searchUser = document.getElementById('searchUser');
@@ -106,6 +110,12 @@ class Search {
         this.searchTags.onclick = (e) => {
             this.searchItemClick(this.searchTags);
             this.searchField.focus();
+        }
+
+        // Event handler to show the charts
+        this.btnCharts.onclick = (e) => {
+            this.hideSearchDialog();
+            this._player.chartsDialog.toggleCharts();
         }
     }
 

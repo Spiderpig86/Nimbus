@@ -120,7 +120,6 @@ class Player {
         this.btnSearch = document.getElementById('custom-btn');
         this.btnRepeat = document.getElementById('repeat-btn');
         this.btnDashboard = document.getElementById('dashboard-btn');
-        this.btnCharts = document.getElementById('charts-btn');
     }
 
     /**
@@ -176,11 +175,6 @@ class Player {
         // Event handler to show dashboard
         this.btnDashboard.onclick = (e) => {
             this.dashboard.toggleDashboard();
-        }
-
-        // Event handler to show the charts
-        this.btnCharts.onclick = (e) => {
-            this.chartsDialog.toggleCharts();
         }
 
         // Bind keyboard shortcuts
