@@ -40,7 +40,8 @@ class ChartItem {
     bindEvents() {
         this.chartItem.addEventListener('click', (e) => {
             this._player.getTracksFromCharts(this._kind, this._genre, this._limit);
-            this._player.searchDialog.toggleSearchDialog();
+            this._player.searchDialog.hideSearchDialog();
+            this._player.chartsDialog.hideCharts();
         }, false);
     }
 }

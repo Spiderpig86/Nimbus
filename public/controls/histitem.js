@@ -30,7 +30,7 @@ class HistItem {
                         </div>
                         <div class="desc">
                             <p class="title">${this._track.title}</p>
-                            <p class="subtitle">${this._track.artist}</p>
+                            <p class="subtitle">${this._track.user.username}</p>
                             <p class="subtitle">${this._track.genre || 'N/A'}</p>
                         </div>
                     </div>
