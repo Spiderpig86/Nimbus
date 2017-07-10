@@ -85,9 +85,19 @@
     font-weight: 700;
 }
 
+#chartModalDialog .content {
+    width: 100%;
+}
+
 @media screen and (max-width: 992px) {
     #searchField {
         font-size: 2rem;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    #allCharts .chart-item {
+        margin: 0;
     }
 }
 

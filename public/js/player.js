@@ -344,7 +344,7 @@ class Player {
         }, false);
 
         // Async method to build waveform
-        (async function() {
+        (async function() { // Changed syntax to fix issue on Safari
             let req = new Request(); // Construct it
             let data = await req.getJSON(song.waveform_url);
             console.log(song.waveform_url);
