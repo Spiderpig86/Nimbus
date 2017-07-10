@@ -402,7 +402,6 @@ class Player {
      * @param {SoundCloudWidget} widget - widget loaded from API
      */
     bindWidgetEvents(widget) {
-        console.log("cool");
         this.curPlayer = widget;
         widget.bind(SC.Widget.Events.READY, (e) => {
 
@@ -1045,7 +1044,7 @@ class Player {
             // // let tracks = await req.getJSON(`https://api-v2.soundcloud.com/charts?kind=${_kind}&genre=${_genres}&limit=${_limit}&linked_partitioning=${$_partition}&client_id=${consts.client_id}`);
 
             $.ajax({
-                url: 'http://polarity.x10.mx/test.php', //This is the current doc
+                url: 'http://polarity.x10.mx/nimbus/charts.php', //This is the current doc
                 type: "GET",
                 dataType:'json', // add json datatype to get json
                 data: ({

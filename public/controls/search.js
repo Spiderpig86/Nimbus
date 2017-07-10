@@ -220,17 +220,19 @@ class Search {
     }
 
     loadCharts() {
+        let c = null;
         this.chartContainer = document.querySelector('#chartContainer');
-        let c = new ChartItem(this._player, 'SoundCloud Top 50', 'SoundCloud', 'top', 'soundcloud%3Agenres%3Aall-music', 50, `../img/soundcloud_top50.jpg`);
-        this.chartContainer.appendChild(c.render());
-        c = new ChartItem(this._player, 'Rap Top 50', 'SoundCloud', 'top', 'soundcloud%3Agenres%3Ahiphoprap', 50, `../img/rap_top50.png`);
-        this.chartContainer.appendChild(c.render());
-        c = new ChartItem(this._player, 'Fresh Hip-hop & Rap', 'SoundCloud', 'trending', 'soundcloud%3Agenres%3Ahiphoprap', 50, `../img/fresh_rap.png`);
-        this.chartContainer.appendChild(c.render());
-        c = new ChartItem(this._player, 'Dance & EDM Top 50', 'SoundCloud', 'top', 'soundcloud%3Agenres%3Adanceedm', 50, `../img/edm_top50.jpg`);
-        this.chartContainer.appendChild(c.render());
-        c = new ChartItem(this._player, 'Essential EDM', 'SoundCloud', 'trending', 'soundcloud%3Agenres%3Adanceedm', 50, `../img/essential_edm.png`);
-        this.chartContainer.appendChild(c.render());
+        $.ajax({
+            url: 'http://polarity.x10.mx/nimbus/featured.json',
+            type: "GET",
+            dataType:'json', 
+            success: (data) => {
+                for (let i = 0; i < data.collection.length; i++) {
+                    c = new ChartItem(this._player, data.collection[i].chart.title, data.collection[i].chart.author, data.collection[i].chart.kind, data.collection[i].chart.genre_url, data.collection[i].chart.limit, data.collection[i].chart.image_url);
+                    this.chartContainer.appendChild(c.render());
+                }
+            }
+        });
         
     }
 
