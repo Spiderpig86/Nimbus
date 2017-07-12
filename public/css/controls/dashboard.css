@@ -1,5 +1,5 @@
 #dashboardModalContainer .hero-body {
-    padding: 0 1.5rem;
+    /*padding: 0 1.5rem;*/
 }
 
 /* The tab pages (not the tabs in the tab strip) */
@@ -44,7 +44,7 @@
 
 /*  QUEUE */
 #queueContainer {
-    height: 55vh;
+    height: 50vh;
     overflow: auto;
 }
 

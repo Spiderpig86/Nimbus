@@ -25,7 +25,7 @@ class QueueItem {
     }
 
     bindEvents() {
-       
+        // Event binded in player.js
     }
 }
 

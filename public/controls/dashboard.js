@@ -8,6 +8,7 @@ class Dashboard {
         this._player = player;
         this.isShown = false;
         this.queueItemCount = 0; // Counts number of songs on queue
+        this.queuedTime = 0; // Total time of queued songs
         document.querySelector('#dashboardModalContainer').innerHTML += this.render();
         this.bindEvents();
         Settings.loadPrefs(); // Init settings
@@ -48,8 +49,10 @@ class Dashboard {
                         </div>
                     </div>
                     <div class="tabpage">
+                        <h3>Queue</h3>
                         <div class="row level">
-                            <h3 style="flex-grow: 1;">Queue</h3><button id="btnClearQueue" class="btn-small btn-nimbus">Clear Queue</button>
+                            <p class="no-margin" style="flex-grow: 1">Total Time: <span id="totalQueueTime">N/A</span></p>
+                            <button id="btnClearQueue" class="btn-small btn-nimbus">Clear Queue</button>
                         </div>
                         <div class="divider"></div>
                         <space></space>
@@ -153,11 +156,13 @@ class Dashboard {
         this.queueContainer.innerHTML = `<div></div>`; // Clear the container
         if (this._player.queue.length > 0 ) {
             this.queueItemCount = 0;
+            this.queuedTime = 0;
             let q = null;
             let frag = document.createElement('div');;
             for (let i = this._player.queue.length - 1; i >= 0; i--) {
                 q = new QueueItem(this._player, this._player.queue[i].track);
                 frag.appendChild(q.render());
+                this.queuedTime += q._track.duration;
                 this.queueItemCount += 1;
             }
             this.queueContainer.appendChild(frag);
@@ -171,16 +176,22 @@ class Dashboard {
             });
         } else {
             this.queueItemCount = 0;
+            this.queuedTime = 0;
             // Notification that queue is empty
             this.queueContainer.innerHTML = `<div class="text-center">
                 <h6 class="light" style="color: #717579;">
                 Looks like your queue is empty. Nimbus will continue to fetch music in the background.</h6>
             </div>`;
         }
+
+        document.querySelector('#totalQueueTime').innerText = Utils.convertMillisecondsToDigitalClock(this.queuedTime).clock;
     }
 
     clearQueue() {
         this._player.queue = []; // Clear the queue
+        this.queueItemCount = 0;
+        this.queuedTime = 0;
+        document.querySelector('#totalQueueTime').innerText = Utils.convertMillisecondsToDigitalClock(this.queuedTime).clock;
         this.queueContainer.innerHTML = `<div class="text-center">
                 <h6 class="light" style="color: #717579;">
                 Looks like your queue is empty. Nimbus will continue to fetch music in the background.</h6>
