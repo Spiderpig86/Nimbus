@@ -32,8 +32,12 @@ class Dashboard {
                             <li id="queueTab" class="tab-item">
                                 <a>Queue</a>
                             </li>
+                            <li class="tab-item">
+                                <a>About</a>
+                            </li>
                         </ul>
                     </div>
+                    <space class="large"></space>
                     <div class="tabpage shown">
                         <h3>Settings</h3>
                         <div class="divider"></div>
@@ -51,13 +55,27 @@ class Dashboard {
                     <div class="tabpage">
                         <h3>Queue</h3>
                         <div class="row level">
-                            <p class="no-margin" style="flex-grow: 1">Total Time: <span id="totalQueueTime">N/A</span></p>
+                            <p id="totalQueueTime" class="no-margin" style="flex-grow: 1"></p>
                             <button id="btnClearQueue" class="btn-small btn-nimbus">Clear Queue</button>
                         </div>
                         <div class="divider"></div>
                         <space></space>
                         <div id="queueContainer">
 
+                        </div>
+                    </div>
+
+                    <div class="tabpage">
+                        <h3>About</h3>
+                        <div class="divider"></div>
+                        <div class="row text-center">
+                            <img class="center" src="../img/NimbusLogo.png" style="max-width: 300px; width: 100%;" />
+                            <p class="no-margin">An open source SoundCloud client for discovering and streaming tracks. Made with <i class="fa fa-heart animated pulse pad-left pad-right" style="color:#e90606"></i> in New York.<br/>
+                            Nimbus is not affiliated with SoundCloud. Copyright &copy; 2017 Stanley Lim</p>
+                            <space class="x-large"></space>
+                            <div class="row center">
+                                <a href="https://github.com/Spiderpig86/Nimbus" target="_blank"><button class="btn-nimbus">Github</button></a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -184,14 +202,14 @@ class Dashboard {
             </div>`;
         }
 
-        document.querySelector('#totalQueueTime').innerText = Utils.convertMillisecondsToDigitalClock(this.queuedTime).clock;
+        document.querySelector('#totalQueueTime').innerText = Utils.convertMillisecondsToDigitalClock(this.queuedTime).clock_long + ', ' + this._player.queue.length + ' songs';
     }
 
     clearQueue() {
         this._player.queue = []; // Clear the queue
         this.queueItemCount = 0;
         this.queuedTime = 0;
-        document.querySelector('#totalQueueTime').innerText = Utils.convertMillisecondsToDigitalClock(this.queuedTime).clock;
+        document.querySelector('#totalQueueTime').innerText = Utils.convertMillisecondsToDigitalClock(this.queuedTime).clock_long + ', ' + this._player.queue.length + ' songs';
         this.queueContainer.innerHTML = `<div class="text-center">
                 <h6 class="light" style="color: #717579;">
                 Looks like your queue is empty. Nimbus will continue to fetch music in the background.</h6>

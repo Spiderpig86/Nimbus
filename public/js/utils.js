@@ -14,7 +14,8 @@ class Utils {
             hours : hours,
             minutes : minutes,
             seconds : seconds,
-            clock : ((hours === 0) ? '' : hours + ':') + (minutes < 10 && hours > 0 ? '0' : '') + minutes + ':' + (seconds < 10 ? '0' : '') + seconds
+            clock : ((hours === 0) ? '' : hours + ':') + (minutes < 10 && hours > 0 ? '0' : '') + minutes + ':' + (seconds < 10 ? '0' : '') + seconds,
+            clock_long: ((hours === 0) ? '' : hours + ' hr ') + (minutes < 10 && hours > 0 ? '0' : '') + minutes + ' min'
         };
     }
 
