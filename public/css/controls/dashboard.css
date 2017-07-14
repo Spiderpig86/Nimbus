@@ -126,6 +126,11 @@
 }*/
 
 @media screen and (max-width: 768px) {
+    #queueContainer {
+        height: 45vh;
+        overflow: auto;
+    }
+
     .tabpage p {
         font-size: 0.85rem;
     }

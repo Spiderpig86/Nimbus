@@ -1,7 +1,12 @@
 let express = require('express')
 let app = express()
 let path = require('path')
+let compression = require('compression')
+
 const port = process.env.PORT || 8000
+
+// Gzip
+app.use(compression());
 
 // Set up static file paths
 app.use(express.static(path.join(__dirname, '../public/')));
