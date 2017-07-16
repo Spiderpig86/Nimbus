@@ -270,7 +270,7 @@ class Player {
 
     updateSongInfo(song) {
         console.log('getcurrentsound start');
-        if ( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) { // Attempt to fix on mobile devices
+        //if ( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) { // Attempt to fix on mobile devices
             
             // Sorry cannot auto play on mobile =_(
             // https://stackoverflow.com/questions/26066062/autoplay-html5-audio-player-on-mobile-browsers
@@ -284,7 +284,7 @@ class Player {
             //this.curPlayer.play(); // Extra call for forcing auto playing in mobile
 
             // Android app workaround https://developer.android.com/reference/android/webkit/WebSettings.html
-        }
+        //}
         this.curPlayer.play(); // Play normally on non mobile
         this.togglePlayState(true);
 
@@ -800,8 +800,14 @@ class Player {
         try {
             SC.get('/tracks', {q: query}).then((tracks) => {
                 if (tracks.length > 0) {
-                    // Load the first song
-                    this.curPlayer.load(tracks[0].permalink_url); // The "I'm feeling lucky part of the search"
+
+                    if (this.shuffleQueue) {
+                        // Pick a random song to play
+                        this.curPlayer.load(tracks[Math.floor(Math.random() * tracks.length)]);
+                    } else {
+                        // Load the first song
+                        this.curPlayer.load(tracks[0].permalink_url); // The "I'm feeling lucky part of the search"
+                    }
                 }
             });
         } catch (e) {
@@ -835,13 +841,13 @@ class Player {
                         trackCollection = tracks.reverse();
 
                     // Queue all tracks to the queue of the user's playlist. Note that queue is actually acting like a stack since we use push() and pop()
-                    for (let i = 0; i < trackCollection.length - 1; i++) { // Skip the first one since we are already playing it at this point (need to subtract upper bound by 1 since we want to exclude the first track from the reversed array)
+                    for (let i = 0; i < trackCollection.length; i++) { // Skip the first one since we are already playing it at this point (need to subtract upper bound by 1 since we want to exclude the first track from the reversed array)
                         this.queue.push({id: trackCollection[i].id, track: trackCollection[i]});
                         console.log(tracks[i].title);
                     }
 
-                    // Load the song
-                    this.curPlayer.load(trackCollection[trackCollection.length - 1].permalink_url);
+                    // // Load the song
+                    // this.curPlayer.load(trackCollection[trackCollection.length - 1].permalink_url);
                 
                     // Display toast message when done
                     Utils.showToast(`${tracks.length} tracks added to the queue.`);
@@ -898,7 +904,7 @@ class Player {
                     // Create options object to hold what we want to search for
                     let options = {
                         limit: this.queueNum
-                    } // TODO: Allow to modify limit later
+                    }
 
                     SC.get(`/users/${response.id}/tracks`, options).then((tracks) => {
                         console.log(tracks);
@@ -911,13 +917,12 @@ class Player {
                                 trackCollection = tracks.reverse();
 
                             // Queue all tracks to the queue of the user's playlist. Note that queue is actually acting like a stack since we use push() and pop()
-                            for (let i = 0; i < trackCollection.length - 1; i++) { // Skip the first one since we are already playing it at this point (need to subtract upper bound by 1 since we want to exclude the first track from the reversed array)
+                            for (let i = 0; i < trackCollection.length; i++) { // Skip the first one since we are already playing it at this point (need to subtract upper bound by 1 since we want to exclude the first track from the reversed array)
                                 this.queue.push({id: trackCollection[i].id, track: trackCollection[i]});
-                                console.log(tracks[i].title);
                             }
                             
-                            // Load the song
-                            this.curPlayer.load(trackCollection[trackCollection.length - 1].permalink_url); // Top of the result
+                            // // Load the song
+                            // this.curPlayer.load(trackCollection[trackCollection.length - 1].permalink_url); // Top of the result
                         
                             // Display toast message when done
                             Utils.showToast(`${tracks.length} tracks added to the queue.`);
@@ -959,12 +964,12 @@ class Player {
                         trackCollection = tracks.reverse();
 
                     // Queue all tracks to the queue of the user's playlist. Note that queue is actually acting like a stack since we use push() and pop()
-                    for (let i = 0; i < trackCollection.length - 1; i++) { // Skip the first one since we are already playing it at this point (need to subtract upper bound by 1 since we want to exclude the first track from the reversed array)
+                    for (let i = 0; i < trackCollection.length; i++) { // Skip the first one since we are already playing it at this point (need to subtract upper bound by 1 since we want to exclude the first track from the reversed array)
                         this.queue.push({id: trackCollection[i].id, track: trackCollection[i]});
                     }
 
-                    // Load the song
-                    this.curPlayer.load(trackCollection[trackCollection.length - 1].permalink_url);
+                    // // Load the song
+                    // this.curPlayer.load(trackCollection[trackCollection.length - 1].permalink_url);
                 
                     // Display toast message when done
                     Utils.showToast(`${tracks.length} tracks added to the queue.`);
@@ -1065,15 +1070,15 @@ class Player {
                     else
                         trackCollection = data.collection.reverse();
 
-                    for (let i = 0; i < trackCollection.length - 1; i++) {
+                    for (let i = 0; i < trackCollection.length; i++) {
                         this.queue.push({id: trackCollection[i].track.id, track: trackCollection[i].track}); // This needs the track identifier
                     }
 
                     console.log(trackCollection);
 
-                     // Load the song
-                    this.curPlayer.load(trackCollection[trackCollection.length - 1].track.permalink_url);
-                    setTimeout(() => this.loadWidgetSong(this.curPlayer), 1000);
+                    //  // Load the song
+                    // this.curPlayer.load(trackCollection[trackCollection.length - 1].track.permalink_url);
+                    // setTimeout(() => this.loadWidgetSong(this.curPlayer), 1000);
                     
                     // Display toast message when done
                     Utils.showToast(`${trackCollection.length} tracks added to the queue.`);

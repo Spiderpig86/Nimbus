@@ -11,7 +11,7 @@ class Settings {
             playerVolume: 100
         }
         this._settings.disableAnimations = this.getPref('disableAnimations') || false;
-        this._settings.disableBlur = this.getPref('disableBlur') || false;
+        this._settings.disableBlur = this.getPref('disableBlur') || (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ? true : false); // Disable blur for mobile devices
         this._settings.playerVolume = this.getPref('playerVolume') || 100;
     }
 
