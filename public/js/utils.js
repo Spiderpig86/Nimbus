@@ -35,6 +35,7 @@ class Utils {
         }, 500);
         setTimeout(function() { // Hide toast
             $('#toast').removeClass('shown');
+            $('#toast').innerText(''); // Empty out the toast
         }, 3000);
     }
 }
