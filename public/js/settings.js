@@ -10,17 +10,31 @@ class Settings {
             disableBlur: false,
             playerVolume: 100
         }
-        this._settings.disableAnimations = this.getPref('disableAnimations') || false;
-        this._settings.disableBlur = this.getPref('disableBlur') || (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ? true : false); // Disable blur for mobile devices
-        this._settings.playerVolume = this.getPref('playerVolume') || 100;
+
+        updateSettings();
+        
     }
 
     static storePref(name, value) {
         localStorage.setItem(name, value);
+        updateSettings(); // Refresh values in _settings object
     }
 
     static getPref(name) {
-        return localStorage.getItem(name);
+        switch (name) {
+            case 'disableAnimations':
+                return this._settings.disableAnimations;
+            case 'disableBlur':
+                return this._settings.disableBlur;
+            case 'playerVolume':
+                return this._settings.playerVolume;
+        }
+    }
+
+    static updateSettings() {
+        this._settings.disableAnimations = this.getPref('disableAnimations') || false;
+        this._settings.disableBlur = this.getPref('disableBlur') || (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ? true : false); // Disable blur for mobile devices
+        this._settings.playerVolume = this.getPref('playerVolume') || 100;
     }
 
 }

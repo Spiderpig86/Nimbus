@@ -696,6 +696,7 @@ class Player {
      * 
      */
     setVolume(vol) {
+        console.log(vol);
         this.curPlayer.setVolume(vol);
         this.volumeSlider.value = vol;
         Settings.storePref('playerVolume', vol);
