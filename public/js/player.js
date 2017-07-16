@@ -803,11 +803,14 @@ class Player {
                 if (tracks.length > 0) {
 
                     if (this.shuffleQueue) {
+                        let randIndex = Math.floor(Math.random() * tracks.length);
                         // Pick a random song to play
-                        this.curPlayer.load(tracks[Math.floor(Math.random() * tracks.length)]);
+                        this.queue.push({ id: tracks[randIndex].id, track: tracks[randIndex]});
+                        Utils.showToast(`Added ${tracks[randIndex].title} to the queue.`)
                     } else {
                         // Load the first song
-                        this.curPlayer.load(tracks[0].permalink_url); // The "I'm feeling lucky part of the search"
+                        this.queue.push({ id: tracks[0].id, track: tracks[0]}); // The "I'm feeling lucky part of the search"
+                        Utils.showToast(`Added ${tracks[0].title} to the queue.`)
                     }
                 }
             });

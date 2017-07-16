@@ -119,7 +119,7 @@ class Search {
         }
     }
 
-    processSearchField() {
+    async processSearchField() {
         // Check if input is empty
         if (this.searchField.value.length === 0)
             return; // Exit
@@ -135,7 +135,18 @@ class Search {
             if (searchQuery.includes('sets')) {
                 this._player.isPlaylist = true;
             }                    
-            this._player.curPlayer.load(`${searchQuery}`);
+            //this._player.curPlayer.load(`${searchQuery}`);
+
+            let p = this._player;
+            // Resolve song url through API
+            SC.resolve(searchQuery).then((response) => {
+                try {
+                    this._player.queue.push({id: response.id, track: response});
+                    Utils.showToast(`Added ${response.title} to the queue.`);
+                } catch (e) {
+                    console.log('processSearchField Error - ' + e.message);
+                }
+            });
         } else if (isNaN(searchQuery)) { // Check if this is a string query
             // Check tags
             console.log(searchQuery.startsWith('set:'));
@@ -158,9 +169,8 @@ class Search {
         } else { // Must be a song ID
             this._player.curPlayer.load(`https%3A//api.soundcloud.com/tracks/${searchQuery}`); // For id
             this._player.isPlaylist = false;
+            setTimeout(() => this._player.loadWidgetSong(this._player.curPlayer), 2000); // Needs longer delay time so it prevents stalling (track not auto playing)
         }
-
-        setTimeout(() => this._player.loadWidgetSong(this._player.curPlayer), 2000); // Needs longer delay time so it prevents stalling (track not auto playing)
     }
 
     toggleSearchDialog() {

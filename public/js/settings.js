@@ -11,13 +11,13 @@ class Settings {
             playerVolume: 100
         }
 
-        updateSettings();
+        this.updateSettings();
         
     }
 
     static storePref(name, value) {
         localStorage.setItem(name, value);
-        updateSettings(); // Refresh values in _settings object
+        this.updateSettings(); // Refresh values in _settings object
     }
 
     static getPref(name) {
@@ -32,9 +32,9 @@ class Settings {
     }
 
     static updateSettings() {
-        this._settings.disableAnimations = this.getPref('disableAnimations') || false;
-        this._settings.disableBlur = this.getPref('disableBlur') || (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ? true : false); // Disable blur for mobile devices
-        this._settings.playerVolume = this.getPref('playerVolume') || 100;
+        this._settings.disableAnimations = localStorage.getItem('disableAnimations') || false;
+        this._settings.disableBlur = localStorage.getItem('disableBlur') || (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ? true : false); // Disable blur for mobile devices
+        this._settings.playerVolume = localStorage.getItem('playerVolume') || 100;
     }
 
 }
