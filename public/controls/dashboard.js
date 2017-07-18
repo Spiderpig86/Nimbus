@@ -71,7 +71,8 @@ class Dashboard {
                         <div class="row text-center">
                             <img class="center" src="../img/NimbusLogo.png" style="max-width: 200px; width: 100%;" />
                             <p class="no-margin">An open source SoundCloud client for discovering and streaming tracks. Made with <i class="fa fa-heart animated pulse pad-left pad-right" style="color:#e90606"></i> in New York.<br/>
-                            Nimbus is not affiliated with SoundCloud. Copyright &copy; ${new Date().getFullYear()} Stanley Lim</p>
+                            Nimbus is not affiliated with SoundCloud.<br />
+                            Shout out to <a href="https://unsplash.com/" target="_blank">Unsplash</a> for the amazing photography. <br /> Copyright &copy; ${new Date().getFullYear()} Stanley Lim</p>
                             <space class="x-large"></space>
                             <div class="row center">
                                 <a href="https://github.com/Spiderpig86/Nimbus" target="_blank"><button class="btn-nimbus">Github</button></a>
