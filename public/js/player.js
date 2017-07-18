@@ -605,6 +605,8 @@ class Player {
             let nextSong = this.queue.pop(); // Pop the next song
 
             if (nextSong) { // If not null
+                if (nextSong.track.kind === 'playlist')
+                    this.isPlaylist = true;
                 this.curPlayer.load(nextSong.track.permalink_url);
                 setTimeout(() => this.loadWidgetSong(this.curPlayer), 2000); // Update player info, will add song to history
             }
@@ -733,10 +735,11 @@ class Player {
                 let nextSong = this.queue.pop(); // Pop the next song
 
                 if (nextSong) { // If not null
+                    if (nextSong.track.kind === 'playlist')
+                        this.isPlaylist = true;
                     this.history.push({id: nextSong.id, track: nextSong}); // Add it to history
                     this.curPlayer.load(nextSong.permalink_url);
                     setTimeout(() => this.loadWidgetSong(this.curPlayer), 2000); // Update player info
-                    return; // Exit method
                 }
             } else { // If the queue is empty, fetch a new song
                 this.curPlayer.pause();

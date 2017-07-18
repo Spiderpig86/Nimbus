@@ -152,7 +152,6 @@ class Search {
             console.log(searchQuery.startsWith('set:'));
             if (searchQuery.startsWith('playlist:') || searchQuery.startsWith('set:')) {
                 this._player.getSetByKeyWord(searchQuery.split(':')[1].trim());
-                this._player.isPlaylist = true;
             } else if (searchQuery.startsWith('tag:') || searchQuery.startsWith('tags:')) {
                 this._player.getTracksByTags(searchQuery.split(':')[1].trim());
                 this._player.isPlaylist = false;
