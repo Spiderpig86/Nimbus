@@ -431,6 +431,10 @@ pre {
 
 .song-desc pre {
     white-space: pre-wrap;
+        -webkit-user-select: auto;
+       -moz-user-select: auto;
+        -ms-user-select: auto;
+            user-select: auto;
 }
 
 #widgettest {
@@ -554,7 +558,8 @@ pre {
     opacity: 0;
     -webkit-transition: all .3s;
     transition: all .3s;
-    animation-timing-function: cubic-bezier(.17,.67,1,1.23);
+    -webkit-animation-timing-function: cubic-bezier(.17,.67,1,1.23);
+            animation-timing-function: cubic-bezier(.17,.67,1,1.23);
 }
 
 /* Mobile / Tablets */
@@ -593,7 +598,8 @@ pre {
         perspective: 1000;
         /*transform: translate3d(0,0,0);
         transform: translateZ(0);*/
-        transform: scale(1.1); /* Get rid of black border in blur */
+        -webkit-transform: scale(1.1);
+                transform: scale(1.1); /* Get rid of black border in blur */
     }
 
     .card:hover {
@@ -982,6 +988,10 @@ pre {
 @media screen and (max-width: 768px) {
     #allCharts .chart-item {
         margin: 0;
+    }
+
+    #chartModalContainer .hero-body {
+        padding: 3rem 0;
     }
 }
 

@@ -99,6 +99,10 @@
     #allCharts .chart-item {
         margin: 0;
     }
+
+    #chartModalContainer .hero-body {
+        padding: 3rem 0;
+    }
 }
 
 @media screen and (max-width: 512px) {

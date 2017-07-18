@@ -696,7 +696,6 @@ class Player {
      * 
      */
     setVolume(vol) {
-        console.log(vol);
         this.curPlayer.setVolume(vol);
         this.volumeSlider.value = vol;
         Settings.storePref('playerVolume', vol);
@@ -728,6 +727,7 @@ class Player {
      */
     fetchNext() {
         try {
+            let isSet = false;
             console.log('Queue length - ' + this.queue.length);
             if (this.queue.length > 0) { // First check if the queue is non-empty
                 let nextSong = this.queue.pop(); // Pop the next song
@@ -736,6 +736,7 @@ class Player {
                     this.history.push({id: nextSong.id, track: nextSong}); // Add it to history
                     this.curPlayer.load(nextSong.permalink_url);
                     setTimeout(() => this.loadWidgetSong(this.curPlayer), 2000); // Update player info
+                    return; // Exit method
                 }
             } else { // If the queue is empty, fetch a new song
                 this.curPlayer.pause();
@@ -878,14 +879,15 @@ class Player {
                     if (this.shuffleQueue) { // If we want to shuffle the results
                         // Load the set
                         let resIndex = Math.floor(Math.random() * (sets.length + 1));
-                        this.curPlayer.load(sets[resIndex].permalink_url); // The "I'm feeling lucky part of the search"
+                        this.queue.push({id: sets[resIndex].id, track: sets[resIndex]}); // The "I'm feeling lucky part of the search"
                         this.setTrackCount = sets[resIndex].track_count;
                         Utils.showToast(`Now playing ${sets[resIndex].title} (${this.setTrackCount} songs)`)
                     } else {
                         // Load the set
-                        this.curPlayer.load(sets[0].permalink_url); // The "I'm feeling lucky part of the search"
+                        this.queue.push({id: sets[0].id, track: sets[0]}); // The "I'm feeling lucky part of the search"
                         this.setTrackCount = sets[0].track_count;
-                        Utils.showToast(`Now playing ${sets[0].title} (${this.setTrackCount} songs)`)
+                        console.log(sets[0]);
+                        Utils.showToast(`Queued ${sets[0].title} (${this.setTrackCount} songs)`)
                     }
                 }
             });
