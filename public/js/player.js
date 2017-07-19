@@ -751,10 +751,8 @@ class Player {
             Utils.log('fetchNext' + e.toString());
         }
 
-        console.log(Settings.getPref('shuffleMode') === 'related');
-
         if (Settings.getPref('shuffleMode') === 'related' && this.curTrack !== null && this.queue.length <= 0)
-            this.getRelatedTracks(this.curTrack.id, 120);
+            this.getRelatedTracks(this.curTrack.id, 50);
         else  // Make sure length of queue is empty before fetching again
             this.loadRandomTrack();
         
