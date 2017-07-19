@@ -46,6 +46,7 @@ class Player {
         this.isPlaying = false;
         this.curPlayer = null;
         this.curPosition = 0;
+        this.curTrack = null; // Store track data. Updated in loadWidgetSong()
         this.waveform = null;
         this.isRepeating = false; // For repeating songs
         this.hasBeenFetched = false; // Used to stop duplicates during recursion
@@ -288,6 +289,8 @@ class Player {
         this.curPlayer.play(); // Play normally on non mobile
         this.togglePlayState(true);
 
+        this.curTrack = song;
+
         this.isPlaying = true;
         let rndImg = Utils.fetchRandomImage();
         this.widgetTrack.cover = song.artwork_url;
@@ -328,7 +331,6 @@ class Player {
         }
 
         this.mainPlayer.innerHTML = SongInfo((song.artwork_url === null ? song.user.avatar_url : song.artwork_url.replace('large', 't500x500')), song, tagBtns, "javascript:alert('Purchase link unavailable');");
-        //this.curTrack.track = track;
         document.getElementById('background').style.backgroundImage = 'url(' + (song.artwork_url === null ? rndImg : song.artwork_url.replace('large', 't500x500')) + ')';
 
         // Add listener for flipContainer
@@ -729,7 +731,6 @@ class Player {
      */
     fetchNext() {
         try {
-            let isSet = false;
             Utils.log('Queue length - ' + this.queue.length);
             if (this.queue.length > 0) { // First check if the queue is non-empty
                 let nextSong = this.queue.pop(); // Pop the next song
@@ -740,6 +741,7 @@ class Player {
                     this.history.push({id: nextSong.id, track: nextSong}); // Add it to history
                     this.curPlayer.load(nextSong.permalink_url);
                     setTimeout(() => this.loadWidgetSong(this.curPlayer), 2000); // Update player info
+                    return;
                 }
             } else { // If the queue is empty, fetch a new song
                 this.curPlayer.pause();
@@ -748,6 +750,17 @@ class Player {
         } catch (e) {
             Utils.log('fetchNext' + e.toString());
         }
+
+        console.log(Settings.getPref('shuffleMode') === 'related');
+
+        if (Settings.getPref('shuffleMode') === 'related' && this.curTrack !== null && this.queue.length <= 0)
+            this.getRelatedTracks(this.curTrack.id, 120);
+        else  // Make sure length of queue is empty before fetching again
+            this.loadRandomTrack();
+        
+    }
+
+    loadRandomTrack() {
         let id = this.getRandomTrack(); // Works for tracks with 403 errors in other API
 
         SC.get('/tracks/' + id).then((track) => { // Check if there are results
@@ -1080,8 +1093,41 @@ class Player {
         }
     }
 
-    getRelatedTracks(id, limit) {
-        
+    getRelatedTracks(_id, _limit) {
+        try {
+
+            $.ajax({
+                url: 'http://polarity.x10.mx/nimbus/related.php', //This is the current doc
+                type: "GET",
+                dataType:'json', // add json datatype to get json
+                data: ({
+                    id: _id,
+                    limit: _limit,
+                    client_id: consts.client_id
+                }),
+                success: (data) => {
+                    let trackCollection = null;
+                    if (this.shuffleQueue)
+                        trackCollection = this.shuffleTracks(data.collection);
+                    else
+                        trackCollection = data.collection.reverse();
+
+                    for (let i = 0; i < trackCollection.length; i++) {
+                        this.queue.push({id: trackCollection[i].id, track: trackCollection[i]}); // This needs the track identifier
+                    }
+
+                    Utils.log(trackCollection);
+                    
+                    // Display toast message when done
+                    Utils.showToast(`${trackCollection.length} tracks related to ${this.curTrack.title} added to the queue.`);
+
+                    // Stream the song
+                    this.streamSong(trackCollection[0].id);
+                }
+            });  
+        } catch (e) {
+            Utils.log('getRelatedTracks Error - ' + e.message); 
+        }
     }
 }
 

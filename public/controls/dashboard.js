@@ -117,6 +117,8 @@ class Dashboard {
         this.btnClearQueue = document.getElementById('btnClearQueue');
 
         // Settings
+        this.rbRandom = document.getElementById('radioRandom');
+        this.rbRelated = document.getElementById('radioRelated');
         this.chkAnimations = document.getElementById('chkAnimations');
         this.chkBlur = document.getElementById('chkBlur');
         this.chkDebug = document.getElementById('chkDebug');
@@ -140,6 +142,14 @@ class Dashboard {
 
     bindSettingsControls() {
         // Settings controls
+        this.rbRandom.onclick = (e) => {
+            Settings.storePref('shuffleMode', 'random');
+        }
+
+        this.rbRelated.onclick = (e) => {
+            Settings.storePref('shuffleMode', 'related');
+        }
+
         this.chkAnimations.onclick = (e) => {
             Settings.storePref('disableAnimations', this.chkAnimations.checked);
             if (this.chkAnimations.checked && !document.getElementById("disableAnimations")) {
@@ -169,6 +179,11 @@ class Dashboard {
         this.chkAnimations.checked = JSON.parse(Settings.getPref('disableAnimations'));
         this.chkBlur.checked = JSON.parse(Settings.getPref('disableBlur'));
         this.chkDebug.checked = JSON.parse(Settings.getPref('debug'));
+
+        if (JSON.stringify(Settings.getPref('shuffleMode')) === 'random')
+            this.rbRandom.checked = true;
+        else
+            this.rbRelated.checked = true;
     }
 
     toggleDashboard() {

@@ -1,5 +1,4 @@
 <?php
-
     // Script to fetch related songs from song id
 
     // Get the query info from the url
@@ -7,8 +6,9 @@
     $parts = parse_url($url);
     parse_str($parts['query'], $query);
     $id = $query['id'];
-    $api_key = $query['client_id'];
+    $limit = $query['limit'];
+    $client_id= $query['client_id'];
     
-    $json = file_get_contents('https://api-v2.soundcloud.com/track/' . $id . '/related?client_id='.$client_id);
-    printr($json);
+    $json = file_get_contents('https://api-v2.soundcloud.com/tracks/'.$id.'/related?limit='.$limit.'&client_id='.$client_id);
+    print_r($json);
 ?>

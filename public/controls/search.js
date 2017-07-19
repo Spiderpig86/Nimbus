@@ -149,7 +149,6 @@ class Search {
             });
         } else if (isNaN(searchQuery)) { // Check if this is a string query
             // Check tags
-            console.log(searchQuery.startsWith('set:'));
             if (searchQuery.startsWith('playlist:') || searchQuery.startsWith('set:')) {
                 this._player.getSetByKeyWord(searchQuery.split(':')[1].trim());
             } else if (searchQuery.startsWith('tag:') || searchQuery.startsWith('tags:')) {
