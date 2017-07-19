@@ -770,8 +770,7 @@ class Player {
         }).catch((err) => {
             console.log(err.status);
             if (err.status === 0) { // Invalid API key
-                console.log('0/401 Unauthorized. Possible Invalid SoundCloud key')
-                throw '0/401 Unauthorized. Possible Invalid SoundCloud key';
+                console.log('0/401 Unauthorized. Possible Invalid SoundCloud key');
             }
             if (err.status === 403) { // Play the song anyway even if this API requiest returns a forbidden request (Soundcloud problem)
                 this.streamSong(id);
@@ -1096,6 +1095,10 @@ class Player {
         } catch (e) {
             console.log('getTracksFromCharts Error - ' + e.message); 
         }
+    }
+
+    getRelatedTracks(id, limit) {
+        
     }
 }
 
