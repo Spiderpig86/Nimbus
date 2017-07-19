@@ -10,7 +10,7 @@ class Settings {
             disableBlur: false,
             playerVolume: 100,
             debug: false,
-            shuffleMode: JSON.stringify('random')
+            shuffleMode: 'random'
         }
 
         this.updateSettings();
@@ -42,7 +42,7 @@ class Settings {
         this._settings.disableBlur = localStorage.getItem('disableBlur') || (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ? true : false); // Disable blur for mobile devices
         this._settings.playerVolume = localStorage.getItem('playerVolume') || 100;
         this._settings.debug = localStorage.getItem('debug') || false;
-        this._settings.shuffleMode = localStorage.getItem('shuffleMode') || JSON.stringify('random');
+        this._settings.shuffleMode = localStorage.getItem('shuffleMode') || 'random';
     }
 
 }

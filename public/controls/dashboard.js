@@ -180,7 +180,7 @@ class Dashboard {
         this.chkBlur.checked = JSON.parse(Settings.getPref('disableBlur'));
         this.chkDebug.checked = JSON.parse(Settings.getPref('debug'));
 
-        if (JSON.stringify(Settings.getPref('shuffleMode')) === 'random')
+        if (Settings.getPref('shuffleMode') === 'random') // Quotes keep appearing due to JSON storage
             this.rbRandom.checked = true;
         else
             this.rbRelated.checked = true;

@@ -1120,7 +1120,11 @@ class Player {
                     Utils.showToast(`${trackCollection.length} tracks related to ${this.curTrack.title} added to the queue.`);
 
                     // Stream the song
-                    this.streamSong(trackCollection[0].id);
+                    let track = this.queue.pop();
+                    Utils.log('fetching first track from related ' + track.id);
+                    this.curPlayer.load(`https%3A//api.soundcloud.com/tracks/${track.id}` + WIDGET_PARAMS);
+                    this.togglePlayState(true);
+                    setTimeout(() => this.loadWidgetSong(this.curPlayer), 1000);
                 }
             });  
         } catch (e) {
