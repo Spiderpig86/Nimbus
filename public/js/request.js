@@ -1,3 +1,4 @@
+import Utils from './utils';
 /**
  * Designed to fetch data using XMLHttp.
  */
@@ -9,7 +10,7 @@ class Request {
      * @memberof Request
      */
     constructor() {
-        console.log('Init Request service');
+        Utils.log('Init Request service');
     }
 
     get(url) {

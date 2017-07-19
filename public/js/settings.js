@@ -8,7 +8,8 @@ class Settings {
         this._settings = {
             disableAnimations: false,
             disableBlur: false,
-            playerVolume: 100
+            playerVolume: 100,
+            debug: false
         }
 
         this.updateSettings();
@@ -28,6 +29,8 @@ class Settings {
                 return this._settings.disableBlur;
             case 'playerVolume':
                 return this._settings.playerVolume;
+            case 'debug':
+                return this._settings.debug;
         }
     }
 
@@ -35,6 +38,7 @@ class Settings {
         this._settings.disableAnimations = localStorage.getItem('disableAnimations') || false;
         this._settings.disableBlur = localStorage.getItem('disableBlur') || (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ? true : false); // Disable blur for mobile devices
         this._settings.playerVolume = localStorage.getItem('playerVolume') || 100;
+        this._settings.debug = localStorage.getItem('debug') || false;
     }
 
 }

@@ -50,6 +50,10 @@ class Dashboard {
                                 <p>Disable Blur</p>
                                 <div class="toggle-switch"><input type="checkbox" id="chkBlur"/><label for="chkBlur"></label></div>
                             </div>
+                            <div class="toggle-container">
+                                <p>Debug Mode</p>
+                                <div class="toggle-switch"><input type="checkbox" id="chkDebug"/><label for="chkDebug"></label></div>
+                            </div>
                         </div>
                     </div>
                     <div class="tabpage">
@@ -90,8 +94,10 @@ class Dashboard {
         this.queueContainer = document.getElementById('queueContainer');
         this.btnClearQueue = document.getElementById('btnClearQueue');
 
+        // Settings
         this.chkAnimations = document.getElementById('chkAnimations');
         this.chkBlur = document.getElementById('chkBlur');
+        this.chkDebug = document.getElementById('chkDebug');
 
         // Event handler for close button for search dialog
         this.dashboardCloseBtn.onclick = (e) => {
@@ -103,6 +109,14 @@ class Dashboard {
             this.refreshQueueContainer();
         }
 
+        this.btnClearQueue.onclick = (e) => {
+            this.clearQueue();
+        }
+
+        this.bindSettingsControls();
+    }
+
+    bindSettingsControls() {
         // Settings controls
         this.chkAnimations.onclick = (e) => {
             Settings.storePref('disableAnimations', this.chkAnimations.checked);
@@ -122,8 +136,8 @@ class Dashboard {
             }
         }
 
-        this.btnClearQueue.onclick = (e) => {
-            this.clearQueue();
+        this.chkDebug.onclick = (e) => {
+            Settings.storePref('debug', this.chkDebug.checked);
         }
     }
 
@@ -132,6 +146,7 @@ class Dashboard {
         // Update settings controls
         this.chkAnimations.checked = JSON.parse(Settings.getPref('disableAnimations'));
         this.chkBlur.checked = JSON.parse(Settings.getPref('disableBlur'));
+        this.chkDebug.checked = JSON.parse(Settings.getPref('debug'));
     }
 
     toggleDashboard() {

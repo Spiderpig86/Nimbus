@@ -105,7 +105,7 @@ class Player {
         // Check for params and then decide what to play
         this.checkParamsAndFetch();
 
-        console.log('construct done');
+        Utils.log('construct done');
     }
 
     /**
@@ -216,10 +216,10 @@ class Player {
      */
     loadWidgetSong(widget) {
         try {
-            console.log('loadwidgetsong called');
+            Utils.log('loadwidgetsong called');
             this.waveform = null; // Reset the reference
             widget.getCurrentSound((song) => {
-                //console.log(song);
+                //Utils.log(song);
                 let rndImg = Utils.fetchRandomImage();
                 this.updateSongInfo(song);
 
@@ -255,21 +255,21 @@ class Player {
 
                 this.hasBeenFetched = false; // Reset
 
-                console.log('getcurrentsound done');
+                Utils.log('getcurrentsound done');
             }, (err) => {
-                console.log(err.message);
+                Utils.log(err.message);
             });
 
             // Update the play state
             this.togglePlayState(true);
             return;
         } catch (ex) {
-            console.log(ex.message);
+            Utils.log(ex.message);
         }
     }
 
     updateSongInfo(song) {
-        console.log('getcurrentsound start');
+        Utils.log('getcurrentsound start');
         //if ( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) { // Attempt to fix on mobile devices
             
             // Sorry cannot auto play on mobile =_(
@@ -278,7 +278,7 @@ class Player {
             // widget.play();
             // setTimeout(() => {
             //         $('#play-btn').trigger('click'); // Cannot fix autoplay issue, but now users can play the track with 1 tap of the play button instead o several (bug fix)
-            //         console.log('test play')
+            //         Utils.log('test play')
             //     }, 2000);
             // this.togglePlayState(true);
             //this.curPlayer.play(); // Extra call for forcing auto playing in mobile
@@ -347,7 +347,7 @@ class Player {
         (async function() { // Changed syntax to fix issue on Safari
             let req = new Request(); // Construct it
             let data = await req.getJSON(song.waveform_url);
-            console.log(song.waveform_url);
+            Utils.log(song.waveform_url);
 
             // Draw the waveform
             const waveFormContainer = document.querySelector('.waveform');
@@ -396,9 +396,9 @@ class Player {
                 client_id: consts.client_id
             });
         } catch (e) {
-            console.log('Error initializing SoundCloud API. Stack trace: ' + e.toString());
+            Utils.log('Error initializing SoundCloud API. Stack trace: ' + e.toString());
         }
-        console.log('SoundCloud API initalized!');
+        Utils.log('SoundCloud API initalized!');
     }
 
     /**
@@ -436,7 +436,7 @@ class Player {
             // Bind when the song has finished
             widget.bind(SC.Widget.Events.FINISH, (e) => {
                 // When the song finishes, we need to find a new song to play.
-                console.log('finished');
+                Utils.log('finished');
                 this.isPlaying = false;
 
                 // Check if user is playing a playlist
@@ -529,11 +529,11 @@ class Player {
                 trackId = Math.floor((Math.random() * RAND_COUNT) + OFFSET);
             }
 
-            console.log('in id');
+            Utils.log('in id');
 
             return trackId;
         } catch (e) {
-            console.log('getRandomTrack() - ' + e.toString());
+            Utils.log('getRandomTrack() - ' + e.toString());
         }
     }
 
@@ -591,7 +591,7 @@ class Player {
             setTimeout(() => {
                 this.loadWidgetSong(this.curPlayer);
                 setTimeout(() => {
-                    console.log(this.widgetTrack.id + ' - ' + nextSongID);
+                    Utils.log(this.widgetTrack.id + ' - ' + nextSongID);
                     if (this.widgetTrack.id === nextSongID) { // If we have reached the end of the playlist
                         this.isPlaylist = false;
                         this.setCurIndex = 0;
@@ -629,7 +629,7 @@ class Player {
             setTimeout(() => {
                 this.loadWidgetSong(this.curPlayer);
                 setTimeout(() => {
-                    console.log(this.widgetTrack.id + ' - ' + lastSongID);
+                    Utils.log(this.widgetTrack.id + ' - ' + lastSongID);
                     if (this.widgetTrack.id === lastSongID) { // If we have reached the beginning of the playlist
                         this.loadPreviousSong();
                     }
@@ -641,7 +641,7 @@ class Player {
             this.curPlayer.play();
             return;
         }
-        console.log('not playlist');
+        Utils.log('not playlist');
 
         this.loadPreviousSong();
     }
@@ -655,7 +655,7 @@ class Player {
 
         if (prevSong) { // If not null
             this.curPlayer.load(prevSong.permalink_url);
-            console.log(prevSong.permalink_url);
+            Utils.log(prevSong.permalink_url);
             setTimeout(() => this.loadWidgetSong(this.curPlayer), 2000); // Update player info
         }
     }
@@ -710,7 +710,7 @@ class Player {
         if (!this.isPlaying) {
             // Nuanced but adds that 'break' in the sound so you know it was pressed just in case isPlaying is the wrong value
             this.curPlayer.play(); 
-            console.log('isPlaying = true');
+            Utils.log('isPlaying = true');
             this.isPlaying = true;
             // this.mainPlayer.innerHTML = SongInfo((this.curTrack.track.artwork_url === null ? '../img/cd.png' : this.curTrack.track.artwork_url.replace('large', 't500x500')), this.curTrack.track);
             // Update play state
@@ -730,7 +730,7 @@ class Player {
     fetchNext() {
         try {
             let isSet = false;
-            console.log('Queue length - ' + this.queue.length);
+            Utils.log('Queue length - ' + this.queue.length);
             if (this.queue.length > 0) { // First check if the queue is non-empty
                 let nextSong = this.queue.pop(); // Pop the next song
 
@@ -746,7 +746,7 @@ class Player {
                 this.restartSong();
             }
         } catch (e) {
-            console.log('fetchNext' + e.toString());
+            Utils.log('fetchNext' + e.toString());
         }
         let id = this.getRandomTrack(); // Works for tracks with 403 errors in other API
 
@@ -754,9 +754,9 @@ class Player {
             // Really just designed to check if the song actually exists
            this.streamSong(id);
         }, (err) => {
-            console.log(err.status);
+            Utils.log(err.status);
             // if (err.status === 0) { // Invalid API key
-            //     console.log('0/401 Unauthorized. Possible Invalid SoundCloud key')
+            //     Utils.log('0/401 Unauthorized. Possible Invalid SoundCloud key')
             //     throw '0/401 Unauthorized. Possible Invalid SoundCloud key'
             // }
             if (err.status === 403) { // Play the song anyway even if this API requiest returns a forbidden request (Soundcloud problem)
@@ -764,13 +764,13 @@ class Player {
                 return;
             }
             // If there is no song with the associated ID, fetch a new one.
-            console.log('track fetch fail' + id);
+            Utils.log('track fetch fail' + id);
             this.fetchNext();
-            console.log('track fetch fail post' + id);
+            Utils.log('track fetch fail post' + id);
         }).catch((err) => {
-            console.log(err.status);
+            Utils.log(err.status);
             if (err.status === 0) { // Invalid API key
-                console.log('0/401 Unauthorized. Possible Invalid SoundCloud key');
+                Utils.log('0/401 Unauthorized. Possible Invalid SoundCloud key');
             }
             if (err.status === 403) { // Play the song anyway even if this API requiest returns a forbidden request (Soundcloud problem)
                 this.streamSong(id);
@@ -786,7 +786,7 @@ class Player {
      * @param {int} id - holds the song id
      */
     streamSong(id) {
-        console.log('track fetch success ' + id);
+        Utils.log('track fetch success ' + id);
         this.curPlayer.load(`https%3A//api.soundcloud.com/tracks/${id}` + WIDGET_PARAMS);
         this.togglePlayState(true);
         setTimeout(() => this.loadWidgetSong(this.curPlayer), 2000);
@@ -816,9 +816,11 @@ class Player {
                         Utils.showToast(`Added ${tracks[0].title} to the queue.`)
                     }
                 }
+            }).catch((e) => { // Testing
+                Utils.log('getTrackByKeyWord (promise) Error - ' + e.message);
             });
         } catch (e) {
-            console.log('getTrackByKeyWord Error - ' + e.message);
+            Utils.log('getTrackByKeyWord Error - ' + e.message);
         }
     }
 
@@ -839,7 +841,7 @@ class Player {
 
             SC.get('/tracks', options).then((tracks) => {
                 if (tracks.length > 0) {
-                    console.log(tracks);
+                    Utils.log(tracks);
 
                     let trackCollection = null;
                     if (this.shuffleQueue)
@@ -850,7 +852,7 @@ class Player {
                     // Queue all tracks to the queue of the user's playlist. Note that queue is actually acting like a stack since we use push() and pop()
                     for (let i = 0; i < trackCollection.length; i++) { // Skip the first one since we are already playing it at this point (need to subtract upper bound by 1 since we want to exclude the first track from the reversed array)
                         this.queue.push({id: trackCollection[i].id, track: trackCollection[i]});
-                        console.log(tracks[i].title);
+                        Utils.log(tracks[i].title);
                     }
 
                     // // Load the song
@@ -863,7 +865,7 @@ class Player {
                 }
             });
         } catch (e) {
-            console.log('getTracksByTags Error - ' + e.message);
+            Utils.log('getTracksByTags Error - ' + e.message);
         }
     }
 
@@ -888,13 +890,13 @@ class Player {
                         // Load the set
                         this.queue.push({id: sets[0].id, track: sets[0]}); // The "I'm feeling lucky part of the search"
                         this.setTrackCount = sets[0].track_count;
-                        console.log(sets[0]);
+                        Utils.log(sets[0]);
                         Utils.showToast(`Queued ${sets[0].title} (${this.setTrackCount} songs)`)
                     }
                 }
             });
         } catch (e) {
-            console.log('getSetByKeyWord Error - ' + e.message);
+            Utils.log('getSetByKeyWord Error - ' + e.message);
         }
     }
 
@@ -915,7 +917,7 @@ class Player {
                     }
 
                     SC.get(`/users/${response.id}/tracks`, options).then((tracks) => {
-                        console.log(tracks);
+                        Utils.log(tracks);
                         if (tracks.length > 0) {
 
                             let trackCollection = null;
@@ -939,11 +941,11 @@ class Player {
                         }
                     });
                 } catch (e) {
-                    console.log('getSongsByUser Error - ' + e.message);
+                    Utils.log('getSongsByUser Error - ' + e.message);
                 }
             });
         } catch (e) {
-            console.log(e);
+            Utils.log(e);
         }
     }
 
@@ -986,7 +988,7 @@ class Player {
                 }
             });
         } catch (e) {
-            console.log('getSongsByGenres Error - ' + e.message);
+            Utils.log('getSongsByGenres Error - ' + e.message);
         }
     }
 
@@ -1029,7 +1031,7 @@ class Player {
 
     shuffleTracks(tracks) {
         let temp = null;
-        console.log('shuffling tracks');
+        Utils.log('shuffling tracks');
         // Using in place Durstenfeld shuffle
         for (let i = tracks.length - 1; i > 0; i --) {
             let j = Math.floor(Math.random() * (i+1)); // Generate a random index [0...i]
@@ -1044,21 +1046,6 @@ class Player {
     getTracksFromCharts(_kind, _genres, _limit, $_partition = 1) {
         // kind=top&genre=soundcloud%3Agenres%3Aall-music&limit=50
         try {
-            // let oReq = new XMLHttpRequest(); //New request object
-            // oReq.onload = function() {
-            //     // Callback
-            //     let songs = JSON.parse(this.responseText);
-            //     console.log(songs);
-            //     console.log(this.queue);
-            // };
-            // oReq.open("get", `http://polarity.x10.mx/test.php?kind=${_kind}&genre=${_genres}&limit=${_limit}&linked_partitioning=${$_partition}&client_id=${consts.client_id}`, true);
-            // //                               ^ Don't block the rest of the execution.
-            // //                                 Don't wait until the request finishes to 
-            // //                                 continue.
-            // oReq.send();
-            // // console.log(`https://api-v2.soundcloud.com/charts?kind=${_kind}&genre=${_genres}&limit=${_limit}&linked_partitioning=${$_partition}&client_id=${consts.client_id}`);
-            // // let req = new Request(); // Construct it
-            // // let tracks = await req.getJSON(`https://api-v2.soundcloud.com/charts?kind=${_kind}&genre=${_genres}&limit=${_limit}&linked_partitioning=${$_partition}&client_id=${consts.client_id}`);
 
             $.ajax({
                 url: 'http://polarity.x10.mx/nimbus/charts.php', //This is the current doc
@@ -1082,18 +1069,14 @@ class Player {
                         this.queue.push({id: trackCollection[i].track.id, track: trackCollection[i].track}); // This needs the track identifier
                     }
 
-                    console.log(trackCollection);
-
-                    //  // Load the song
-                    // this.curPlayer.load(trackCollection[trackCollection.length - 1].track.permalink_url);
-                    // setTimeout(() => this.loadWidgetSong(this.curPlayer), 1000);
+                    Utils.log(trackCollection);
                     
                     // Display toast message when done
                     Utils.showToast(`${trackCollection.length} tracks added to the queue.`);
                 }
             });  
         } catch (e) {
-            console.log('getTracksFromCharts Error - ' + e.message); 
+            Utils.log('getTracksFromCharts Error - ' + e.message); 
         }
     }
 

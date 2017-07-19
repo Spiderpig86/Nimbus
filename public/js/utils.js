@@ -1,4 +1,5 @@
 import Toast from '../controls/toast';
+import Settings from './settings';
 
 class Utils {
 
@@ -37,6 +38,11 @@ class Utils {
             $('#toast').removeClass('shown');
             $('#toast').html(''); // Empty out the toast
         }, 3000);
+    }
+
+    static log(message) {
+        if (Settings.getPref('debug') == 'true')
+            console.log(message);
     }
 }
 
