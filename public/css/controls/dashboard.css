@@ -43,7 +43,7 @@
 }
 
 /*  QUEUE */
-#queueContainer {
+.scrollable-container {
     height: 50vh;
     overflow: auto;
 }
@@ -119,6 +119,16 @@
     text-transform: uppercase;
 }
 
+.settings-title {
+    text-transform: uppercase;
+    font-family: 'Nunito Sans';
+    font-weight: lighter;
+    font-size: .9rem;
+    letter-spacing: 5px;
+    margin: 0;
+    margin-top: 1.5rem;
+}
+
 /*.btn-tooltip:focus::after, .btn-tooltip:hover::after {
     -webkit-transform: translate(-50%, 2rem);
     -ms-transform: translate(-50%, 2rem);
@@ -126,7 +136,7 @@
 }*/
 
 @media screen and (max-width: 768px) {
-    #queueContainer {
+    .scrollable-container {
         height: 45vh;
         overflow: auto;
     }

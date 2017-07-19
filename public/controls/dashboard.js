@@ -41,18 +41,40 @@ class Dashboard {
                     <div class="tabpage shown">
                         <h3>Settings</h3>
                         <div class="divider"></div>
-                        <div class="row">
-                            <div class="toggle-container">
-                                <p>Disable Animations</p>
-                                <div class="toggle-switch"><input type="checkbox" id="chkAnimations"/><label for="chkAnimations"></label></div>
+                        <div class="scrollable-container">
+                            <p class="settings-title">Shuffle Mode</p>
+                            <div class="row">
+                                <li class="settings-rb">
+                                    <input type="radio" id="radioRandom" name="selector">
+                                    <label for="radioRandom">Random Tracks</label>
+                                    <div class="check"></div>
+                                </li>
+
+                                <li class="settings-rb">
+                                    <input type="radio" id="radioRelated" name="selector">
+                                    <label for="radioRelated">Related Tracks</label>
+                                    <div class="check"></div>
+                                </li>
                             </div>
-                            <div class="toggle-container">
-                                <p>Disable Blur</p>
-                                <div class="toggle-switch"><input type="checkbox" id="chkBlur"/><label for="chkBlur"></label></div>
+
+                            <p class="settings-title">Appearance</p>
+                            <div class="row">
+                                <div class="toggle-container">
+                                    <p>Disable Animations</p>
+                                    <div class="toggle-switch"><input type="checkbox" id="chkAnimations"/><label for="chkAnimations"></label></div>
+                                </div>
+                                <div class="toggle-container">
+                                    <p>Disable Blur</p>
+                                    <div class="toggle-switch"><input type="checkbox" id="chkBlur"/><label for="chkBlur"></label></div>
+                                </div>
                             </div>
-                            <div class="toggle-container">
-                                <p>Debug Mode</p>
-                                <div class="toggle-switch"><input type="checkbox" id="chkDebug"/><label for="chkDebug"></label></div>
+
+                            <p class="settings-title">Advanced</p>
+                            <div class="row">
+                                <div class="toggle-container">
+                                    <p>Debug Mode</p>
+                                    <div class="toggle-switch"><input type="checkbox" id="chkDebug"/><label for="chkDebug"></label></div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -64,7 +86,7 @@ class Dashboard {
                         </div>
                         <div class="divider"></div>
                         <space></space>
-                        <div id="queueContainer">
+                        <div id="queueContainer" class="scrollable-container">
 
                         </div>
                     </div>

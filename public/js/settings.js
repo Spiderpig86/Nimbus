@@ -9,7 +9,8 @@ class Settings {
             disableAnimations: false,
             disableBlur: false,
             playerVolume: 100,
-            debug: false
+            debug: false,
+            shuffleMode: 'random'
         }
 
         this.updateSettings();

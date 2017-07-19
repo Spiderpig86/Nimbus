@@ -650,6 +650,7 @@ pre {
         display: -ms-flexbox;
         display: flex;
         margin-top: -2rem;
+        box-shadow: none; /* Override Cirrus style */
     }
 
     #histContainer {
@@ -796,7 +797,7 @@ pre {
 }
 
 /*  QUEUE */
-#queueContainer {
+.scrollable-container {
     height: 50vh;
     overflow: auto;
 }
@@ -872,6 +873,16 @@ pre {
     text-transform: uppercase;
 }
 
+.settings-title {
+    text-transform: uppercase;
+    font-family: 'Nunito Sans';
+    font-weight: lighter;
+    font-size: .9rem;
+    letter-spacing: 5px;
+    margin: 0;
+    margin-top: 1.5rem;
+}
+
 /*.btn-tooltip:focus::after, .btn-tooltip:hover::after {
     -webkit-transform: translate(-50%, 2rem);
     -ms-transform: translate(-50%, 2rem);
@@ -879,7 +890,7 @@ pre {
 }*/
 
 @media screen and (max-width: 768px) {
-    #queueContainer {
+    .scrollable-container {
         height: 45vh;
         overflow: auto;
     }
@@ -887,6 +898,79 @@ pre {
     .tabpage p {
         font-size: 0.85rem;
     }
+}
+.settings-rb{
+  color: #AAAAAA;
+  display: block;
+  position: relative;
+  float: left;
+  width: 100%;
+    height: 3.5rem;
+}
+
+.settings-rb input[type=radio]{
+  position: absolute;
+  visibility: hidden;
+}
+
+.settings-rb label{
+    display: block;
+    position: relative;
+    font-weight: 300;
+    font-size: 1.2rem;
+    padding: 28px 25px 15px 70px;
+    margin: 10px auto;
+    z-index: 9;
+    cursor: pointer;
+    -webkit-transition: all .25s linear;
+}
+
+.settings-rb:hover label{
+	color: #FFFFFF;
+}
+
+.settings-rb .check{
+  display: block;
+  position: absolute;
+  border: 5px solid #AAAAAA;
+  border-radius: 100%;
+  height: 25px;
+  width: 25px;
+  top: 30px;
+  left: 20px;
+	z-index: 5;
+	transition: border .25s linear;
+	-webkit-transition: border .25s linear;
+}
+
+.settings-rb:hover .check {
+  border: 5px solid #FFFFFF;
+}
+
+.settings-rb .check::before {
+    display: block;
+    position: absolute;
+    content: '';
+    border-radius: 100%;
+    height: 9px;
+    width: 9px;
+    top: 3px;
+    left: 3px;
+    margin: auto;
+    transition: background .25s linear;
+    -webkit-transition: background .25s linear;
+}
+
+input[type=radio]:checked ~ .check {
+  border: 5px solid #0DFF92;
+}
+
+input[type=radio]:checked ~ .check::before{
+  background: #0DFF92;
+}
+
+input[type=radio]:checked ~ label{
+  color: #0DFF92;
 }
 .search-item {
     cursor: hand;

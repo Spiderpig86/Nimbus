@@ -650,6 +650,7 @@ pre {
         display: -ms-flexbox;
         display: flex;
         margin-top: -2rem;
+        box-shadow: none; /* Override Cirrus style */
     }
 
     #histContainer {

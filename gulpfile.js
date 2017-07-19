@@ -10,6 +10,7 @@ gulp.task('compile', function() {
         './public/css/app.css',
         './public/css/scrollbar.css',
         './public/css/controls/dashboard.css',
+        './public/css/controls/radiobutton.css',
         './public/css/controls/search.css',
         './public/css/controls/toast.css',
         './public/css/controls/toggle.css',
