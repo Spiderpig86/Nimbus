@@ -795,10 +795,10 @@ pre {
 }
 
 /*  QUEUE */
-.scrollable-container {
+/*.scrollable-container {
     height: 50vh;
     overflow: auto;
-}
+}*/
 
 #queueContainer:after {
     content: "";
@@ -892,10 +892,10 @@ pre {
         padding: 3rem 0 0 0;
     }
 
-    .scrollable-container {
+    /*.scrollable-container {
         height: 45vh;
         overflow: auto;
-    }
+    }*/
 
     .tabpage p {
         font-size: 0.85rem;
