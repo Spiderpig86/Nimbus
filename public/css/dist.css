@@ -297,6 +297,7 @@ pre {
 #songContainer .card {
     min-height: 100%;
     background: transparent;
+    box-shadow: none;
 }
 
 #songContainer .card:hover {
@@ -752,9 +753,6 @@ pre {
 	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
 	background-color: rgba(128, 128, 128, 0.4);
 }
-#dashboardModalContainer .hero-body {
-    /*padding: 0 1.5rem;*/
-}
 
 /* The tab pages (not the tabs in the tab strip) */
 .tabpage {
@@ -804,7 +802,7 @@ pre {
 
 #queueContainer:after {
     content: "";
-    position: absolute;
+    position: fixed;
     z-index: 1;
     bottom: 0;
     left: 0;
@@ -890,6 +888,10 @@ pre {
 }*/
 
 @media screen and (max-width: 768px) {
+    #dashboardModalContainer .hero-body {
+        padding: 3rem 0 0 0;
+    }
+
     .scrollable-container {
         height: 45vh;
         overflow: auto;

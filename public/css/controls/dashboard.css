@@ -1,6 +1,3 @@
-#dashboardModalContainer .hero-body {
-    /*padding: 0 1.5rem;*/
-}
 
 /* The tab pages (not the tabs in the tab strip) */
 .tabpage {
@@ -50,7 +47,7 @@
 
 #queueContainer:after {
     content: "";
-    position: absolute;
+    position: fixed;
     z-index: 1;
     bottom: 0;
     left: 0;
@@ -136,6 +133,10 @@
 }*/
 
 @media screen and (max-width: 768px) {
+    #dashboardModalContainer .hero-body {
+        padding: 3rem 0 0 0;
+    }
+
     .scrollable-container {
         height: 45vh;
         overflow: auto;

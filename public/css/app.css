@@ -297,6 +297,7 @@ pre {
 #songContainer .card {
     min-height: 100%;
     background: transparent;
+    box-shadow: none;
 }
 
 #songContainer .card:hover {
