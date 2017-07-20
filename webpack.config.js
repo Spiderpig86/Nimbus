@@ -5,16 +5,38 @@ var webpack = require('webpack');
 
 module.exports = {
   context: __dirname, // Context is current directory
-  devtool: debug ? "inline-sourcemap" : null,
+  devtool: debug ? "eval" : null,
   entry: "./public/js/app.js",
   output: {
     path: __dirname + "/public/js",
     filename: "app.min.js"
   },
   plugins: debug ? [] : [
-    new webpack.optimize.DedupePlugin(), // Remove duplicate code
-    new webpack.optimize.OccurenceOrderPlugin(),
-    new webpack.optimize.UglifyJsPlugin({ mangle: false, sourcemap: false }),
+    new webpack.optimize.AggressiveMergingPlugin(),
+    new webpack.optimize.OccurrenceOrderPlugin(),
+    new webpack.optimize.DedupePlugin(),
+    new webpack.optimize.UglifyJsPlugin({
+      mangle: true,
+      compress: {
+        warnings: false, // Suppress uglification warnings
+        pure_getters: true,
+        unsafe: true,
+        unsafe_comps: true,
+        screw_ie8: true
+      },
+      output: {
+        comments: false,
+      },
+      exclude: [/\.min\.js$/gi] // skip pre-minified libs
+    }),
+    new webpack.IgnorePlugin(/^\.\/locale$/, [/moment$/]), //https://stackoverflow.com/questions/25384360/how-to-prevent-moment-js-from-loading-locales-with-webpack
+    new CompressionPlugin({
+      asset: "[path].gz[query]",
+      algorithm: "gzip",
+      test: /\.js$|\.css$|\.html$/,
+      threshold: 10240,
+      minRatio: 0
+    })
   ],
 
   // module: {

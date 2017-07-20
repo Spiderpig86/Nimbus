@@ -269,7 +269,7 @@ class Player {
         }
     }
 
-    updateSongInfo(song) {
+    async updateSongInfo(song) {
         Utils.log('getcurrentsound start');
         //if ( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) { // Attempt to fix on mobile devices
             
@@ -346,7 +346,7 @@ class Player {
         }, false);
 
         // Async method to build waveform
-        (async function() { // Changed syntax to fix issue on Safari
+        //(async function() { // Changed syntax to fix issue on Safari
             let req = new Request(); // Construct it
             let data = await req.getJSON(song.waveform_url);
             Utils.log(song.waveform_url);
@@ -385,7 +385,7 @@ class Player {
         } else {
             await waveform.updateWaveformData(data.samples);
         }
-        }).bind(this)();
+        //}).bind(this)();
 
     }
 
