@@ -18,7 +18,7 @@ Nimbus uses a few packages to help this run on a machine. Some of the dependenci
 * [Cirrus](https://github.com/Spiderpig86/Cirrus) - a CSS framework I developed.
 
 ## Screenshots
-![As of 7/19/17](http://i.imgur.com/uCuHnjO.png "Nimbus")![Nimbus Mobile](http://i.imgur.com/uCuHnjO.png "Mobile")
+![As of 7/19/17](http://i.imgur.com/uCuHnjO.png "Nimbus")![Nimbus Mobile](http://i.imgur.com/UlsnTSc.png "Mobile")
 ![Search](http://i.imgur.com/7AGoRv2.png "Search")![Settings](http://i.imgur.com/IgPWBBg.png "Settings")
 <p align="center">Nimbus as of 7/19/17</p>
 
