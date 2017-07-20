@@ -18,11 +18,10 @@ Nimbus uses a few packages to help this run on a machine. Some of the dependenci
 * [Cirrus](https://github.com/Spiderpig86/Cirrus) - a CSS framework I developed.
 
 ## Screenshots
-<img width="600" src="http://i.imgur.com/uCuHnjO.png"/>
-<img width="300" src="http://i.imgur.com/UlsnTSc.png"/>
-
-<img width="400" src="http://i.imgur.com/7AGoRv2.png"/>
-<img width="400" src="http://i.imgur.com/IgPWBBg.png"/>
+<img align="left" width="600" src="http://i.imgur.com/uCuHnjO.png"/>
+<img align="right" width="300" src="http://i.imgur.com/UlsnTSc.png"/>
+<img align="left" width="400" src="http://i.imgur.com/7AGoRv2.png"/>
+<img align="left" width="400" src="http://i.imgur.com/IgPWBBg.png"/>
 <p align="center">Nimbus as of 7/19/17</p>
 
 ![As of 6/18/17](http://i.imgur.com/b3K7bFX.png "Nimbus")
