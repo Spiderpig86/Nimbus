@@ -105,6 +105,14 @@
     }
 }
 
+@media screen and (min-width: 600px) {
+    #chartModalContainer .row [class*=" col-"]:not(.ignore-screen), #chartModalContainer .row [class^=col-]:not(.ignore-screen) { /* Grids appear for tablets too */
+        width: 33.33333333%;
+        margin-top: 1rem;
+        margin-left: auto;
+    }
+}
+
 @media screen and (max-width: 512px) {
     #searchModalContainer .content {
         margin: 0;
