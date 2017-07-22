@@ -754,6 +754,10 @@ pre {
 	background-color: rgba(128, 128, 128, 0.4);
 }
 
+@media screen and (max-width: 768px) {
+	::-webkit-scrollbar { width: 0 !important; height: 0 !important }
+}
+
 /* The tab pages (not the tabs in the tab strip) */
 .tabpage {
     display: none;
@@ -1122,6 +1126,18 @@ input[type=radio]:checked ~ label{
 
     .chart-item {
         margin-left: -0.5rem;
+    }
+
+    .chart-overflow {
+        position: absolute;
+        width: 100%;
+        margin: 0;
+        left: 0;
+        overflow: hidden;
+    }
+
+    #chartContainer {
+        padding: 0 2.5rem;
     }
 }
 .toast {

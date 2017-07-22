@@ -47,8 +47,10 @@ class Search {
                             <h3 class="white">Featured</h3>
                             <button id="charts-btn" class="btn-nimbus">View All</button>
                         </div>
-                        <div class="row flex expand" id="chartContainer">
+                        <div class="chart-overflow">
+                            <div class="row flex expand" id="chartContainer">
 
+                            </div>
                         </div>
                     </div>
                 </div>

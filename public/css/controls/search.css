@@ -122,4 +122,16 @@
     .chart-item {
         margin-left: -0.5rem;
     }
+
+    .chart-overflow {
+        position: absolute;
+        width: 100%;
+        margin: 0;
+        left: 0;
+        overflow: hidden;
+    }
+
+    #chartContainer {
+        padding: 0 2.5rem;
+    }
 }
