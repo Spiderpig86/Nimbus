@@ -41,7 +41,7 @@ class Utils {
     }
 
     static log(message) {
-        if (Settings.getPref('debug') == 'true')
+        if (Settings.getPref('debug') === 'true')
             console.log(message);
     }
 }
