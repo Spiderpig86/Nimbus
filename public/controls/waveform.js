@@ -42,7 +42,7 @@ class WaveForm {
         this.canvas = null;
 
         this.waveFormFrame = 0;
-        this.updateInterval = (Settings.getPref('batterySaver') ? 100 : 10); // Update every whatever metric SC uses
+        this.updateInterval = (Settings.getPref('disableBlur') ? 100 : 10); // Update every whatever metric SC uses
 
         // Create the config file for the waveform settings
         this.config = {
@@ -419,7 +419,7 @@ class WaveForm {
      */
     async updateWaveformData(data) {
         this.config.data = data;
-        this.updateInterval = (Settings.getPref('batterySaver') ? 100 : 10); 
+        this.updateInterval = (Settings.getPref('disableBlur') ? 100 : 10); 
         this.drawWaveForm();
     }
 
