@@ -40,6 +40,13 @@ class Player {
      * Sets up the the application variables and hooking events to controls.
      */
     constructor() {
+        // Enum for different repeat modes
+        this.repeatMode = {
+            REPEAT_NONE: 1,
+            REPEAT_ONCE: 2,
+            REPEAT_ALL: 3
+        }
+
         // Initialize variables
         this.history = [];
         this.queue = []; // For tracks playing next
@@ -48,7 +55,7 @@ class Player {
         this.curPosition = 0;
         this.curTrack = null; // Store track data. Updated in loadWidgetSong()
         this.waveform = null;
-        this.isRepeating = false; // For repeating songs
+        this.isRepeating = repeatMode.REPEAT_NONE; // For repeating songs
         this.hasBeenFetched = false; // Used to stop duplicates during recursion
         this.timerUpdate = 0;
         this.isPlaylist = false; // Check if we are playing a playlist.
@@ -165,12 +172,8 @@ class Player {
         
         // Event handler for repeats
         this.btnRepeat.onclick = (e) => {
-            this.isRepeating = !this.isRepeating; // Toggle the value
-            if (this.isRepeating) {
-                this.btnRepeat.style.color = '#ff2160';
-            } else {
-                this.btnRepeat.style.color = 'inherit';
-            }
+            this.toggleRepeatMode(); // Toggle the value
+            
         }
 
         // Event handler to show dashboard
@@ -420,14 +423,18 @@ class Player {
                 
                 // For some reason FINISH event no longer fires when changing songs in playlist, manual override here
                 if (e.currentPosition === 0) {
-                    if (this.isPlaylist && !this.isRepeating && !this.seekingForward) {
+                    if (this.isPlaylist && this.isRepeating === this.repeatMode.REPEAT_NONE && !this.seekingForward) {
                         this.loadWidgetSong(this.curPlayer); // Update track info to the next song in the playlist
-                    } else if (this.isPlaylist && this.isRepeating && !this.seekingForward) { // Replay set
+                    } else if (this.isPlaylist && this.isRepeating !== this.repeatMode.REPEAT_NONE && !this.seekingForward) { // Replay set
                         this.curPlayer.pause();
                         setTimeout(() => {
                             this.curPlayer.prev();
                             this.loadWidgetSong(this.curPlayer);
                         }, 500);
+                        // Song already repeated once, change to no repeat and remove badge
+                        if (this.isRepeating === this.repeatMode.REPEAT_ONCE) {
+                            this.toggleRepeatMode(this.repeatMode.REPEAT_NONE); // Set the repeat mode to none
+                        }
                     } else if (this.seekingForward) {
                         this.curPlayer.seekTo(1);
                         setTimeout(() => {this.seekingForward = false, 500}); // Prevent this event from firing more than once.
@@ -441,8 +448,8 @@ class Player {
                 Utils.log('finished');
                 this.isPlaying = false;
 
-                // Check if user is playing a playlist
-                if (this.isPlaylist && !this.isRepeating) {
+                // Check if user is playing a playlist and not repeating
+                if (this.isPlaylist && this.isRepeating === this.repeatMode.REPEAT_NONE) {
                     let oldSongID = this.widgetTrack.id;
                     this.togglePlay();
                     this.loadWidgetSong(this.curPlayer); // Update track info to the next song in the playlist
@@ -464,7 +471,7 @@ class Player {
                 }
 
                 // Check if repeat is on first. TODO: Make it work with playlists
-                if (this.isRepeating) {
+                if (this.isRepeating !== this.repeatMode.REPEAT_NONE) {
                     if (this.isPlaylist) { // If we are repeating in a playlist, we need to go back to previous song since the API preloads the next one
                         this.restartSong();
                         this.curPlayer.pause();
@@ -1129,6 +1136,24 @@ class Player {
             });  
         } catch (e) {
             Utils.log('getRelatedTracks Error - ' + e.message); 
+        }
+    }
+
+    toggleRepeatMode(repeatMode) {
+        let r = repeatMode || (this.isRepeating + 1) % 3; // If the repeatMode passed in is null, just cycle through the modes
+        switch (r) {
+            case this.repeatMode.REPEAT_NONE:
+                this.isRepeating = this.repeatMode.REPEAT_ONCE;
+                this.btnRepeat.style.color = '#ff2160';
+                $('#repeat-btn').removeClass('.badge');
+            case this.repeatMode.REPEAT_ONCE:
+                this.isRepeating = this.repeatMode.REPEAT_ALL;
+                this.btnRepeat.style.color = '#ff2160';
+                $('#repeat-btn').addClass('.badge'); // Show the 1 badge
+            default:
+                this.isRepeating = this.repeatMode.REPEAT_NONE;
+                this.btnRepeat.style.color = 'inherit';
+                $('#repeat-btn').removeClass('.badge');
         }
     }
 }

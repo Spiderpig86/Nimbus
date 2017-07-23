@@ -563,6 +563,27 @@ pre {
             animation-timing-function: cubic-bezier(.17,.67,1,1.23);
 }
 
+/* Button notifier */
+.badge[data-badge]::after, .badge:not([data-badge])::after {
+        background: #ee265f;
+    background-clip: padding-box;
+    border-radius: 1rem;
+    font-size: .4rem;
+    color: #fff;
+    content: attr(data-badge);
+    display: inline-block;
+    -webkit-transform: translate(-.2rem, -1rem);
+    -ms-transform: translate(-.2rem, -1rem);
+    transform: translate(-.2rem, -1rem);
+    font-size: 0.6rem;
+    position: absolute;
+    line-height: 1;
+    padding: .2rem .3rem;
+    text-align: center;
+    white-space: nowrap;
+    right: 0;
+}
+
 /* Mobile / Tablets */
 
 @media screen and (max-width: 768px) {
