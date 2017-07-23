@@ -42,9 +42,9 @@ class Player {
     constructor() {
         // Enum for different repeat modes
         this.repeatMode = {
-            REPEAT_NONE: 1,
-            REPEAT_ONCE: 2,
-            REPEAT_ALL: 3
+            REPEAT_NONE: 0,
+            REPEAT_ONCE: 1,
+            REPEAT_ALL: 2
         }
 
         // Initialize variables
@@ -55,7 +55,7 @@ class Player {
         this.curPosition = 0;
         this.curTrack = null; // Store track data. Updated in loadWidgetSong()
         this.waveform = null;
-        this.isRepeating = repeatMode.REPEAT_NONE; // For repeating songs
+        this.isRepeating = this.repeatMode.REPEAT_NONE; // For repeating songs
         this.hasBeenFetched = false; // Used to stop duplicates during recursion
         this.timerUpdate = 0;
         this.isPlaylist = false; // Check if we are playing a playlist.
@@ -172,7 +172,7 @@ class Player {
         
         // Event handler for repeats
         this.btnRepeat.onclick = (e) => {
-            this.toggleRepeatMode(); // Toggle the value
+            this.toggleRepeatMode(null); // Toggle the value
             
         }
 
@@ -427,14 +427,14 @@ class Player {
                         this.loadWidgetSong(this.curPlayer); // Update track info to the next song in the playlist
                     } else if (this.isPlaylist && this.isRepeating !== this.repeatMode.REPEAT_NONE && !this.seekingForward) { // Replay set
                         this.curPlayer.pause();
-                        setTimeout(() => {
-                            this.curPlayer.prev();
-                            this.loadWidgetSong(this.curPlayer);
-                        }, 500);
                         // Song already repeated once, change to no repeat and remove badge
                         if (this.isRepeating === this.repeatMode.REPEAT_ONCE) {
                             this.toggleRepeatMode(this.repeatMode.REPEAT_NONE); // Set the repeat mode to none
                         }
+                        setTimeout(() => {
+                            this.curPlayer.prev();
+                            this.loadWidgetSong(this.curPlayer);
+                        }, 500);
                     } else if (this.seekingForward) {
                         this.curPlayer.seekTo(1);
                         setTimeout(() => {this.seekingForward = false, 500}); // Prevent this event from firing more than once.
@@ -477,16 +477,18 @@ class Player {
                         this.curPlayer.pause();
                         this.curPlayer.pause();
                         setTimeout(this.curPlayer.prev(), 200);
-                        return;
                     } else {
                         // Else we can just restart the song (API does not preload song)
                         this.restartSong();
                         this.togglePlay();
-                        return;
                     }
+                    if (this.isRepeating === this.repeatMode.REPEAT_ONCE) {
+                        this.toggleRepeatMode(this.repeatMode.REPEAT_NONE); // Set the repeat mode to none
+                    }
+                    return;
                 }
                 
-                // Check if the queue is not empty and play whatever song that is next in the queue
+                // Check if the queue is not empty and play whatever song that is next in the queue (for non-repeating modes)
                 if (this.queue.length > 0) {
                     let nextSong = this.queue.pop(); // Pop the next song
 
@@ -1139,21 +1141,24 @@ class Player {
         }
     }
 
-    toggleRepeatMode(repeatMode) {
-        let r = repeatMode || (this.isRepeating + 1) % 3; // If the repeatMode passed in is null, just cycle through the modes
-        switch (r) {
+    toggleRepeatMode(repeat) {
+        if (repeat === null) // Shortcut syntax using || does not work
+            repeat = (this.isRepeating + 1) % 3; // If the repeatMode passed in is null, just cycle through the modes
+        switch (repeat) {
             case this.repeatMode.REPEAT_NONE:
-                this.isRepeating = this.repeatMode.REPEAT_ONCE;
-                this.btnRepeat.style.color = '#ff2160';
-                $('#repeat-btn').removeClass('.badge');
-            case this.repeatMode.REPEAT_ONCE:
-                this.isRepeating = this.repeatMode.REPEAT_ALL;
-                this.btnRepeat.style.color = '#ff2160';
-                $('#repeat-btn').addClass('.badge'); // Show the 1 badge
-            default:
                 this.isRepeating = this.repeatMode.REPEAT_NONE;
                 this.btnRepeat.style.color = 'inherit';
-                $('#repeat-btn').removeClass('.badge');
+                $('#repeat-btn').removeClass('badge');
+                break;
+            case this.repeatMode.REPEAT_ONCE:
+                this.isRepeating = this.repeatMode.REPEAT_ONCE;
+                this.btnRepeat.style.color = '#ff2160';
+                $('#repeat-btn').addClass('badge'); // Show the 1 badge
+                break;
+            default:
+                this.isRepeating = this.repeatMode.REPEAT_ALL;
+                this.btnRepeat.style.color = '#ff2160';
+                $('#repeat-btn').removeClass('badge');
         }
     }
 }
