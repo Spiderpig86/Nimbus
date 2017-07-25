@@ -30,6 +30,15 @@ input[type=range]::-moz-range-track {
   height: 2px;
 }
 
+input[type=range]::-ms-track {
+  -webkit-appearance: none;
+  background: rgba(59,173,227,1);
+  background: linear-gradient(45deg, rgba(59,173,227,1) 0%, rgba(87,111,230,1) 25%, rgba(152,68,183,1) 51%, rgba(255,53,127,1) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3bade3 ', endColorstr='#ff357f ', GradientType=1 );
+  /*background: rgba(255, 255, 255, 0.7);*/
+  height: 2px;
+}
+
 input[type=range]::-webkit-slider-thumb {
   -webkit-appearance: none;
   border: 2px solid;
@@ -80,6 +89,17 @@ input[type=range]::-moz-range-thumb {
     transition: all .3s;
 }
 
+input[type=range]::-webkit-slider-runnable-track {
+  -webkit-appearance: none;
+  background: rgba(59,173,227,1);
+  background: -webkit-gradient(left bottom, right top, color-stop(0%, rgba(59,173,227,1)), color-stop(25%, rgba(87,111,230,1)), color-stop(51%, rgba(152,68,183,1)), color-stop(100%, rgba(255,53,127,1)));
+  background: -webkit-linear-gradient(45deg, rgba(59,173,227,1) 0%, rgba(87,111,230,1) 25%, rgba(152,68,183,1) 51%, rgba(255,53,127,1) 100%);
+  background: linear-gradient(45deg, rgba(59,173,227,1) 0%, rgba(87,111,230,1) 25%, rgba(152,68,183,1) 51%, rgba(255,53,127,1) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3bade3 ', endColorstr='#ff357f ', GradientType=1 );
+  /*background: rgba(255, 255, 255, 0.7);*/
+  height: 2px;
+}
+
 .range.blue::-webkit-slider-thumb {
    border-color: rgb(59,173,227);
 }
@@ -112,10 +132,45 @@ input[type=range]::-moz-range-thumb {
    border-color: rgb(255,53,127);
 }
 
+.range.blue::-ms-thumb {
+   border-color: rgb(59,173,227);
+}
+
+.range.ltpurple::-ms-thumb {
+   border-color: rgb(87,111,230);
+}
+
+.range.purple::-ms-thumb {
+   border-color: rgb(152,68,183);
+}
+
+.range.pink::-ms-thumb {
+   border-color: rgb(255,53,127);
+}
+
 input[type=range]::-webkit-slider-thumb:active {
   cursor: -webkit-grabbing;
 }
 
 input[type=range]::-moz-range-thumb:active {
   cursor: -moz-grabbing;
+}
+
+input[type=range]::-ms-thumb:active {
+  cursor: -moz-grabbing;
+}
+
+/* Eliminate the default appearance and tooltip behaviour that is peculiar to IE and Edge. */
+input[type=range]::-ms-fill-lower {
+  background: transparent;
+  border: 0 none;
+}
+
+input[type=range]::-ms-fill-upper {
+  background: transparent;
+  border: 0 none;
+}
+
+input[type=range]::-ms-tooltip {
+  display: none;
 }

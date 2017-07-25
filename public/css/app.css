@@ -753,3 +753,10 @@ pre {
         float: right;
     }
 }
+
+/* Fix so Safari doesn't cover the volume control anymore */
+@media screen and (max-width: 375px) {
+    #artContainer {
+         margin: 0;
+    }
+}
