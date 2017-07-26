@@ -35,12 +35,46 @@ class Search {
                                 <input type="checkbox" name="shuffle" value="Shuffle" id="chkShuffle"/>
                                 <span class="uppercase">Shuffle</span>
                             </label>
+
                             <label class="button-switch btn-tooltip" data-tooltip="Number of results to queue.">
                                 <input type="checkbox" name="results" value="results" id="chkNumber">
                                 <span id="chkNumberText" class="uppercase">120 results</span>
                             </label>
+
+                             <label class="button-switch btn-tooltip" data-tooltip="Song Length">
+                                <a href="#example-modal-1">
+                                    <input type="checkbox" name="any" value="Any" id="chkTime">
+                                    <span id="chkTimeText" class="uppercase">Any</span>
+                                </a>
+                            </label>
                         </div>
                     </div>
+                    <div class="modal modal-animated" id="example-modal-1">
+                                <a href="#searchModalDialog" class="modal-overlay close-btn" aria-label="Close"></a>
+                                <div class="modal-content" role="document">
+                                    <div class="modal-header">
+                                        <a href="#modals" class="pull-right" aria-label="Close"><span class="icon"><i class="fa fa-times"></i></span></a>
+                                        <div class="modal-title">Filter Duration</div>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="content">
+                                            <div class="row">
+                                                <li class="settings-rb">
+                                                    <input type="radio" id="radioRandom" name="selector">
+                                                    <label for="radioRandom">Random Tracks</label>
+                                                    <div class="check"></div>
+                                                </li>
+
+                                                <li class="settings-rb">
+                                                    <input type="radio" id="radioRelated" name="selector">
+                                                    <label for="radioRelated">Related Tracks</label>
+                                                    <div class="check"></div>
+                                                </li>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                     <space class="x-large"></space>
                     <div class="row">
                         <div class="row level toggle-container">
@@ -59,12 +93,15 @@ class Search {
     }
 
     bindEvents() {
+        // Search modal buttons
         this.searchCloseBtn = document.getElementById('searchCloseBtn');
         this.searchField = document.getElementById('searchField');
         this.chkShuffle = document.getElementById('chkShuffle');
         this.chkNumber = document.getElementById('chkNumber');
+        this.chkTime = document.getElementById('chkTime');
         this.btnCharts = document.getElementById('charts-btn');
 
+        // Search options
         this.searchSets = document.getElementById('searchSets');
         this.searchUser = document.getElementById('searchUser');
         this.searchTags = document.getElementById('searchTags');
@@ -97,6 +134,10 @@ class Search {
 
         this.chkNumber.onclick = (e) => {
             this.setResultCount();
+        }
+
+        this.chkTime.onclick = (e) => {
+            this.showVolumeModal();
         }
 
         this.searchSets.onclick = (e) => {
@@ -228,15 +269,21 @@ class Search {
     }
 
     setResultCount() {
-        let count = prompt('How many results do you want to queue?');
+        console.log(this.chkNumber.checked);
+        if (this.chkNumber.checked) {
+            let count = prompt('How many songs do you want to queue?');
 
-        if (count === null || !isFinite(count)) {
-            Utils.showToast('Please enter a numerical value and try again.');
+            if (count === null || !isFinite(count)) {
+                Utils.showToast('Please enter a numerical value and try again.');
+                this.chkNumber.checked = false;
+                return;
+            }
+            $('#chkNumberText').text(`${count} songs`);
+            this._player.queueNum = count;
+            this.chkNumber.checked = true;
+        } else {
             this.chkNumber.checked = false;
-            return;
         }
-        $('#chkNumberText').text(`${count} results`);
-        this._player.queueNum = count;
     }
 
     loadCharts() {
@@ -254,6 +301,10 @@ class Search {
             }
         });
         
+    }
+
+    showVolumeModal() {
+
     }
 
 }

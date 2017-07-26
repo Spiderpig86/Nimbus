@@ -1096,6 +1096,24 @@ input[type=radio]:checked ~ label{
     transition: all .3s;
 }
 
+/* Modal */
+.modal .modal-content {
+    background: rgba(52, 62, 72, 0.85);
+}
+
+.modal .close-btn {
+    color: #fafafa;
+}
+
+.modal-content .modal-title {
+    color: #aaa;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-size: .8rem;
+    font-weight: 400;
+    font-family: 'Montserrat';
+}
+
 /* CHART ITEMS */
 
 .chart-item {
@@ -1121,6 +1139,31 @@ input[type=radio]:checked ~ label{
 
 #chartModalDialog .content {
     width: 100%;
+}
+
+@-webkit-keyframes slide-down {
+  0% {
+    opacity: 0;
+    -webkit-transform: translateY(-3rem);
+    transform: translateY(-3rem);
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+  }
+}
+@keyframes slide-down {
+  0% {
+    opacity: 0;
+    -webkit-transform: translateY(-3rem);
+    transform: translateY(-3rem);
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+  }
 }
 
 @media screen and (max-width: 992px) {
