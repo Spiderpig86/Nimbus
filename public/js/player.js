@@ -9,6 +9,7 @@ import Dashboard from '../controls/dashboard';
 import Utils from './utils';
 import Settings from './settings';
 import Charts from '../controls/charts'
+import Constants from './constants';
 
 const SC = require('soundcloud'); // Import node module
 
@@ -822,7 +823,8 @@ class Player {
     getTrackByKeyWord(query) {
         // Get a list of songs by the search query and play first choice
         try {
-            SC.get('/tracks', {q: query}).then((tracks) => {
+            let options = this.createOptions(query); // Build the options object
+            SC.get('/tracks', options).then((tracks) => {
                 if (tracks.length > 0) {
 
                     if (this.shuffleQueue) {
@@ -1012,57 +1014,6 @@ class Player {
         }
     }
 
-    /**
-     * Checks if song history contains a song by id.
-     * 
-     * @param {Number} id - id of the song we are looking for.
-     * @returns {Boolean}
-     * 
-     * @memberof Player
-     */
-    historyContainsId(id) {
-        let found = false;
-        for (let i = 0; i < this.history.length; i++) {
-            if (this.history[i].id === id) {
-                found = true;
-            }
-        };
-        return found;
-    }
-
-    /**
-     * Extracts the url params to play specific tracks on load.
-     * 
-     * @param {String} name - name of the param
-     * @param {String} url - current address loaded by the user
-     * @returns 
-     * 
-     * @memberof Player
-     */
-    getURLParamsByName(name, url) {
-        if (!url) url = window.location.href;
-        name = name.replace(/[\[\]]/g, "\\$&");
-        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-            results = regex.exec(url);
-        if (!results) return null;
-        if (!results[2]) return '';
-        return decodeURIComponent(results[2].replace(/\+/g, " "));
-    }
-
-    shuffleTracks(tracks) {
-        let temp = null;
-        Utils.log('shuffling tracks');
-        // Using in place Durstenfeld shuffle
-        for (let i = tracks.length - 1; i > 0; i --) {
-            let j = Math.floor(Math.random() * (i+1)); // Generate a random index [0...i]
-            temp = tracks[i]; // Start swapping
-            tracks[i] = tracks[j];
-            tracks[j] = temp;
-        }
-
-        return tracks;
-    }
-
     getTracksFromCharts(_kind, _genres, _limit, $_partition = 1) {
         // kind=top&genre=soundcloud%3Agenres%3Aall-music&limit=50
         try {
@@ -1141,6 +1092,58 @@ class Player {
         }
     }
 
+    /**
+     * Checks if song history contains a song by id.
+     * 
+     * @param {Number} id - id of the song we are looking for.
+     * @returns {Boolean}
+     * 
+     * @memberof Player
+     */
+    historyContainsId(id) {
+        let found = false;
+        for (let i = 0; i < this.history.length; i++) {
+            if (this.history[i].id === id) {
+                found = true;
+            }
+        };
+        return found;
+    }
+
+
+    /**
+     * Extracts the url params to play specific tracks on load.
+     * 
+     * @param {String} name - name of the param
+     * @param {String} url - current address loaded by the user
+     * @returns 
+     * 
+     * @memberof Player
+     */
+    getURLParamsByName(name, url) {
+        if (!url) url = window.location.href;
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
+
+    shuffleTracks(tracks) {
+        let temp = null;
+        Utils.log('shuffling tracks');
+        // Using in place Durstenfeld shuffle
+        for (let i = tracks.length - 1; i > 0; i --) {
+            let j = Math.floor(Math.random() * (i+1)); // Generate a random index [0...i]
+            temp = tracks[i]; // Start swapping
+            tracks[i] = tracks[j];
+            tracks[j] = temp;
+        }
+
+        return tracks;
+    }
+
     toggleRepeatMode(repeat) {
         if (repeat === null) // Shortcut syntax using || does not work
             repeat = (this.isRepeating + 1) % 3; // If the repeatMode passed in is null, just cycle through the modes
@@ -1160,6 +1163,27 @@ class Player {
                 this.btnRepeat.style.color = '#ff2160';
                 $('#repeat-btn').removeClass('badge');
         }
+    }
+
+    createOptions(query) {
+        let options = {
+            q: query,
+        }
+
+        // Set duration object props based on settings
+        if (Settings.getPref('durationFilter') === Constants.getDurationFilter.EPIC) {
+            let duration = {
+                from: Constants.getDurationValues(Settings.getPref('durationFilter')).from
+            }
+            options['duration'] = duration; // Add property to object
+        } else if (Settings.getPref('durationFilter') !== Constants.getDurationFilter().ANY) {
+            let duration = {
+                from: Constants.getDurationValues(Settings.getPref('durationFilter')).from,
+                to: Constants.getDurationValues(Settings.getPref('durationFilter')).to
+            }
+            options['duration'] = duration; // Add property to object
+        }
+        return options;
     }
 }
 

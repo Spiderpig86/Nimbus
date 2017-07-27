@@ -62,31 +62,31 @@ class Search {
                                         <div class="content">
                                             <div class="row">
                                                 <li class="settings-rb">
-                                                    <input type="radio" id="radioShort" name="selector">
+                                                    <input type="radio" id="radioShort" name="time">
                                                     <label for="radioShort">&lt; 2 minutes</label>
                                                     <div class="check"></div>
                                                 </li>
 
                                                 <li class="settings-rb">
-                                                    <input type="radio" id="radioMedium" name="selector">
+                                                    <input type="radio" id="radioMedium" name="time">
                                                     <label for="radioMedium">2 - 10 minutes</label>
                                                     <div class="check"></div>
                                                 </li>
 
                                                 <li class="settings-rb">
-                                                    <input type="radio" id="radioLong" name="selector">
+                                                    <input type="radio" id="radioLong" name="time">
                                                     <label for="radioLong">10 - 30 minutes</label>
                                                     <div class="check"></div>
                                                 </li>
 
                                                 <li class="settings-rb">
-                                                    <input type="radio" id="radioEpic" name="selector">
+                                                    <input type="radio" id="radioEpic" name="time">
                                                     <label for="radioEpic">&gt; 30 minutes</label>
                                                     <div class="check"></div>
                                                 </li>
 
                                                 <li class="settings-rb">
-                                                    <input type="radio" id="radioAny" name="selector">
+                                                    <input type="radio" id="radioAny" name="time">
                                                     <label for="radioAny">Any</label>
                                                     <div class="check"></div>
                                                 </li>
@@ -217,7 +217,7 @@ class Search {
                     this._player.queue.push({id: response.id, track: response});
                     Utils.showToast(`Added ${response.title} to the queue.`);
                 } catch (e) {
-                    console.log('processSearchField Error - ' + e.message);
+                    Utils.log('processSearchField Error - ' + e.message);
                 }
             });
         } else if (isNaN(searchQuery)) { // Check if this is a string query
@@ -299,7 +299,6 @@ class Search {
     }
 
     setResultCount() {
-        console.log(this.chkNumber.checked);
         if (this.chkNumber.checked) {
             let count = prompt('How many songs do you want to queue?');
 
@@ -338,36 +337,52 @@ class Search {
         switch (Settings.getPref('durationFilter')) {
             case Constants.getDurationFilter().SHORT:
                 this.radioShort.checked = true;
+                $('#chkTimeText').text('Length: < 2 min');
+                break;
             case Constants.getDurationFilter().MEDIUM:
-                this.radioShort.checked = true;
-            case Constants.getDurationFilter().LONG:
                 this.radioMedium.checked = true;
-            case Constants.getDurationFilter().EPIC:
+                $('#chkTimeText').text('Length: 2 < min < 10');
+                break;
+            case Constants.getDurationFilter().LONG:
                 this.radioLong.checked = true;
+                $('#chkTimeText').text('Length: 10 < min < 30');
+                break;
+            case Constants.getDurationFilter().EPIC:
+                this.radioEpic.checked = true;
+                $('#chkTimeText').text('Length: > 30 min');
+                break;
             case Constants.getDurationFilter().ANY:
                 this.radioAny.checked = true;
+                $('#chkTimeText').text('Length: Any');
+                break;
         }
     }
 
     bindDurationFilterModalEvents() {
         this.radioShort.onclick = (e) => {
             Settings.storePref('durationFilter', Constants.getDurationFilter().SHORT);
+            $('#chkTimeText').text('Length: < 2 min');
         }
 
         this.radioMedium.onclick = (e) => {
             Settings.storePref('durationFilter', Constants.getDurationFilter().MEDIUM);
+            $('#chkTimeText').text('Length: 2 < min < 10');
         }
 
         this.radioLong.onclick = (e) => {
             Settings.storePref('durationFilter', Constants.getDurationFilter().LONG);
+            $('#chkTimeText').text('Length: 10 < min < 30');
         }
 
         this.radioEpic.onclick = (e) => {
             Settings.storePref('durationFilter', Constants.getDurationFilter().EPIC);
+            $('#chkTimeText').text('Length: > 30 min');
+            console.log(Settings.getPref('durationFilter'));
         }
 
         this.radioAny.onclick = (e) => {
             Settings.storePref('durationFilter', Constants.getDurationFilter().ANY);
+            $('#chkTimeText').text('Length: Any');
         }
     }
 
