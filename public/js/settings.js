@@ -1,3 +1,5 @@
+import Constants from './constants';
+
 class Settings {
 
     static loadPrefs() {
@@ -10,7 +12,8 @@ class Settings {
             disableBlur: false,
             playerVolume: 100,
             debug: false,
-            shuffleMode: 'random'
+            shuffleMode: Constants.getShuffleMode().RANDOM,
+            durationFilter: Constants.getDurationFilter().ANY
         }
 
         this.updateSettings();
@@ -34,6 +37,8 @@ class Settings {
                 return this._settings.debug;
             case 'shuffleMode':
                 return this._settings.shuffleMode;
+            case 'durationFilter':
+                return this._settings.durationFilter;
         }
     }
 
@@ -42,7 +47,8 @@ class Settings {
         this._settings.disableBlur = localStorage.getItem('disableBlur') || (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ? true : false); // Disable blur for mobile devices
         this._settings.playerVolume = localStorage.getItem('playerVolume') || 100;
         this._settings.debug = localStorage.getItem('debug') || false;
-        this._settings.shuffleMode = localStorage.getItem('shuffleMode') || 'random';
+        this._settings.shuffleMode = localStorage.getItem('shuffleMode') || Constants.getShuffleMode().RANDOM;
+        this._settings.durationFilter = localStorage.getItem('durationFilter') || Constants.getDurationFilter().ANY;
     }
 
 }

@@ -1,6 +1,7 @@
 import QueueItem from './queueitem';
 import Utils from '../js/utils';
 import Settings from '../js/settings';
+import Constants from '../js/constants';
 
 class Dashboard {
 
@@ -143,11 +144,11 @@ class Dashboard {
     bindSettingsControls() {
         // Settings controls
         this.rbRandom.onclick = (e) => {
-            Settings.storePref('shuffleMode', 'random');
+            Settings.storePref('shuffleMode', Constants.getShuffleMode().RANDOM);
         }
 
         this.rbRelated.onclick = (e) => {
-            Settings.storePref('shuffleMode', 'related');
+            Settings.storePref('shuffleMode', Constants.getShuffleMode().RELATED);
         }
 
         this.chkAnimations.onclick = (e) => {
@@ -180,7 +181,7 @@ class Dashboard {
         this.chkBlur.checked = JSON.parse(Settings.getPref('disableBlur'));
         this.chkDebug.checked = JSON.parse(Settings.getPref('debug'));
 
-        if (Settings.getPref('shuffleMode') === 'random') // Quotes keep appearing due to JSON storage
+        if (Settings.getPref('shuffleMode') === Constants.getShuffleMode().RANDOM) // Quotes keep appearing due to JSON storage
             this.rbRandom.checked = true;
         else
             this.rbRelated.checked = true;

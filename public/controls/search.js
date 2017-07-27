@@ -1,5 +1,7 @@
-import ChartItem from './chartitem'
-import Utils from '../js/utils'
+import ChartItem from './chartitem';
+import Utils from '../js/utils';
+import Settings from '../js/settings';
+import Constants from '../js/constants';
 
 let SC = require('soundcloud');
 
@@ -44,7 +46,7 @@ class Search {
                              <label class="button-switch btn-tooltip" data-tooltip="Song Length">
                                 <a href="#example-modal-1">
                                     <input type="checkbox" name="any" value="Any" id="chkTime">
-                                    <span id="chkTimeText" class="uppercase">Any</span>
+                                    <span id="chkTimeText" class="uppercase">Length: Any</span>
                                 </a>
                             </label>
                         </div>
@@ -60,14 +62,32 @@ class Search {
                                         <div class="content">
                                             <div class="row">
                                                 <li class="settings-rb">
-                                                    <input type="radio" id="radioRandom" name="selector">
-                                                    <label for="radioRandom">Random Tracks</label>
+                                                    <input type="radio" id="radioShort" name="selector">
+                                                    <label for="radioShort">&lt; 2 minutes</label>
                                                     <div class="check"></div>
                                                 </li>
 
                                                 <li class="settings-rb">
-                                                    <input type="radio" id="radioRelated" name="selector">
-                                                    <label for="radioRelated">Related Tracks</label>
+                                                    <input type="radio" id="radioMedium" name="selector">
+                                                    <label for="radioMedium">2 - 10 minutes</label>
+                                                    <div class="check"></div>
+                                                </li>
+
+                                                <li class="settings-rb">
+                                                    <input type="radio" id="radioLong" name="selector">
+                                                    <label for="radioLong">10 - 30 minutes</label>
+                                                    <div class="check"></div>
+                                                </li>
+
+                                                <li class="settings-rb">
+                                                    <input type="radio" id="radioEpic" name="selector">
+                                                    <label for="radioEpic">&gt; 30 minutes</label>
+                                                    <div class="check"></div>
+                                                </li>
+
+                                                <li class="settings-rb">
+                                                    <input type="radio" id="radioAny" name="selector">
+                                                    <label for="radioAny">Any</label>
                                                     <div class="check"></div>
                                                 </li>
                                             </div>
@@ -105,6 +125,13 @@ class Search {
         this.searchSets = document.getElementById('searchSets');
         this.searchUser = document.getElementById('searchUser');
         this.searchTags = document.getElementById('searchTags');
+
+        // Duration filter radio buttons
+        this.radioShort = document.getElementById('radioShort');
+        this.radioMedium = document.getElementById('radioMedium');
+        this.radioLong = document.getElementById('radioLong');
+        this.radioEpic = document.getElementById('radioEpic');
+        this.radioAny = document.getElementById('radioAny');
 
         // Bind search field key combination
         this.searchField.onkeydown = (e) => {
@@ -160,6 +187,9 @@ class Search {
             this.hideSearchDialog();
             this._player.chartsDialog.toggleCharts();
         }
+
+        this.bindDurationFilterModalEvents();
+        this.loadDurationFilter();
     }
 
     async processSearchField() {
@@ -303,8 +333,42 @@ class Search {
         
     }
 
-    showVolumeModal() {
+    loadDurationFilter() {
+        // Load the selected option in settings
+        switch (Settings.getPref('durationFilter')) {
+            case Constants.getDurationFilter().SHORT:
+                this.radioShort.checked = true;
+            case Constants.getDurationFilter().MEDIUM:
+                this.radioShort.checked = true;
+            case Constants.getDurationFilter().LONG:
+                this.radioMedium.checked = true;
+            case Constants.getDurationFilter().EPIC:
+                this.radioLong.checked = true;
+            case Constants.getDurationFilter().ANY:
+                this.radioAny.checked = true;
+        }
+    }
 
+    bindDurationFilterModalEvents() {
+        this.radioShort.onclick = (e) => {
+            Settings.storePref('durationFilter', Constants.getDurationFilter().SHORT);
+        }
+
+        this.radioMedium.onclick = (e) => {
+            Settings.storePref('durationFilter', Constants.getDurationFilter().MEDIUM);
+        }
+
+        this.radioLong.onclick = (e) => {
+            Settings.storePref('durationFilter', Constants.getDurationFilter().LONG);
+        }
+
+        this.radioEpic.onclick = (e) => {
+            Settings.storePref('durationFilter', Constants.getDurationFilter().EPIC);
+        }
+
+        this.radioAny.onclick = (e) => {
+            Settings.storePref('durationFilter', Constants.getDurationFilter().ANY);
+        }
     }
 
 }

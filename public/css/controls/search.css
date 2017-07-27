@@ -71,7 +71,7 @@
     color: #fafafa;
 }
 
-.modal-content .modal-title {
+.modal-content .modal-header .modal-title {
     color: #aaa;
     letter-spacing: 3px;
     text-transform: uppercase;

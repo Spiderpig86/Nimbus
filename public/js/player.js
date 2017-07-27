@@ -85,12 +85,12 @@ class Player {
         // Bind page elements 
         this.bindControlElements();
         this.bindControlEvents();
-
-        // Initialize Search dialog
-        this.searchDialog = new SearchDialog(this);
         
         // Initialize the dashboard, also initializes settings
         this.dashboard = new Dashboard(this);
+
+        // Initialize Search dialog
+        this.searchDialog = new SearchDialog(this);
 
         // Initialize the charts
         this.chartsDialog = new Charts(this);
