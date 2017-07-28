@@ -823,7 +823,7 @@ class Player {
     getTrackByKeyWord(query) {
         // Get a list of songs by the search query and play first choice
         try {
-            let options = this.createOptions(query); // Build the options object
+            let options = this.createOptionsWithDuration({q: query}); // Build the options object
             SC.get('/tracks', options).then((tracks) => {
                 if (tracks.length > 0) {
 
@@ -856,10 +856,10 @@ class Player {
     getTracksByTags(tagList) {
         try {
             // Create options object to hold what we want to search for
-            let options = {
+            let options = this.createOptionsWithDuration({
                 tags: tagList,
                 limit: this.queueNum
-            } // TODO: Allow to modify limit later
+            }); // Build the options object
 
             SC.get('/tracks', options).then((tracks) => {
                 if (tracks.length > 0) {
@@ -934,9 +934,7 @@ class Player {
             SC.resolve(`https://soundcloud.com/${user}`).then((response) => {
                 try {
                     // Create options object to hold what we want to search for
-                    let options = {
-                        limit: this.queueNum
-                    }
+                    let options = this.createOptionsWithDuration({ limit: this.queueNum });
 
                     SC.get(`/users/${response.id}/tracks`, options).then((tracks) => {
                         Utils.log(tracks);
@@ -981,10 +979,10 @@ class Player {
     getTracksByGenres(genreList) {
         try {
             // Create options object to hold what we want to search for
-            let options = {
+            let options = this.createOptionsWithDuration({
                 genres: genreList,
                 limit: this.queueNum
-            } // TODO: Allow to modify limit later
+            });
 
             SC.get('/tracks', options).then((tracks) => {
                 if (tracks.length > 0) {
@@ -1165,10 +1163,7 @@ class Player {
         }
     }
 
-    createOptions(query) {
-        let options = {
-            q: query,
-        }
+    createOptionsWithDuration(options) {
 
         // Set duration object props based on settings
         if (Settings.getPref('durationFilter') === Constants.getDurationFilter.EPIC) {

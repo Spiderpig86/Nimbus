@@ -377,7 +377,6 @@ class Search {
         this.radioEpic.onclick = (e) => {
             Settings.storePref('durationFilter', Constants.getDurationFilter().EPIC);
             $('#chkTimeText').text('Length: > 30 min');
-            console.log(Settings.getPref('durationFilter'));
         }
 
         this.radioAny.onclick = (e) => {
