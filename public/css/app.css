@@ -443,6 +443,7 @@ pre {
     visibility: hidden; /* Hide the widget from user */
     position: fixed;
     opacity: 0;
+    
 }
 
 .action-bar-item {

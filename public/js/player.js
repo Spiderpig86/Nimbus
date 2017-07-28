@@ -267,6 +267,11 @@ class Player {
 
             // Update the play state
             this.togglePlayState(true);
+
+            // Not sure if needed
+            $('.g-box-full').css({
+                display: 'none'
+            });
             return;
         } catch (ex) {
             Utils.log(ex.message);
@@ -761,7 +766,7 @@ class Player {
             Utils.log('fetchNext' + e.toString());
         }
 
-        if (Settings.getPref('shuffleMode') === 'related' && this.curTrack !== null && this.queue.length <= 0)
+        if (Settings.getPref('shuffleMode') === Constants.getShuffleMode().RELATED && this.curTrack !== null && this.queue.length <= 0)
             this.getRelatedTracks(this.curTrack.id, 50);
         else  // Make sure length of queue is empty before fetching again
             this.loadRandomTrack();
