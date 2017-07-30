@@ -55,7 +55,8 @@ pre {
 /* HEADER MENU */
 .header {
     background-color: rgb(105, 105, 105);
-    box-shadow: rgba(0, 0, 0, 0.3) 0 10px 60px;
+    -webkit-box-shadow: rgba(0, 0, 0, 0.3) 0 10px 60px;
+            box-shadow: rgba(0, 0, 0, 0.3) 0 10px 60px;
     opacity: .6;
     transition: all .3s;
     -webkit-transition: all .3s;
@@ -278,13 +279,23 @@ pre {
 }
 
 #songArt {
-    box-shadow: 0 0 60px rgba(0, 0, 0, 0.4);
+    -webkit-box-shadow: 0 0 60px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 0 60px rgba(0, 0, 0, 0.4);
     max-width: 450px;
     width: 100%;
     height: 100%;
     -webkit-transform-style: preserve-3d;
     transform-style: preserve-3d;
     max-height: 450px;
+    cursor: pointer;
+    -webkit-transition: all .3s;
+    transition: all .3s;
+}
+
+#songArt:hover {
+    opacity: .8;
+    -webkit-transition: all .3s;
+    transition: all .3s;
 }
 
 /*#flipContainer.flipped img { /* Just in case the song art is missing, it does not decrease description height */
@@ -298,11 +309,13 @@ pre {
 #songContainer .card {
     min-height: 100%;
     background: transparent;
-    box-shadow: none;
+    -webkit-box-shadow: none;
+            box-shadow: none;
 }
 
 #songContainer .card:hover {
-    box-shadow: none;
+    -webkit-box-shadow: none;
+            box-shadow: none;
 }
 
 #songContainer .title {
@@ -575,7 +588,6 @@ pre {
     content: attr(data-badge);
     display: inline-block;
     -webkit-transform: translate(-.2rem, -1rem);
-    -ms-transform: translate(-.2rem, -1rem);
     transform: translate(-.2rem, -1rem);
     font-size: 0.6rem;
     position: absolute;
@@ -602,7 +614,7 @@ pre {
 
     #background::before {
         content: ' ';
-        background: -webkit-linear-gradient(rgba(0, 0, 0, 0), rgba(21, 19, 30, 0.85));
+        background: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0)), to(rgba(21, 19, 30, 0.85)));
         background: linear-gradient(rgba(0, 0, 0, 0), rgba(21, 19, 30, 0.85));
         position: absolute;
         top: 0;
@@ -674,7 +686,8 @@ pre {
         display: -ms-flexbox;
         display: flex;
         margin-top: -2rem;
-        box-shadow: none; /* Override Cirrus style */
+        -webkit-box-shadow: none;
+                box-shadow: none; /* Override Cirrus style */
     }
 
     #histContainer {
@@ -725,7 +738,8 @@ pre {
     }
 
     #histContainer {
-        box-shadow: -10px 0px 10px 1px rgba(0, 0, 0, 0.1); /* Left shadow */
+        -webkit-box-shadow: -10px 0px 10px 1px rgba(0, 0, 0, 0.1);
+                box-shadow: -10px 0px 10px 1px rgba(0, 0, 0, 0.1); /* Left shadow */
     }
 
     #songContainer .card {
