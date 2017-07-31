@@ -71,7 +71,7 @@ describe('Nimbus', () => {
                     </div>
                 </div>
         </div>
-    `
+    `;
 
     const track = {
         title: 'test',
@@ -94,4 +94,9 @@ describe('Nimbus', () => {
     it('starting player', () => {
         expect(N.start()).toBeTruthy();
     });
+
+    it('loads information onto UI', () => {
+        N.updateSongInfo(track);
+        expect(N.mainPlayer.innerHTML).toBeTruthy();
+    }
 });
