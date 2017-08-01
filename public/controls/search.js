@@ -44,57 +44,81 @@ class Search {
                             </label>
 
                              <label class="button-switch btn-tooltip" data-tooltip="Song Length">
-                                <a href="#example-modal-1">
+                                <a href="#modal-duration">
                                     <input type="checkbox" name="any" value="Any" id="chkTime">
                                     <span id="chkTimeText" class="uppercase">Length: Any</span>
                                 </a>
                             </label>
+
+                            <label class="button-switch btn-tooltip" data-tooltip="Help">
+                                <a href="#modal-help">
+                                    <input type="checkbox" name="any" value="Any" id="chkTime">
+                                    <span id="chkHelp" class="uppercase">?</span>
+                                </a>
+                            </label>
                         </div>
                     </div>
-                    <div class="modal modal-animated" id="example-modal-1">
-                                <a href="#searchModalDialog" class="modal-overlay close-btn" aria-label="Close"></a>
-                                <div class="modal-content" role="document">
-                                    <div class="modal-header">
-                                        <a href="#modals" class="pull-right" aria-label="Close"><span class="icon"><i class="fa fa-times"></i></span></a>
-                                        <div class="modal-title">Filter Duration</div>
-                                    </div>
-                                    <div class="modal-body">
-                                        <div class="content">
-                                            <div class="row">
-                                                <li class="settings-rb">
-                                                    <input type="radio" id="radioShort" name="time">
-                                                    <label for="radioShort">&lt; 2 minutes</label>
-                                                    <div class="check"></div>
-                                                </li>
+                    <div class="modal modal-animated" id="modal-duration">
+                        <a href="#searchModalDialog" class="modal-overlay close-btn" aria-label="Close"></a>
+                        <div class="modal-content" role="document">
+                            <div class="modal-header">
+                                <a href="#modals" class="pull-right" aria-label="Close"><span class="icon"><i class="fa fa-times"></i></span></a>
+                                <div class="modal-title">Filter Duration</div>
+                            </div>
+                            <div class="modal-body">
+                                <div class="content">
+                                    <div class="row">
+                                        <li class="settings-rb">
+                                            <input type="radio" id="radioShort" name="time">
+                                            <label for="radioShort">&lt; 2 minutes</label>
+                                            <div class="check"></div>
+                                        </li>
 
-                                                <li class="settings-rb">
-                                                    <input type="radio" id="radioMedium" name="time">
-                                                    <label for="radioMedium">2 - 10 minutes</label>
-                                                    <div class="check"></div>
-                                                </li>
+                                        <li class="settings-rb">
+                                            <input type="radio" id="radioMedium" name="time">
+                                            <label for="radioMedium">2 - 10 minutes</label>
+                                            <div class="check"></div>
+                                        </li>
 
-                                                <li class="settings-rb">
-                                                    <input type="radio" id="radioLong" name="time">
-                                                    <label for="radioLong">10 - 30 minutes</label>
-                                                    <div class="check"></div>
-                                                </li>
+                                        <li class="settings-rb">
+                                            <input type="radio" id="radioLong" name="time">
+                                            <label for="radioLong">10 - 30 minutes</label>
+                                            <div class="check"></div>
+                                        </li>
 
-                                                <li class="settings-rb">
-                                                    <input type="radio" id="radioEpic" name="time">
-                                                    <label for="radioEpic">&gt; 30 minutes</label>
-                                                    <div class="check"></div>
-                                                </li>
+                                        <li class="settings-rb">
+                                            <input type="radio" id="radioEpic" name="time">
+                                            <label for="radioEpic">&gt; 30 minutes</label>
+                                            <div class="check"></div>
+                                        </li>
 
-                                                <li class="settings-rb">
-                                                    <input type="radio" id="radioAny" name="time">
-                                                    <label for="radioAny">Any</label>
-                                                    <div class="check"></div>
-                                                </li>
-                                            </div>
-                                        </div>
+                                        <li class="settings-rb">
+                                            <input type="radio" id="radioAny" name="time">
+                                            <label for="radioAny">Any</label>
+                                            <div class="check"></div>
+                                        </li>
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+
+                    <div class="modal modal-animated" id="modal-help">
+                        <a href="#searchModalDialog" class="modal-overlay close-btn" aria-label="Close"></a>
+                        <div class="modal-content" role="document">
+                            <div class="modal-header">
+                                <a href="#modals" class="pull-right" aria-label="Close"><span class="icon"><i class="fa fa-times"></i></span></a>
+                                <div class="modal-title">Filter Duration</div>
+                            </div>
+                            <div class="modal-body">
+                                <div class="content">
+                                    <h6>Help</h6>
+                                    <div class="divider"></div>
+                                    <p></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <space class="x-large"></space>
                     <div class="row">
                         <div class="row level toggle-container">
