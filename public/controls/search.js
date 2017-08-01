@@ -114,6 +114,15 @@ class Search {
                                 <div class="row">
                                     <h3 class="no-margin white">Help</h3>
                                     <div class="divider"></div>
+                                    <h6 class="white">Searching</h6>
+                                    <p>The search field supports a wide range of inputs including song ids (e.g., <code>331750268</code>), song URLs (<code>https://soundcloud.com/monstercat/conro-all-me</code>), and names (<code>Conro All Me</code>)</p>
+                                    <p>Searching for <b>songs</b>: Paste the URL or song name and/or artist.<br />
+                                    Searching for <b>sets/playlists</b>: Paste in the playlist URL or search by name with <code>set:</code> in front. For example: <code>set: Chillhouse</code>.<br />
+                                    Searching by <b>tag</b>: Include the <code>tag:</code> prefix with comma separated tags. For example: <code>tags: house, edm</code>.<br />
+                                    Searching by <b>user</b>: Just type in <code>user:</code> and the username. For example: <code>user: thewrld</code>.<br />
+                                    Searching by <b>genre</b>: Just type in <code>genre:</code> and genre name. For example: <code>genre: jazz</code>.</p>
+
+                                    <h6 class="white">Search Options</h6>
                                     <p>The <code>Shuffle Button</code> allows you to easily randomize the song results in your queue after searching for tracks, tags, users and charts. Even when the queue empties, new songs that are fetched (related tracks or random tracks), will also be randomized in the order they are added.</p>
                                     <p>The <code>Results Button</code> will limit how many songs will be added to the queue. This will only apply when searching for tracks, tags, and users.</p>
                                     <p>The <code>Duration Button</code> will filter out tracks that are not in the specified time ranges. This search filter applies for tracks and tags.</p>
