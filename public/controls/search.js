@@ -108,13 +108,16 @@ class Search {
                         <div class="modal-content" role="document">
                             <div class="modal-header">
                                 <a href="#modals" class="pull-right" aria-label="Close"><span class="icon"><i class="fa fa-times"></i></span></a>
-                                <div class="modal-title">Filter Duration</div>
+                                <div class="modal-title">Help</div>
                             </div>
                             <div class="modal-body">
-                                <div class="content">
-                                    <h6>Help</h6>
+                                <div class="row">
+                                    <h3 class="no-margin white">Help</h3>
                                     <div class="divider"></div>
-                                    <p></p>
+                                    <p>The <code>Shuffle Button</code> allows you to easily randomize the song results in your queue after searching for tracks, tags, users and charts. Even when the queue empties, new songs that are fetched (related tracks or random tracks), will also be randomized in the order they are added.</p>
+                                    <p>The <code>Results Button</code> will limit how many songs will be added to the queue. This will only apply when searching for tracks, tags, and users.</p>
+                                    <p>The <code>Duration Button</code> will filter out tracks that are not in the specified time ranges. This search filter applies for tracks and tags.</p>
+                                    <p>As for regular SoundCloud playlists, these filters will not apply since each playlist is a fixed collections of songs by the user who created it.</p>
                                 </div>
                             </div>
                         </div>

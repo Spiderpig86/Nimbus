@@ -817,7 +817,7 @@ pre {
     color: #fff;
 }
 
-.tabpage .divider {
+.divider {
     background: rgba(255, 255, 255, 0.2);
     height: 1px;
 }
@@ -927,6 +927,10 @@ pre {
     letter-spacing: 5px;
     margin: 0;
     margin-top: 1.5rem;
+}
+
+.modal-body {
+    color: #fff;
 }
 
 /*.btn-tooltip:focus::after, .btn-tooltip:hover::after {
