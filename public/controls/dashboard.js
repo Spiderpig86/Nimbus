@@ -40,20 +40,22 @@ class Dashboard {
                     </div>
                     <space class="large"></space>
                     <div class="tabpage shown">
-                        <h3>Settings</h3>
-                        <div class="divider"></div>
+                        <div class="hide-mobile">
+                            <h3>Settings</h3>
+                            <div class="divider"></div>
+                        </div>
                         <div class="scrollable-container">
-                            <p class="settings-title">Shuffle Mode</p>
+                            <p class="settings-title">Autoqueue</p>
                             <div class="row">
                                 <li class="settings-rb">
                                     <input type="radio" id="radioRandom" name="selector">
-                                    <label for="radioRandom">Random Tracks</label>
+                                    <label for="radioRandom">Play random tracks when queue is empty.</label>
                                     <div class="check"></div>
                                 </li>
 
                                 <li class="settings-rb">
                                     <input type="radio" id="radioRelated" name="selector">
-                                    <label for="radioRelated">Related Tracks</label>
+                                    <label for="radioRelated">Play related tracks when queue is empty.</label>
                                     <div class="check"></div>
                                 </li>
                             </div>
@@ -80,7 +82,9 @@ class Dashboard {
                         </div>
                     </div>
                     <div class="tabpage">
-                        <h3>Queue</h3>
+                        <div class="hide-mobile">
+                            <h3>Queue</h3>
+                        </div>
                         <div class="row level">
                             <p id="totalQueueTime" class="no-margin" style="flex-grow: 1"></p>
                             <button id="btnClearQueue" class="btn-small btn-nimbus">Clear Queue</button>
@@ -93,8 +97,10 @@ class Dashboard {
                     </div>
 
                     <div class="tabpage">
-                        <h3>About</h3>
-                        <div class="divider"></div>
+                        <div class="hide-mobile">
+                            <h3>About</h3>
+                            <div class="divider"></div>
+                        </div>
                         <div class="row text-center">
                             <img class="center" src="../img/NimbusLogo.png" style="max-width: 200px; width: 100%;" />
                             <p class="no-margin">An open source SoundCloud client for discovering and streaming tracks. Made with <i class="fa fa-heart animated pulse pad-left pad-right" style="color:#e90606"></i> in New York.<br/>
