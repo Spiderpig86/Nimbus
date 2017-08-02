@@ -48,7 +48,7 @@
 }
 
 .search-item {
-    cursor: hand;
+    cursor: pointer;
     -webkit-transition: all .3s;
     transition: all .3s;
 }
