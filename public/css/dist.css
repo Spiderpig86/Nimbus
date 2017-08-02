@@ -1160,6 +1160,10 @@ input[type=radio]:checked ~ label{
     width: 100%;
 }
 
+#chkHelp {
+    border: 2px solid #fff;
+}
+
 @-webkit-keyframes slide-down {
   0% {
     opacity: 0;

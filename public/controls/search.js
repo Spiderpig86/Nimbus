@@ -53,7 +53,7 @@ class Search {
                             <label class="button-switch btn-tooltip" data-tooltip="Help">
                                 <a href="#modal-help">
                                     <input type="checkbox" name="any" value="Any" id="chkTime">
-                                    <span id="chkHelp" class="uppercase">?</span>
+                                    <span id="chkHelp" class="uppercase">Help</span>
                                 </a>
                             </label>
                         </div>

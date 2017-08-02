@@ -350,15 +350,23 @@ class Player {
 
         this.volumeSlider = document.getElementById('volumeSlider');
 
-        this.volumeSlider.addEventListener('mousedown', () => {
+        // Set up events to check if it is a mobile device or desktop
+        let isTouchSupported = 'ontouchstart' in window;
+        let startEvent = isTouchSupported ? 'touchstart' : 'mousedown';
+        let moveEvent = isTouchSupported ? 'touchmove' : 'mousemove';
+        let endEvent = isTouchSupported ? 'touchend' : 'mouseup';
+
+        this.volumeSlider.addEventListener(startEvent, () => {
             this.setVolume(this.volumeSlider.value);
-            this.volumeSlider.addEventListener('mousemove', () => {
-                this.setVolume(this.volumeSlider.value);
+            this.volumeSlider.addEventListener(moveEvent, () => {
+                this.setVolume(this.volumeSlider.value)
             });
         }, false);
 
-        this.volumeSlider.addEventListener('mouseup', () => {
-            this.volumeSlider.removeEventListener('mousemove', this.setVolume(this.volumeSlider.value));
+        this.volumeSlider.addEventListener(endEvent, () => {
+            this.volumeSlider.addEventListener(moveEvent, () => {
+                this.setVolume(this.volumeSlider.value)
+            });
         }, false);
 
         
