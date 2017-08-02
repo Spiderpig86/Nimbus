@@ -350,9 +350,18 @@ class Player {
 
         this.volumeSlider = document.getElementById('volumeSlider');
 
-        this.volumeSlider.addEventListener('change', () => {
+        this.volumeSlider.addEventListener('mousedown', () => {
             this.setVolume(this.volumeSlider.value);
+            this.volumeSlider.addEventListener('mousemove', () => {
+                this.setVolume(this.volumeSlider.value);
+            });
         }, false);
+
+        this.volumeSlider.addEventListener('mouseup', () => {
+            this.volumeSlider.removeEventListener('mousemove', this.setVolume(this.volumeSlider.value));
+        }, false);
+
+        
 
         // Async method to build waveform
         //(async function() { // Changed syntax to fix issue on Safari
