@@ -1039,7 +1039,7 @@ class Player {
         try {
 
             $.ajax({
-                url: 'http://polarity.x10.mx/nimbus/charts.php', //This is the current doc
+                url: Constants.getChartsWaypoint(), //This is the current doc
                 type: "GET",
                 dataType:'json', // add json datatype to get json
                 data: ({
@@ -1075,7 +1075,7 @@ class Player {
         try {
 
             $.ajax({
-                url: 'http://polarity.x10.mx/nimbus/related.php', //This is the current doc
+                url: Constants.getRelatedWaypoint(), //This is the current doc
                 type: "GET",
                 dataType:'json', // add json datatype to get json
                 data: ({

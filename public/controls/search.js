@@ -355,7 +355,7 @@ class Search {
         let c = null;
         this.chartContainer = document.querySelector('#chartContainer');
         $.ajax({
-            url: 'http://polarity.x10.mx/nimbus/featured.json',
+            url: Constants.getFeaturedJSONWaypoint(),
             type: "GET",
             dataType:'json', 
             success: (data) => {

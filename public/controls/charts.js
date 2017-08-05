@@ -1,4 +1,5 @@
 import ChartItem from './chartitem';
+import Constants from '../js/constants';
 
 class Charts {
 
@@ -12,7 +13,7 @@ class Charts {
         let c = null;
         this.chartContainer = document.querySelector('#allCharts');
         $.ajax({
-            url: 'http://polarity.x10.mx/nimbus/charts.json',
+            url: Constants.getChartsJSONWaypoint(),
             type: "GET",
             dataType:'json', 
             success: (data) => {
