@@ -680,6 +680,11 @@ class Player {
         this.loadPreviousSong();
     }
 
+    /**
+     * Load the previous song from the history collection.
+     * 
+     * @memberof Player
+     */
     loadPreviousSong() {
         this.isPlaylist = false;
 
@@ -790,6 +795,11 @@ class Player {
         
     }
 
+    /**
+     * Loads a random track by id and requests from API
+     * 
+     * @memberof Player
+     */
     loadRandomTrack() {
         let id = this.getRandomTrack(); // Works for tracks with 403 errors in other API
 
@@ -1034,6 +1044,15 @@ class Player {
         }
     }
 
+    /**
+     * Get songs from SoundCloud charts via API.
+     * 
+     * @param {any} _kind - whether if it is top songs or new songs
+     * @param {any} _genres - genre of the chart
+     * @param {any} _limit - how many songs to queue
+     * @param {number} [$_partition=1] - page partitions
+     * @memberof Player
+     */
     getTracksFromCharts(_kind, _genres, _limit, $_partition = 1) {
         // kind=top&genre=soundcloud%3Agenres%3Aall-music&limit=50
         try {
@@ -1071,6 +1090,13 @@ class Player {
         }
     }
 
+    /**
+     * Get songs that are related to the one that is just played when the queue is empty.
+     * 
+     * @param {any} _id - the id of the song last played
+     * @param {any} _limit - how many results to add
+     * @memberof Player
+     */
     getRelatedTracks(_id, _limit) {
         try {
 
@@ -1150,6 +1176,13 @@ class Player {
         return decodeURIComponent(results[2].replace(/\+/g, " "));
     }
 
+    /**
+     * Helper method designed to shuffle a collection of tracks
+     * 
+     * @param {any} tracks - collection we want to shuffle
+     * @returns - shuffled collection o songs
+     * @memberof Player
+     */
     shuffleTracks(tracks) {
         let temp = null;
         Utils.log('shuffling tracks');
@@ -1164,6 +1197,12 @@ class Player {
         return tracks;
     }
 
+    /**
+     * Cycles through 3 different repeat modes.
+     * 
+     * @param {any} repeat - the repeat mode we want to switch to
+     * @memberof Player
+     */
     toggleRepeatMode(repeat) {
         if (repeat === null) // Shortcut syntax using || does not work
             repeat = (this.isRepeating + 1) % 3; // If the repeatMode passed in is null, just cycle through the modes
@@ -1185,6 +1224,13 @@ class Player {
         }
     }
 
+    /**
+     * Helper function to correctly build the durations entry when searching for songs in other functions
+     * 
+     * @param {any} options - the options object to inject duration to.
+     * @returns - the options object with new entry for song duration 
+     * @memberof Player
+     */
     createOptionsWithDuration(options) {
 
         // Set duration object props based on settings

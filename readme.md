@@ -78,8 +78,4 @@ Although this is for finding random tracks in SoundCloud, sometimes users would 
 Overall Nimbus was quite an ambitious project for me given all the steps I needed to take before being able to start working on the actual functionality itself in the span of a few days. This was a great challenge since I have learned a lot more than I had expected in ES6 standards, npm packages, modularity in JS, and working with APIs. The idea of making a SoundCloud Randomizer was to have something that would really build and play a list of tracks that I would not have searched for myself. Given that SoundCloud is a platform where a lot of budding artists show off their creation, I thought it was appropriate to design something that would reflect the freshness that the platform had. A track that a person had never listened to before that was published a decade ago is still a new song to them.
 
 ## TODO
-* Search for music when user clicks song tags in song description
-* Add search params for query
-* Create modal dialog for instructions
-* Add toasts for player status
-* Volume slider
+* Waiting for more ideas...
