@@ -872,7 +872,7 @@ class Player {
 
                     // Load the song immediately if the user is not playing music
                     if (!this.isPlaying)
-                        this.player.seekForward();
+                        this.seekForward();
                 }
             }).catch((e) => { // Testing
                 Utils.log('getTrackByKeyWord (promise) Error - ' + e.message);
@@ -914,7 +914,7 @@ class Player {
 
                     // Load the song immediately if the user is not playing music
                     if (!this.isPlaying)
-                        this.player.seekForward();
+                        this.seekForward();
                     // this.curPlayer.load(trackCollection[trackCollection.length - 1].permalink_url);
                 
                     // Display toast message when done
@@ -955,7 +955,7 @@ class Player {
 
                     // Load the song immediately if the user is not playing music
                     if (!this.isPlaying)
-                        this.player.seekForward();
+                        this.seekForward();
                 }
             });
         } catch (e) {
@@ -994,7 +994,7 @@ class Player {
                             
                             // Load the song immediately if the user is not playing music
                             if (!this.isPlaying)
-                                this.player.seekForward();
+                                this.seekForward();
                             // this.curPlayer.load(trackCollection[trackCollection.length - 1].permalink_url); // Top of the result
                         
                             // Display toast message when done
@@ -1043,7 +1043,7 @@ class Player {
 
                     // Load the song immediately if the user is not playing music
                     if (!this.isPlaying)
-                        this.player.seekForward();
+                        this.seekForward();
                     // this.curPlayer.load(trackCollection[trackCollection.length - 1].permalink_url);
                 
                     // Display toast message when done
@@ -1096,7 +1096,7 @@ class Player {
 
                     // Load the song immediately if the user is not playing music
                     if (!this.isPlaying)
-                        this.player.seekForward();
+                        this.seekForward();
                     
                     // Display toast message when done
                     Utils.showToast(`${trackCollection.length} tracks added to the queue.`);
