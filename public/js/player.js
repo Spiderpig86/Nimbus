@@ -862,13 +862,17 @@ class Player {
                     if (this.shuffleQueue) {
                         let randIndex = Math.floor(Math.random() * tracks.length);
                         // Pick a random song to play
-                        this.queue.push({ id: tracks[randIndex].id, track: tracks[randIndex]});
+                        this.queue.unshift({ id: tracks[randIndex].id, track: tracks[randIndex]});
                         Utils.showToast(`Added ${tracks[randIndex].title} to the queue.`)
                     } else {
                         // Load the first song
-                        this.queue.push({ id: tracks[0].id, track: tracks[0]}); // The "I'm feeling lucky part of the search"
+                        this.queue.unshift({ id: tracks[0].id, track: tracks[0]}); // The "I'm feeling lucky part of the search"
                         Utils.showToast(`Added ${tracks[0].title} to the queue.`)
                     }
+
+                    // Load the song immediately if the user is not playing music
+                    if (!this.isPlaying)
+                        this.player.seekForward();
                 }
             }).catch((e) => { // Testing
                 Utils.log('getTrackByKeyWord (promise) Error - ' + e.message);
@@ -901,15 +905,16 @@ class Player {
                     if (this.shuffleQueue)
                         trackCollection = this.shuffleTracks(tracks);
                     else
-                        trackCollection = tracks.reverse();
-
+                        trackCollection = tracks;
                     // Queue all tracks to the queue of the user's playlist. Note that queue is actually acting like a stack since we use push() and pop()
                     for (let i = 0; i < trackCollection.length; i++) { // Skip the first one since we are already playing it at this point (need to subtract upper bound by 1 since we want to exclude the first track from the reversed array)
-                        this.queue.push({id: trackCollection[i].id, track: trackCollection[i]});
+                        this.queue.unshift({id: trackCollection[i].id, track: trackCollection[i]});
                         Utils.log(tracks[i].title);
                     }
 
-                    // // Load the song
+                    // Load the song immediately if the user is not playing music
+                    if (!this.isPlaying)
+                        this.player.seekForward();
                     // this.curPlayer.load(trackCollection[trackCollection.length - 1].permalink_url);
                 
                     // Display toast message when done
@@ -937,16 +942,20 @@ class Player {
                     if (this.shuffleQueue) { // If we want to shuffle the results
                         // Load the set
                         let resIndex = Math.floor(Math.random() * (sets.length + 1));
-                        this.queue.push({id: sets[resIndex].id, track: sets[resIndex]}); // The "I'm feeling lucky part of the search"
+                        this.queue.unshift({id: sets[resIndex].id, track: sets[resIndex]}); // The "I'm feeling lucky part of the search"
                         this.setTrackCount = sets[resIndex].track_count;
                         Utils.showToast(`Now playing ${sets[resIndex].title} (${this.setTrackCount} songs)`)
                     } else {
                         // Load the set
-                        this.queue.push({id: sets[0].id, track: sets[0]}); // The "I'm feeling lucky part of the search"
+                        this.queue.unshift({id: sets[0].id, track: sets[0]}); // The "I'm feeling lucky part of the search"
                         this.setTrackCount = sets[0].track_count;
                         Utils.log(sets[0]);
                         Utils.showToast(`Queued ${sets[0].title} (${this.setTrackCount} songs)`)
                     }
+
+                    // Load the song immediately if the user is not playing music
+                    if (!this.isPlaying)
+                        this.player.seekForward();
                 }
             });
         } catch (e) {
@@ -976,14 +985,16 @@ class Player {
                             if (this.shuffleQueue)
                                 trackCollection = this.shuffleTracks(tracks);
                             else
-                                trackCollection = tracks.reverse();
+                                trackCollection = tracks;
 
                             // Queue all tracks to the queue of the user's playlist. Note that queue is actually acting like a stack since we use push() and pop()
                             for (let i = 0; i < trackCollection.length; i++) { // Skip the first one since we are already playing it at this point (need to subtract upper bound by 1 since we want to exclude the first track from the reversed array)
-                                this.queue.push({id: trackCollection[i].id, track: trackCollection[i]});
+                                this.queue.unshift({id: trackCollection[i].id, track: trackCollection[i]});
                             }
                             
-                            // // Load the song
+                            // Load the song immediately if the user is not playing music
+                            if (!this.isPlaying)
+                                this.player.seekForward();
                             // this.curPlayer.load(trackCollection[trackCollection.length - 1].permalink_url); // Top of the result
                         
                             // Display toast message when done
@@ -1023,14 +1034,16 @@ class Player {
                     if (this.shuffleQueue)
                         trackCollection = this.shuffleTracks(tracks);
                     else
-                        trackCollection = tracks.reverse();
+                        trackCollection = tracks;
 
                     // Queue all tracks to the queue of the user's playlist. Note that queue is actually acting like a stack since we use push() and pop()
                     for (let i = 0; i < trackCollection.length; i++) { // Skip the first one since we are already playing it at this point (need to subtract upper bound by 1 since we want to exclude the first track from the reversed array)
-                        this.queue.push({id: trackCollection[i].id, track: trackCollection[i]});
+                        this.queue.unshift({id: trackCollection[i].id, track: trackCollection[i]});
                     }
 
-                    // // Load the song
+                    // Load the song immediately if the user is not playing music
+                    if (!this.isPlaying)
+                        this.player.seekForward();
                     // this.curPlayer.load(trackCollection[trackCollection.length - 1].permalink_url);
                 
                     // Display toast message when done
@@ -1073,13 +1086,17 @@ class Player {
                     if (this.shuffleQueue)
                         trackCollection = this.shuffleTracks(data.collection);
                     else
-                        trackCollection = data.collection.reverse();
+                        trackCollection = data.collection;
 
                     for (let i = 0; i < trackCollection.length; i++) {
-                        this.queue.push({id: trackCollection[i].track.id, track: trackCollection[i].track}); // This needs the track identifier
+                        this.queue.unshift({id: trackCollection[i].track.id, track: trackCollection[i].track}); // This needs the track identifier
                     }
 
                     Utils.log(trackCollection);
+
+                    // Load the song immediately if the user is not playing music
+                    if (!this.isPlaying)
+                        this.player.seekForward();
                     
                     // Display toast message when done
                     Utils.showToast(`${trackCollection.length} tracks added to the queue.`);

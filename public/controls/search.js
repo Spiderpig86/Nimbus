@@ -28,7 +28,16 @@ class Search {
                 </div>
                 <div class="content">
                     <space style="height: 20vh;"></space>
-                    <h6 class="uppercase">Search for songs, <span class="search-item" id="searchSets">sets</span>, <span class="search-item" id="searchUser">users</span>, <span class="search-item" id="searchTags">tags</span>, and more</h6>
+                    <h6 class="uppercase">Search by:</h6>
+                    <div class="overflow-container" style="height: 3rem">
+                        <div class="row level" id="optionsContainer">
+                            <label><span class="btn-nimbus uppercase" id="searchSong">Song Name</span></label>
+                            <label><span class="btn-nimbus uppercase" id="searchSets">Set</span></label>
+                            <label><span class="btn-nimbus uppercase" id="searchUser">User</span></label>
+                            <label><span class="btn-nimbus uppercase" id="searchTags">Tags</span></label>
+                            <label><span class="btn-nimbus uppercase" id="searchGenre">Genre</span></label>
+                        </div>
+                    </div>
                     <input type="text" placeholder="search" id="searchField"/>
                     <space></space>
                     <div class="overflow-container">
@@ -158,9 +167,11 @@ class Search {
         this.btnCharts = document.getElementById('charts-btn');
 
         // Search options
+        this.searchSong = document.getElementById('searchSong');
         this.searchSets = document.getElementById('searchSets');
         this.searchUser = document.getElementById('searchUser');
         this.searchTags = document.getElementById('searchTags');
+        this.searchGenre = document.getElementById('searchGenre');
 
         // Duration filter radio buttons
         this.radioShort = document.getElementById('radioShort');
@@ -188,6 +199,7 @@ class Search {
 
         // Event handler for close button for search dialog
         this.searchCloseBtn.onclick = (e) => {
+            this.searchField.placeholder = "search";
             this.hideSearchDialog();
         }
 
@@ -203,6 +215,12 @@ class Search {
             this.showVolumeModal();
         }
 
+        this.searchSong.onclick = (e) => {
+            this.searchField.value = "";
+            this.searchField.placeholder = "Enter song name";
+            this.searchField.focus();
+        }
+
         this.searchSets.onclick = (e) => {
             this.searchItemClick(this.searchSets);
             this.searchField.focus();
@@ -215,6 +233,11 @@ class Search {
 
         this.searchTags.onclick = (e) => {
             this.searchItemClick(this.searchTags);
+            this.searchField.focus();
+        }
+
+        this.searchGenre.onclick = (e) => {
+            this.searchItemClick(this.searchGenre);
             this.searchField.focus();
         }
 
@@ -331,6 +354,9 @@ class Search {
                 break;
             case 'searchTags':
                 this.searchField.value = 'tags: ';
+                break;
+            case 'searchGenre':
+                this.searchField.value = 'genre: ';
         }
     }
 
