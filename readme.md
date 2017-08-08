@@ -45,37 +45,8 @@ To stop the app from running, execute:
 process.exit(0);
 ```
 
-## Challenges
-
-### Learning
-Perhaps the most difficult aspect of this challenge was to learn how to do something completely foreign in a short span of a few days. This is not my first time dealing with a situation like this, but as difficult as this can get, I have enjoyed every moment writing this application. I have dabbled with web applications before, but none compare to the structural complexity and modularity of Nimbus. This is the first time I have written something involving a lot of the new features of ES6 including promises, arrow functions, and template literals. It also helped me improve my thinking and organization while trying to decide how to implement an application like this. This was a great breather project for me to take my mind off of Assembly and midterms.
-
-### Recursively Searching for Songs
-Although it may sound very simple, it was something that was not apparent at first glance. In all my earlier attempts, I have overlooked the asynchronous nature of the SoundCloud API and the idea of Promises were new to me. So instead of handling a request that fetched no songs with a randomly generated id, I simply used a promise obtained from the request and added a handler for requests with errors. From there, I could simply make a recursive call to fetch a new track.
-```javascript
-    SC.get('/tracks/' + id).then((track) => {
-        // Function body
-    }, (err) => {
-        // If there is no song with the associated ID, fetch a new one.
-        this.updateStream(this.getRandomTrack());
-    });
-```
-
-## Testing
-Unfortunately I was unable to learn and implement unit tests on time. I did look into some potential frameworks like MochaJS. Regarding testing, even if I choose not to use a framework, I can try to load the app and then trigger certain commands to see if the actions are performed or if it runs into an exception. In the near future, one of the things I would like to do with Nimbus is to be able to test the app through scripts.
-
-## Future
-### Playing and Saving Previous Tracks
-Currently there is a structure in place to store the past tracks that the user has played but there is no actual way to be able to play previous tracks with a rewind button. When the user moves to the previous track, there would be a way to pop from the history queue and play the track stored in the object.
-
-### Syncing with SoundCloud
-Another feature that can be implemented is to sync with the user's account to be able to save information and preferences such as past tracks so they can be added to their playlists. Users would be able to login to their accounts with an OAuth2 request through a login page in the menu.
-
-### Selecting Specific Types of Tracks
-Although this is for finding random tracks in SoundCloud, sometimes users would like to specialize what they want to listen to down the genres, artists, songs, podcasts, and other content from SoundCloud. 
-
-## Conclusion
-Overall Nimbus was quite an ambitious project for me given all the steps I needed to take before being able to start working on the actual functionality itself in the span of a few days. This was a great challenge since I have learned a lot more than I had expected in ES6 standards, npm packages, modularity in JS, and working with APIs. The idea of making a SoundCloud Randomizer was to have something that would really build and play a list of tracks that I would not have searched for myself. Given that SoundCloud is a platform where a lot of budding artists show off their creation, I thought it was appropriate to design something that would reflect the freshness that the platform had. A track that a person had never listened to before that was published a decade ago is still a new song to them.
+## Why Nimbus?
+As great of a platform SoundCloud is, it is mainly built for sharing music through more of a social network rather than for streaming. Recently, SoundCloud has shifted towards streaming services by releasing SoundCloud Go as a subscription based service. this is a great move, but the overall website does not provide as in depth of a streaming experience as it should be. Songs should easily be added to the queue and new related tracks should appear in the queue that allows for user editing. Even simple song details and descriptions should be readily accessible when listening to the song, which a few users complained about before. Nimbus is not designed to replace SoundCloud, but serves as an alternative platform for streaming and discovering music that is built just for that after stripping away everything else.
 
 ## TODO
 * Waiting for more ideas...
