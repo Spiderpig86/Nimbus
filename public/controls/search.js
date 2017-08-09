@@ -31,7 +31,7 @@ class Search {
                     <h6 class="uppercase">Search by:</h6>
                     <div class="overflow-container" style="height: 3rem">
                         <div class="row level" id="optionsContainer">
-                            <label><span class="btn-nimbus uppercase" id="searchSong">Song Name</span></label>
+                            <label><span class="btn-nimbus uppercase" id="searchSong">Name</span></label>
                             <label><span class="btn-nimbus uppercase" id="searchSets">Set</span></label>
                             <label><span class="btn-nimbus uppercase" id="searchUser">User</span></label>
                             <label><span class="btn-nimbus uppercase" id="searchTags">Tags</span></label>
