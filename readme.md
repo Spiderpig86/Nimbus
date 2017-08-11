@@ -18,9 +18,10 @@ Nimbus uses a few packages to help this run on a machine. Some of the dependenci
 * [Cirrus](https://github.com/Spiderpig86/Cirrus) - a CSS framework I developed.
 
 ## Screenshots
-![As of 7/19/17](http://i.imgur.com/uCuHnjO.png "Nimbus")
-![Search](http://i.imgur.com/7AGoRv2.png "Search")![Settings](http://i.imgur.com/IgPWBBg.png "Settings")
-<p align="center">Nimbus as of 7/19/17</p>
+![As of 8/3/17](http://i.imgur.com/4NaQ14j.png "Nimbus")
+![Search](http://i.imgur.com/ye4kyMg.png "Search")![Settings](http://i.imgur.com/IgPWBBg.png "Settings")
+![Charts](http://i.imgur.com/LC55WDP.png "Charts")![Queue](http://i.imgur.com/WcJee0O.png "Queue")
+<p align="center">Nimbus as of 8/3/17</p>
 
 ## How to Run
 First obtain all the dependencies:
