@@ -858,7 +858,7 @@ class Player {
             let options = this.createOptionsWithDuration({q: query}); // Build the options object
             SC.get('/tracks', options).then((tracks) => {
                 if (tracks.length > 0) {
-
+                    Utils.log(tracks, 'keyword');
                     if (this.shuffleQueue) {
                         let randIndex = Math.floor(Math.random() * tracks.length);
                         // Pick a random song to play
@@ -899,7 +899,7 @@ class Player {
 
             SC.get('/tracks', options).then((tracks) => {
                 if (tracks.length > 0) {
-                    Utils.log(tracks);
+                    Utils.log(tracks, 'tags');
 
                     let trackCollection = null;
                     if (this.shuffleQueue)
@@ -939,6 +939,7 @@ class Player {
         try {
             SC.get('/playlists', {q: query}).then((sets) => {
                 if (sets.length > 0) {
+                    Utils.log(query, 'playlist');
                     if (this.shuffleQueue) { // If we want to shuffle the results
                         // Load the set
                         let resIndex = Math.floor(Math.random() * (sets.length + 1));
@@ -978,7 +979,7 @@ class Player {
                     let options = this.createOptionsWithDuration({ limit: this.queueNum });
 
                     SC.get(`/users/${response.id}/tracks`, options).then((tracks) => {
-                        Utils.log(tracks);
+                        Utils.log(tracks, 'user');
                         if (tracks.length > 0) {
 
                             let trackCollection = null;
@@ -1028,6 +1029,7 @@ class Player {
             });
 
             SC.get('/tracks', options).then((tracks) => {
+                Utils.log(tracks, 'genre');
                 if (tracks.length > 0) {
 
                     let trackCollection = null;
@@ -1082,6 +1084,7 @@ class Player {
                     client_id: consts.client_id
                 }),
                 success: (data) => {
+                    Utils.log(data, 'charts');
                     let trackCollection = null;
                     if (this.shuffleQueue)
                         trackCollection = this.shuffleTracks(data.collection);
@@ -1128,6 +1131,7 @@ class Player {
                 }),
                 success: (data) => {
                     let trackCollection = null;
+                    Utils.log(data, 'related');
                     if (this.shuffleQueue)
                         trackCollection = this.shuffleTracks(data.collection);
                     else

@@ -40,9 +40,13 @@ class Utils {
         }, 3000);
     }
 
-    static log(message) {
-        if (Settings.getPref('debug') === 'true')
-            console.log(message);
+    static log(message, TAG = null) {
+        if (Settings.getPref('debug') === 'true') {
+            if (TAG === null)
+                console.log(message);
+            else
+                console.log(TAG, message);
+        }
     }
 }
 
