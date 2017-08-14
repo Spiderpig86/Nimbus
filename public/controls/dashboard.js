@@ -72,6 +72,14 @@ class Dashboard {
                                 </div>
                             </div>
 
+                            <p class="settings-title">Actions</p>
+                            <div class="row">
+                                <div class="toggle-container">
+                                    <p>Clear History</p>
+                                    <button class="btn-nimbus" id="btnClear">Clear</button>
+                                </div>
+                            </div>
+
                             <p class="settings-title">Advanced</p>
                             <div class="row">
                                 <div class="toggle-container">
@@ -129,6 +137,7 @@ class Dashboard {
         this.chkAnimations = document.getElementById('chkAnimations');
         this.chkBlur = document.getElementById('chkBlur');
         this.chkDebug = document.getElementById('chkDebug');
+        this.btnClearHist = document.getElementById('btnClear');
 
         // Event handler for close button for search dialog
         this.dashboardCloseBtn.onclick = (e) => {
@@ -142,6 +151,10 @@ class Dashboard {
 
         this.btnClearQueue.onclick = (e) => {
             this.clearQueue();
+        }
+
+        this.btnClearHist.onclick = (e) => {
+            this._player.clearHistory();
         }
 
         this.bindSettingsControls();

@@ -28,6 +28,13 @@ class Utils {
         return `http://img.infinitynewtab.com/wallpaper/${i}.jpg`;
     }
 
+    /**
+     * Show a toast with a message as the param.
+     * 
+     * @static
+     * @param {any} message - A message shown to the user
+     * @memberof Utils
+     */
     static showToast(message) {
         this.toastContainer = document.getElementById('toastContainer');
         this.toastContainer.innerHTML = Toast(message, '');
@@ -40,6 +47,14 @@ class Utils {
         }, 3000);
     }
 
+    /**
+     * Custom logging method that logs to the console only when debug mode is enabled.
+     * 
+     * @static
+     * @param {any} message - the message we want to log
+     * @param {any} [TAG=null] - the associated tag or source of where the log is from. Set to null by default.
+     * @memberof Utils
+     */
     static log(message, TAG = null) {
         if (Settings.getPref('debug') === 'true') {
             if (TAG === null)

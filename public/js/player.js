@@ -311,6 +311,7 @@ class Player {
         this.widgetTrack.created_at = song.created_at;
         this.widgetTrack.duration = song.duration || 'N/A';
         this.widgetTrack.currentPosition = 0;
+        this.widgetTrack.song = song;
 
         document.title = `\u25B6   Nimbus - ${this.widgetTrack.title}`;
 
@@ -687,6 +688,9 @@ class Player {
      */
     loadPreviousSong() {
         this.isPlaylist = false;
+
+        if (this.history.length === 1)
+            return;
 
          // Pop current song and add it to queue so it is our next song
         this.queue.push(this.history.pop());
@@ -1268,6 +1272,25 @@ class Player {
             options['duration'] = duration; // Add property to object
         }
         return options;
+    }
+
+    /**
+     * Clears the history from the history list.
+     * 
+     * @memberof Player
+     */
+    clearHistory() {
+        this.histContainer.innerHTML = `<div class="content">
+                                            <h6 class="text-center uppercase">History</h6>
+                                        </div>`; // Clear the UI elements
+        this.history = []; // Set history to an empty list
+
+        let rndImg = Utils.fetchRandomImage();
+        this.history.push({id: this.widgetTrack.id, track: this.widgetTrack.song}); // Push the track so it can be replayed from history. 
+        let h = new HistItem((this.widgetTrack.song.artwork_url === null ? rndImg : this.widgetTrack.song.artwork_url), this.widgetTrack.song, this, "javascript:alert('Download link unavailable');");
+        this.histContainer.appendChild(h.render()); // Append to history
+
+        Utils.showToast('History cleared');
     }
 }
 
