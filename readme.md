@@ -6,7 +6,8 @@
 | Command       | Keyboard Combo|
 | ------------- |:-------------:|
 | Play/Pause    | Space         |
-| Arrow-Right   | Find New Song |
+| Rewind   | Shift + Arrow-Left |
+| Seek Next   | Shift + Arrow-Right |
 | Volume Up     | Shift + Arrow-Up |
 | Volume Down   | Shift + Arrow-Down |
 

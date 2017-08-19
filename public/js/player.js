@@ -197,19 +197,20 @@ class Player {
                 // shift down
                 this.volumeDown(10);
 
-            } else if (e.shiftKey && e.keyCode == 66) {
-                let id = prompt("Enter song id.");
-                if (id == null)
-                    return;
-
-                document.getElementById('widgettest').setAttribute('src', `https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/${id}` + WIDGET_PARAMS);
-                let iframeID = document.getElementById('widgettest');
-                this.curPlayer = SC.Widget(iframeID);
-                this.curPlayer.load(`https%3A//api.soundcloud.com/tracks/${id}` + WIDGET_PARAMS);
-                // Update the player
-                this.bindWidgetEvents(this.curPlayer); // Bind event handlers for widget.
-                this.togglePlay();
-                setTimeout(() => this.loadWidgetSong(this.curPlayer), 1000);
+            } else if (e.shiftKey && e.keyCode == 37) {
+                // shift left
+                if (this.curPosition > 10000) { // If the song is past 10 seconds, reset song back to beginning (like in Spotify)
+                    this.restartSong();
+                } else { // Else, go to the last song
+                    this.seekBack();
+                }
+            } else if (e.shiftKey && e.keyCode == 39) {
+                // shift right
+                if (this.queue.length > 0 || this.isPlaylist) {
+                    this.seekForward(); // Seek forward in queue
+                } else { // Else just load another song
+                    this.fetchNext();
+                }
             }
         }
 
