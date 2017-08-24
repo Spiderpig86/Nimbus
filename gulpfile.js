@@ -2,7 +2,7 @@
 
 var gulp = require('gulp');
 var prop = require('./package.json');
-var minify = require('gulp-minify-css');
+var minify = require('gulp-clean-css');
 var $ = require('gulp-load-plugins')();
 
 gulp.task('compile', function() {

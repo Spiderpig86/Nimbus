@@ -18,6 +18,9 @@ Nimbus uses a few packages to help this run on a machine. Some of the dependenci
 * [Webpack](https://webpack.github.io/) - bundles modules together to make imports work.
 * [Cirrus](https://github.com/Spiderpig86/Cirrus) - a CSS framework I developed.
 
+## Why Nimbus?
+As great of a platform SoundCloud is, it is mainly built for sharing music through more of a social network rather than for streaming. Recently, SoundCloud has shifted towards streaming services by releasing SoundCloud Go as a subscription based service. this is a great move, but the overall website does not provide as in depth of a streaming experience as it should be. Songs should easily be added to the queue and new related tracks should appear in the queue that allows for user editing. Even simple song details and descriptions should be readily accessible when listening to the song, which a few users complained about before. Nimbus is not designed to replace SoundCloud, but serves as an alternative platform for streaming and discovering music that is built just for that after stripping away everything else.
+
 ## Screenshots
 ![As of 8/3/17](http://i.imgur.com/4NaQ14j.png "Nimbus")
 ![Search](http://i.imgur.com/ye4kyMg.png "Search")![Settings](http://i.imgur.com/IgPWBBg.png "Settings")
@@ -46,9 +49,6 @@ To stop the app from running, execute:
 ```
 process.exit(0);
 ```
-
-## Why Nimbus?
-As great of a platform SoundCloud is, it is mainly built for sharing music through more of a social network rather than for streaming. Recently, SoundCloud has shifted towards streaming services by releasing SoundCloud Go as a subscription based service. this is a great move, but the overall website does not provide as in depth of a streaming experience as it should be. Songs should easily be added to the queue and new related tracks should appear in the queue that allows for user editing. Even simple song details and descriptions should be readily accessible when listening to the song, which a few users complained about before. Nimbus is not designed to replace SoundCloud, but serves as an alternative platform for streaming and discovering music that is built just for that after stripping away everything else.
 
 ## Download for Chrome
 You can download the standalone app for Chrome OS devices (Chrome store no longer shows new apps for other platforms) [here](https://chrome.google.com/webstore/detail/nimbus-music/kddhelajnednobefibdobkcldimhkooc).
