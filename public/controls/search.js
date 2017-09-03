@@ -28,7 +28,7 @@ class Search {
                 </div>
                 <div class="content">
                     <space style="height: 20vh;"></space>
-                    <h6 class="uppercase">Search by:</h6>
+                    <h6>Search By</h6>
                     <div class="overflow-container" style="height: 3rem">
                         <div class="row level" id="optionsContainer">
                             <label><span class="btn-nimbus uppercase" id="searchSong">Name</span></label>
