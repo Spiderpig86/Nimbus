@@ -54,4 +54,6 @@ process.exit(0);
 You can download the standalone app for Chrome OS devices (Chrome store no longer shows new apps for other platforms) [here](https://chrome.google.com/webstore/detail/nimbus-music/kddhelajnednobefibdobkcldimhkooc).
 
 ## TODO
-* Waiting for more ideas...
+* Locally store favorited tracks in new favorites tab
+* Improve UI
+* Connect to SoundCloud account
