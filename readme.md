@@ -12,7 +12,7 @@
 | Volume Down   | Shift + Arrow-Down |
 
 ## Dependencies
-Nimbus uses a few packages to help this run on a machine. Some of the dependencies includes:
+Nimbus uses a few packages to help this run on a machine. Some of the dependencies include:
 * :dash: [Express](https://expressjs.com/) - it is a web application after all.
 * :hammer: [Babel](https://babeljs.io/) - mainly to support older browsers if you need it.
 * :gem: [Webpack](https://webpack.github.io/) - bundles modules together to make imports work.
@@ -21,11 +21,13 @@ Nimbus uses a few packages to help this run on a machine. Some of the dependenci
 ## Why Nimbus?
 As great of a platform SoundCloud is, it is mainly built for sharing music through more of a social network rather than for streaming. Recently, SoundCloud has shifted towards streaming services by releasing SoundCloud Go as a subscription based service. this is a great move, but the overall website does not provide as in depth of a streaming experience as it should be. Songs should easily be added to the queue and new related tracks should appear in the queue that allows for user editing. Even simple song details and descriptions should be readily accessible when listening to the song, which a few users complained about before. Nimbus is not designed to replace SoundCloud, but serves as an alternative platform for streaming and discovering music that is built just for that after stripping away everything else.
 
-## Screenshots
+## Screenshots & Video
 ![As of 8/3/17](http://i.imgur.com/4NaQ14j.png "Nimbus")
 ![Search](http://i.imgur.com/ye4kyMg.png "Search")![Settings](http://i.imgur.com/IgPWBBg.png "Settings")
 ![Charts](http://i.imgur.com/LC55WDP.png "Charts")![Queue](http://i.imgur.com/WcJee0O.png "Queue")
 <p align="center">Nimbus as of 8/3/17</p>
+
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=sgP8hvIQ-fM" target="_blank"><img src="https://lh3.googleusercontent.com/_icpyd8dN2njoqYQ0IBwEEMX86jg2UO-s7ckLRzN28Xsa3lVo3VomTsq1orbOGwDiMofV48ldqw=w640-h400-e365" alt="Nimbus in action" width="480" height="280" border="0" /></a>
 
 ## How to Run
 First obtain all the dependencies:
