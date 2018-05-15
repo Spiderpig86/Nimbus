@@ -59,7 +59,8 @@ class Player {
         this.isRepeating = this.repeatMode.REPEAT_NONE; // For repeating songs
         this.hasBeenFetched = false; // Used to stop duplicates during recursion
         this.timerUpdate = 0;
-        this.isPlaylist = false; // Check if we are playing a playlist.
+        this.isPlaylist = false; // Check if we are loading a playlist.
+        this.isInPlaylist = false; // Currently playing a playlist
         this.setCurIndex = 0; // The current index of the song in the playlist
         this.setTrackCount = 0; // This holds the number of tracks in the playlist so we can tell when we have reached the end.
         this.shuffleQueue = false; // Should the queue be shuffled when we get a list of tracks;
@@ -411,7 +412,7 @@ class Player {
                 }
             });
         } else {
-            await waveform.updateWaveformData(data.samples);
+            // await waveform.updateWaveformData(data.samples);
         }
         //}).bind(this)();
 
@@ -613,6 +614,7 @@ class Player {
      */
     seekForward() {
         // If we are in playlist mode, play the next song in the playlist and do not fetch a new song
+        Utils.log("seekForward() called");
         if (this.isPlaylist) {
             let nextSongID = this.widgetTrack.id;
             this.seekingForward = true;
@@ -639,10 +641,12 @@ class Player {
             }, 200);
         } else {
             let nextSong = this.queue.pop(); // Pop the next song
-
+            console.log(nextSong);
             if (nextSong) { // If not null
-                if (nextSong.track.kind === 'playlist')
+                if (nextSong.track.kind === 'playlist') {
+                    console.log("this is a playlist");
                     this.isPlaylist = true;
+                }
                 this.curPlayer.load(nextSong.track.permalink_url);
                 setTimeout(() => this.loadWidgetSong(this.curPlayer), 2000); // Update player info, will add song to history
             }
@@ -772,16 +776,28 @@ class Player {
      * Fetch the next song and verify that the song exists (non 404).
      */
     fetchNext() {
+        Utils.log("fetchNext() called");
         try {
             Utils.log('Queue length - ' + this.queue.length);
             if (this.queue.length > 0) { // First check if the queue is non-empty
                 let nextSong = this.queue.pop(); // Pop the next song
 
+                Utils.log(nextSong);
+
                 if (nextSong) { // If not null
-                    if (nextSong.track.kind === 'playlist')
+                    if (nextSong.track.kind === 'playlist') {
                         this.isPlaylist = true;
-                    this.history.push({id: nextSong.id, track: nextSong}); // Add it to history
-                    this.curPlayer.load(nextSong.permalink_url);
+                        Utils.log('is playlist');
+                        this.history.push({id: nextSong.id, track: nextSong.track}); // Add it to history
+                        Utils.log(nextSong.track.permalink_url);
+                        this.curPlayer.load(nextSong.track.permalink_url);
+                        this.isInPlaylist = true;
+                    } else {
+                        this.history.push({id: nextSong.id, track: nextSong}); // Add it to history
+                        Utils.log(nextSong.permalink_url);
+                        this.curPlayer.load(nextSong.permalink_url);
+                    }
+                    
                     setTimeout(() => this.loadWidgetSong(this.curPlayer), 2000); // Update player info
                     return;
                 }
@@ -792,6 +808,12 @@ class Player {
         } catch (e) {
             Utils.log('fetchNext' + e.toString());
         }
+
+        if (this.isInPlaylist) { // If in a playlist, do not load more tracks
+            console.log("this is a playlist");
+            return;
+        } else
+            console.log("it is not");
 
         if (Settings.getPref('shuffleMode') === Constants.getShuffleMode().RELATED && this.curTrack !== null && this.queue.length <= 0)
             this.getRelatedTracks(this.curTrack.id, 50);
@@ -807,6 +829,7 @@ class Player {
      */
     loadRandomTrack() {
         let id = this.getRandomTrack(); // Works for tracks with 403 errors in other API
+        this.isInPlaylist = false;
 
         SC.get('/tracks/' + id).then((track) => { // Check if there are results
             // Really just designed to check if the song actually exists
