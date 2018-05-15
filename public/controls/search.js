@@ -264,7 +264,6 @@ class Search {
         // Determine input type
         if (searchQuery.startsWith('http') && isNaN(searchQuery)) { // Check if this is a url
             this._player.isPlaylist = false; // Reset
-            this._player.isInPlaylist = false;
             if (searchQuery.includes('sets')) {
                 Utils.log('Playlist detected');
                 this._player.isPlaylist = true;
