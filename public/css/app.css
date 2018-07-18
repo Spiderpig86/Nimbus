@@ -453,10 +453,9 @@ pre {
 }
 
 #widgettest {
-    visibility: hidden; /* Hide the widget from user */
     position: fixed;
     opacity: 0;
-    
+    z-index: -1;
 }
 
 .action-bar-item {
