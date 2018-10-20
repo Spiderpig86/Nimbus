@@ -1,6 +1,6 @@
 {
   "name": "nimbus",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "A web app powered by Express that plays random SoundCloud tracks.",
   "main": "index.js",
   "dependencies": {
@@ -23,7 +23,8 @@
     "gulp-minify-css": "^1.2.4",
     "gulp-size": "^2.1.0",
     "jest": "^20.0.4",
-    "webpack": "^2.3.3"
+    "webpack": "^2.3.3",
+    "webpack-cli": "^3.1.2"
   },
   "scripts": {
     "build": "babel --presets es2015 public/js -d public/dist",

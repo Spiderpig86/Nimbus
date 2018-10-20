@@ -38,10 +38,10 @@ class HistItem {
                 <div class="row overlay">
                     <div class="action-bar center no-padding">
                         <div class="action-bar-item">
-                            <a href="${this._track.downloadable === false ? this._errorDownloadCallback : `https://api.soundcloud.com/tracks/${this._track.id}/download?client_id=${consts.client_id}`}" target="_blank"><button class="btn-transparent">Download</button></a>
+                            <a href="${this._track.downloadable === false ? this._errorDownloadCallback : `https://api.soundcloud.com/tracks/${this._track.id}/download?client_id=${consts.client_id}`}" target="_blank" rel="noopener noreferrer"><button class="btn-transparent">Download</button></a>
                         </div>
                         <div class="action-bar-item">
-                            <a href="${this._track.permalink_url}" target="_blank"><button class="btn-transparent">View</button></a>
+                            <a href="${this._track.permalink_url}" target="_blank" rel="noopener noreferrer"><button class="btn-transparent">View</button></a>
                         </div>
                     </div>
                 </div>

@@ -333,7 +333,7 @@ class Player {
                 let tagName = tagCollection[i];
                 if (tagName !== '' && tagName !== null) {
                     tagName = tagName.replace(/\"/g, '');
-                    tagBtns += `<a href="https://soundcloud.com/tags/${tagName}" target="_blank"><button class="btn-transparent">
+                    tagBtns += `<a href="https://soundcloud.com/tags/${tagName}" target="_blank" rel="noopener noreferrer"><button class="btn-transparent">
                         #${tagName}
                     </button></a>
                     `;

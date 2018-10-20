@@ -43,6 +43,7 @@ If you have made any changes to the modules, make sure to run:
 ```
 webpack
 ```
+    Run locally if your global build does not work: `node_modules/.bin/webpack`
 and then rerun:
 ```
 node ./routes/app.js
@@ -54,6 +55,10 @@ process.exit(0);
 
 ## Download for Chrome
 You can download the standalone app for Chrome OS devices (Chrome store no longer shows new apps for other platforms) [here](https://chrome.google.com/webstore/detail/nimbus-music/kddhelajnednobefibdobkcldimhkooc).
+
+## Keys
+Remember to enter your `client_id` and `client_secret` in the `consts.json` file.
+Also rename any references of `consts-sec.json` to consts.json`.
 
 ## TODO
 * Locally store favorited tracks in new favorites tab

@@ -113,10 +113,10 @@ class Dashboard {
                             <img class="center" src="../img/NimbusLogo.png" style="max-width: 200px; width: 100%;" />
                             <p class="no-margin">An open source SoundCloud client for discovering and streaming tracks. Made with <i class="fa fa-heart animated pulse pad-left pad-right" style="color:#e90606"></i> in New York.<br/>
                             Nimbus is not affiliated with SoundCloud.<br />
-                            Shout out to <a href="https://unsplash.com/" target="_blank">Unsplash</a> for the amazing photography. <br /> Copyright &copy; ${new Date().getFullYear()} Stanley Lim. Crafted with <a target="_blank" href=https://spiderpig86.github.io/Cirrus class="u utb-C">Cirrus</a></p>
+                            Shout out to <a href="https://unsplash.com/" target="_blank" rel="noopener noreferrer">Unsplash</a> for the amazing photography. <br /> Copyright &copy; ${new Date().getFullYear()} Stanley Lim. Crafted with <a target="_blank" href=https://spiderpig86.github.io/Cirrus class="u utb-C" rel="noopener noreferrer">Cirrus</a></p>
                             <space class="x-large"></space>
                             <div class="row center">
-                                <a href="https://github.com/Spiderpig86/Nimbus" target="_blank"><button class="btn-nimbus">Github</button></a>
+                                <a href="https://github.com/Spiderpig86/Nimbus" target="_blank" rel="noopener noreferrer"><button class="btn-nimbus">Github</button></a>
                             </div>
                         </div>
                     </div>
