@@ -28,7 +28,7 @@ const RAND_COUNT_2 = 90000000;
 const OFFSET_2 = 10000000;
 
 // The fresh stuff
-const RAND_COUNT_3 = 500000000;
+const RAND_COUNT_3 = 750000000;
 const OFFSET_3 = 100000000;
 
 // Widget Parameters
