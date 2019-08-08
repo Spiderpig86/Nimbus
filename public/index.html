@@ -67,9 +67,7 @@
                             <div id="songContainer">
 
                             </div>
-                            <iframe id="widgettest">
-
-                            </iframe>
+                            <iframe id="widgettest" allow="autoplay"></iframe>
                         </div>
                         <div class="col-4 no-padding" id="histContainer">
                             <div>
@@ -77,13 +75,10 @@
                                     <h6 class="text-center uppercase">History</h6>
                                 </div>
                             </div>
-                            
                         </div>
                     </div>
 
-                    <div id="toastContainer" class="center">
-
-                    </div>
+                    <div id="toastContainer" class="center"></div>
                 </div>
 
         <!-- JS -->
@@ -106,9 +101,6 @@
 
             ga('create', 'UA-104122960-1', 'auto');
             ga('send', 'pageview');
-
-            const widget = document.querySelector('#widgettest');
-            widget.contentWindow.focus();
         </script>
     </body>
 
