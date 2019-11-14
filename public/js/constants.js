@@ -44,19 +44,19 @@ class Constants {
     }
 
     static getRelatedWaypoint() {
-        return 'https://app-1501965358.000webhostapp.com/related.php';
+        return 'http://nimbusmusic.000webhostapp.com/related.php';
     }
 
     static getChartsWaypoint() {
-        return 'https://app-1501965358.000webhostapp.com/charts.php';
+        return 'http://nimbusmusic.000webhostapp.com/charts.php';
     }
 
     static getChartsJSONWaypoint() {
-        return 'https://app-1501965358.000webhostapp.com/charts.json';
+        return 'http://nimbusmusic.000webhostapp.com/charts.json';
     }
 
     static getFeaturedJSONWaypoint() {
-        return 'https://app-1501965358.000webhostapp.com/featured.json';
+        return 'http://nimbusmusic.000webhostapp.com/featured.json';
     }
 }
 
