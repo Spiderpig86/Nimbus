@@ -1,4 +1,4 @@
-import consts from '../../consts-sec.1.json';
+import consts from '../../consts-sec.json';
 import HistItem from '../controls/HistItem';
 import SongInfo from '../controls/songinfo';
 import WaveForm from '../controls/waveform';
