@@ -1,4 +1,5 @@
 /node_modules
+consts-sec.*
 /charts
 README-old.md
 package-lock.json
