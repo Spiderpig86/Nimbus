@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _constsSec = require('../../consts-sec.1.json');
+var _constsSec = require('../../consts-sec.json');
 
 var _constsSec2 = _interopRequireDefault(_constsSec);
 
@@ -95,9 +95,10 @@ var Player = function () {
             REPEAT_NONE: 0,
             REPEAT_ONCE: 1,
             REPEAT_ALL: 2
+        };
 
-            // Initialize variables
-        };this.history = [];
+        // Initialize variables
+        this.history = [];
         this.queue = []; // For tracks playing next
         this.isPlaying = false;
         this.curPlayer = null;

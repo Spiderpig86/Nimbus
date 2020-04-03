@@ -62,22 +62,22 @@ var Constants = function () {
     }, {
         key: 'getRelatedWaypoint',
         value: function getRelatedWaypoint() {
-            return 'https://app-1501965358.000webhostapp.com/related.php';
+            return 'http://nimbusmusic.000webhostapp.com/related.php';
         }
     }, {
         key: 'getChartsWaypoint',
         value: function getChartsWaypoint() {
-            return 'https://app-1501965358.000webhostapp.com/charts.php';
+            return 'http://nimbusmusic.000webhostapp.com/charts.php';
         }
     }, {
         key: 'getChartsJSONWaypoint',
         value: function getChartsJSONWaypoint() {
-            return 'https://app-1501965358.000webhostapp.com/charts.json';
+            return 'http://nimbusmusic.000webhostapp.com/charts.json';
         }
     }, {
         key: 'getFeaturedJSONWaypoint',
         value: function getFeaturedJSONWaypoint() {
-            return 'https://app-1501965358.000webhostapp.com/featured.json';
+            return 'http://nimbusmusic.000webhostapp.com/featured.json';
         }
     }]);
 
