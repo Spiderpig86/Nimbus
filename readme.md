@@ -23,7 +23,7 @@ As great of a platform SoundCloud is, it is mainly built for sharing music throu
 
 ## Screenshots & Video
 ![As of 8/3/17](http://i.imgur.com/4NaQ14j.png "Nimbus")
-![Search](http://i.imgur.com/ye4kyMg.png "Search")![Settings](http://i.imgur.com/IgPWBBg.png "Settings")
+![Search](https://i.imgur.com/cxeAzA6.png "Search")![Settings](http://i.imgur.com/ye4kyMg.png "Settings")
 ![Charts](http://i.imgur.com/LC55WDP.png "Charts")![Queue](http://i.imgur.com/WcJee0O.png "Queue")
 <p align="center">Nimbus as of 8/3/17</p>
 
