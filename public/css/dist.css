@@ -599,6 +599,11 @@ pre {
     right: 0;
 }
 
+.tab-container li {
+    flex: inherit;
+    -webkit-flex: inherit;
+}
+
 /* Mobile / Tablets */
 
 @media screen and (max-width: 768px) {

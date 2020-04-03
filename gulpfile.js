@@ -21,10 +21,10 @@ gulp.task('compile', function() {
         .pipe(gulp.dest('./public/css/'));
 });
 
-gulp.task('minify', ['compile'], function() {
+gulp.task('minify', gulp.series('compile', function() {
     return gulp.src(['./public/css/dist.css'])
         .pipe(minify())
         .pipe($.size())
         .pipe($.concat('dist.min.css'))
         .pipe(gulp.dest('./public/css/'));
-});
+}));
