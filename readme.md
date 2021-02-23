@@ -2,6 +2,8 @@
 <h1 align="center">Nimbus</h1>
 <p align="center">A simple web application powered by Express and NodeJS that fetches random songs from the SoundCloud library using the SoundCloud API.</p>
 
+> ⚠ Playlists have stopped working due to SoundCloud API restrictions, but the rest of the application should work correctly.
+
 ## Keyboard Shortcuts
 | Command       | Keyboard Combo|
 | ------------- |:-------------:|
