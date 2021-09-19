@@ -95,10 +95,9 @@ var Player = function () {
             REPEAT_NONE: 0,
             REPEAT_ONCE: 1,
             REPEAT_ALL: 2
-        };
 
-        // Initialize variables
-        this.history = [];
+            // Initialize variables
+        };this.history = [];
         this.queue = []; // For tracks playing next
         this.isPlaying = false;
         this.curPlayer = null;

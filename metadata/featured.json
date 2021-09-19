@@ -1,0 +1,64 @@
+{
+    "collection": [
+        {
+            "chart": {
+                "title": "SoundCloud Top 50",
+                "author": "SoundCloud",
+                "kind": "top",
+                "genre_url": "soundcloud%3Agenres%3Aall-music",
+                "limit": 50,
+                "image_url": "../img/soundcloud_top50.jpg"
+            }
+        },
+        {
+            "chart": {
+                "title": "New Releases",
+                "author": "SoundCloud",
+                "kind": "trending",
+                "genre_url": "soundcloud%3Agenres%3Aall-music",
+                "limit": 50,
+                "image_url": "../img/new_releases.jpg"
+            }
+        },
+        {
+            "chart": {
+                "title": "Rap Top 50",
+                "author": "SoundCloud",
+                "kind": "top",
+                "genre_url": "soundcloud%3Agenres%3Ahiphoprap",
+                "limit": 50,
+                "image_url": "../img/rap_top50.jpg"
+            }
+        },
+        {
+            "chart": {
+                "title": "Fresh Hip-hop & Rap",
+                "author": "SoundCloud",
+                "kind": "trending",
+                "genre_url": "soundcloud%3Agenres%3Ahiphoprap",
+                "limit": 50,
+                "image_url": "../img/fresh_rap.jpg"
+            }
+        },
+        {
+            "chart": {
+                "title": "Dance & EDM 50",
+                "author": "SoundCloud",
+                "kind": "top",
+                "genre_url": "soundcloud%3Agenres%3Adanceedm",
+                "limit": 50,
+                "image_url": "../img/edm_top50.jpg"
+            }
+        },
+        {
+            "chart": {
+                "title": "Essential EDM",
+                "author": "SoundCloud",
+                "kind": "trending",
+                "genre_url": "soundcloud%3Agenres%3Adanceedm",
+                "limit": 50,
+                "image_url": "../img/essential_edm.jpg"
+            }
+        }
+    ]
+}

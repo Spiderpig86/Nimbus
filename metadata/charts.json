@@ -1,0 +1,608 @@
+{
+    "collection": [
+        {
+            "chart": {
+                "title": "SoundCloud Top 50",
+                "author": "SoundCloud",
+                "kind": "top",
+                "genre_url": "soundcloud%3Agenres%3Aall-music",
+                "limit": 50,
+                "image_url": "../img/soundcloud_top50.jpg"
+            }
+        },
+        {
+            "chart": {
+                "title": "New Releases",
+                "author": "SoundCloud",
+                "kind": "trending",
+                "genre_url": "soundcloud%3Agenres%3Aall-music",
+                "limit": 50,
+                "image_url": "../img/new_releases.jpg"
+            }
+        },
+        {
+            "chart": {
+                "title": "Alt Rock Top 50",
+                "author": "SoundCloud",
+                "kind": "top",
+                "genre_url": "soundcloud%3Agenres%3Aalternativerock",
+                "limit": 50,
+                "image_url": "../img/altrock_top50.jpg"
+            }
+        },
+        {
+            "chart": {
+                "title": "A.l.t",
+                "author": "SoundCloud",
+                "kind": "trending",
+                "genre_url": "soundcloud%3Agenres%3Aalternativerock",
+                "limit": 50,
+                "image_url": "../img/alt_rock.jpg"
+            }
+        },
+        {
+            "chart": {
+                "title": "Ambient Top 50",
+                "author": "SoundCloud",
+                "kind": "top",
+                "genre_url": "soundcloud%3Agenres%3Aambient",
+                "limit": 50,
+                "image_url": "../img/ambient_top50.jpg"
+            }
+        },
+        {
+            "chart": {
+                "title": "Relax and Focus",
+                "author": "SoundCloud",
+                "kind": "trending",
+                "genre_url": "soundcloud%3Agenres%3Aambient",
+                "limit": 50,
+                "image_url": "../img/relax_and_focus.jpg"
+            }
+        },
+        {
+            "chart": {
+                "title": "Classical Top 50",
+                "author": "SoundCloud",
+                "kind": "top",
+                "genre_url": "soundcloud%3Agenres%3Aclassical",
+                "limit": 50,
+                "image_url": "../img/classical_top50.jpg"
+            }
+        },
+        {
+            "chart": {
+                "title": "The Classics",
+                "author": "SoundCloud",
+                "kind": "trending",
+                "genre_url": "soundcloud%3Agenres%3Aclassical",
+                "limit": 50,
+                "image_url": "../img/the_classics.jpg"
+            }
+        },
+        {
+            "chart": {
+                "title": "Country Top 50",
+                "author": "SoundCloud",
+                "kind": "top",
+                "genre_url": "soundcloud%3Agenres%3Acountry",
+                "limit": 50,
+                "image_url": "../img/country_top50.jpg"
+            }
+        },
+        {
+            "chart": {
+                "title": "Country Hits",
+                "author": "SoundCloud",
+                "kind": "trending",
+                "genre_url": "soundcloud%3Agenres%3Acountry",
+                "limit": 50,
+                "image_url": "../img/country_hits.jpg"
+            }
+        },
+        {
+            "chart": {
+                "title": "Dancehall Top 50",
+                "author": "SoundCloud",
+                "kind": "top",
+                "genre_url": "soundcloud%3Agenres%3Adancehall",
+                "limit": 50,
+                "image_url": "../img/dancehall_top50.jpg"
+            }
+        },
+        {
+            "chart": {
+                "title": "Vibin",
+                "author": "SoundCloud",
+                "kind": "trending",
+                "genre_url": "soundcloud%3Agenres%3Adancehall",
+                "limit": 50,
+                "image_url": "../img/vibin.jpg"
+            }
+        },
+
+        {
+            "chart": {
+                "title": "Dance & EDM 50",
+                "author": "SoundCloud",
+                "kind": "top",
+                "genre_url": "soundcloud%3Agenres%3Adanceedm",
+                "limit": 50,
+                "image_url": "../img/edm_top50.jpg"
+            }
+        },
+        {
+            "chart": {
+                "title": "Essential EDM",
+                "author": "SoundCloud",
+                "kind": "trending",
+                "genre_url": "soundcloud%3Agenres%3Adanceedm",
+                "limit": 50,
+                "image_url": "../img/essential_edm.jpg"
+            }
+        },
+
+        {
+            "chart": {
+                "title": "Deep House Top 50",
+                "author": "SoundCloud",
+                "kind": "top",
+                "genre_url": "soundcloud%3Agenres%3Adeephouse",
+                "limit": 50,
+                "image_url": "../img/deephouse_top50.jpg"
+            }
+        },
+        {
+            "chart": {
+                "title": "Bass Down Low",
+                "author": "SoundCloud",
+                "kind": "trending",
+                "genre_url": "soundcloud%3Agenres%3Adeephouse",
+                "limit": 50,
+                "image_url": "../img/bass_down_low.jpg"
+            }
+        },
+
+        {
+            "chart": {
+                "title": "Disco Top 50",
+                "author": "SoundCloud",
+                "kind": "top",
+                "genre_url": "soundcloud%3Agenres%3Adisco",
+                "limit": 50,
+                "image_url": "../img/disco_top50.jpg"
+            }
+        },
+        {
+            "chart": {
+                "title": "Saturday Night Fever",
+                "author": "SoundCloud",
+                "kind": "trending",
+                "genre_url": "soundcloud%3Agenres%3Adisco",
+                "limit": 50,
+                "image_url": "../img/saturday_night_fever.jpg"
+            }
+        },
+
+        {
+            "chart": {
+                "title": "Drum & Bass Top 50",
+                "author": "SoundCloud",
+                "kind": "top",
+                "genre_url": "soundcloud%3Agenres%3Adrumbass",
+                "limit": 50,
+                "image_url": "../img/drumnbass_top50.jpg"
+            }
+        },
+        {
+            "chart": {
+                "title": "Fresh DnB",
+                "author": "SoundCloud",
+                "kind": "trending",
+                "genre_url": "soundcloud%3Agenres%3Adrumbass",
+                "limit": 50,
+                "image_url": "../img/fresh_dnb.jpg"
+            }
+        },
+
+        {
+            "chart": {
+                "title": "Dubstep Top 50",
+                "author": "SoundCloud",
+                "kind": "top",
+                "genre_url": "soundcloud%3Agenres%3Adubstep",
+                "limit": 50,
+                "image_url": "../img/dubstep_top50.jpg"
+            }
+        },
+        {
+            "chart": {
+                "title": "The Drop",
+                "author": "SoundCloud",
+                "kind": "trending",
+                "genre_url": "soundcloud%3Agenres%3Adaubstep",
+                "limit": 50,
+                "image_url": "../img/the_drop.jpg"
+            }
+        },
+
+        {
+            "chart": {
+                "title": "Electronic Top 50",
+                "author": "SoundCloud",
+                "kind": "top",
+                "genre_url": "soundcloud%3Agenres%3Aelectronic",
+                "limit": 50,
+                "image_url": "../img/electronic_top50.jpg"
+            }
+        },
+        {
+            "chart": {
+                "title": "L U C I D",
+                "author": "SoundCloud",
+                "kind": "trending",
+                "genre_url": "soundcloud%3Agenres%3Aelectronic",
+                "limit": 50,
+                "image_url": "../img/lucid.jpg"
+            }
+        },
+
+        {
+            "chart": {
+                "title": "Folk Top 50",
+                "author": "SoundCloud",
+                "kind": "top",
+                "genre_url": "soundcloud%3Agenres%3Afolksingersongwriter",
+                "limit": 50,
+                "image_url": "../img/folk_top50.jpg"
+            }
+        },
+        {
+            "chart": {
+                "title": "Folk Hits",
+                "author": "SoundCloud",
+                "kind": "trending",
+                "genre_url": "soundcloud%3Agenres%3Afolksingersongwriter",
+                "limit": 50,
+                "image_url": "../img/folk_hits.jpg"
+            }
+        },
+
+        {
+            "chart": {
+                "title": "House Top 50",
+                "author": "SoundCloud",
+                "kind": "top",
+                "genre_url": "soundcloud%3Agenres%3Ahouse",
+                "limit": 50,
+                "image_url": "../img/house_top50.jpg"
+            }
+        },
+        {
+            "chart": {
+                "title": "House Mix",
+                "author": "SoundCloud",
+                "kind": "trending",
+                "genre_url": "soundcloud%3Agenres%3Ahouse",
+                "limit": 50,
+                "image_url": "../img/house_mix.jpg"
+            }
+        },
+
+        {
+            "chart": {
+                "title": "Indie Top 50",
+                "author": "SoundCloud",
+                "kind": "top",
+                "genre_url": "soundcloud%3Agenres%3Ahouse",
+                "limit": 50,
+                "image_url": "../img/indie_top50.jpg"
+            }
+        },
+        {
+            "chart": {
+                "title": "Indiependent",
+                "author": "SoundCloud",
+                "kind": "trending",
+                "genre_url": "soundcloud%3Agenres%3Aindie",
+                "limit": 50,
+                "image_url": "../img/indie_pendent.jpg"
+            }
+        },
+
+        {
+            "chart": {
+                "title": "Jazz & Blues Top 50",
+                "author": "SoundCloud",
+                "kind": "top",
+                "genre_url": "soundcloud%3Agenres%3Ajazzblues",
+                "limit": 50,
+                "image_url": "../img/jazz_top50.jpg"
+            }
+        },
+        {
+            "chart": {
+                "title": "Smoooooth Jazz",
+                "author": "SoundCloud",
+                "kind": "trending",
+                "genre_url": "soundcloud%3Agenres%3Ajazzblues",
+                "limit": 50,
+                "image_url": "../img/smooth_jazz.jpg"
+            }
+        },
+
+        {
+            "chart": {
+                "title": "Latin Top 50",
+                "author": "SoundCloud",
+                "kind": "top",
+                "genre_url": "soundcloud%3Agenres%3Alatin",
+                "limit": 50,
+                "image_url": "../img/latin_top50.jpg"
+            }
+        },
+        {
+            "chart": {
+                "title": "Fresh Latin",
+                "author": "SoundCloud",
+                "kind": "trending",
+                "genre_url": "soundcloud%3Agenres%3Alatin",
+                "limit": 50,
+                "image_url": "../img/fresh_latin.jpg"
+            }
+        },
+
+        {
+            "chart": {
+                "title": "Metal Top 50",
+                "author": "SoundCloud",
+                "kind": "top",
+                "genre_url": "soundcloud%3Agenres%3Ametal",
+                "limit": 50,
+                "image_url": "../img/metal_top50.jpg"
+            }
+        },
+        {
+            "chart": {
+                "title": "Onslaught",
+                "author": "SoundCloud",
+                "kind": "trending",
+                "genre_url": "soundcloud%3Agenres%3Ametal",
+                "limit": 50,
+                "image_url": "../img/onslaught.jpg"
+            }
+        },
+
+        {
+            "chart": {
+                "title": "Piano Top 50",
+                "author": "SoundCloud",
+                "kind": "top",
+                "genre_url": "soundcloud%3Agenres%3Apiano",
+                "limit": 50,
+                "image_url": "../img/piano_top50.jpg"
+            }
+        },
+        {
+            "chart": {
+                "title": "Essential Keys",
+                "author": "SoundCloud",
+                "kind": "trending",
+                "genre_url": "soundcloud%3Agenres%3Apiano",
+                "limit": 50,
+                "image_url": "../img/essential_keys.jpg"
+            }
+        },
+
+        {
+            "chart": {
+                "title": "Pop Top 50",
+                "author": "SoundCloud",
+                "kind": "top",
+                "genre_url": "soundcloud%3Agenres%3Apop",
+                "limit": 50,
+                "image_url": "../img/pop_top50.jpg"
+            }
+        },
+        {
+            "chart": {
+                "title": "P.O.P",
+                "author": "SoundCloud",
+                "kind": "trending",
+                "genre_url": "soundcloud%3Agenres%3Apop",
+                "limit": 50,
+                "image_url": "../img/pop.jpg"
+            }
+        },
+
+                {
+            "chart": {
+                "title": "Rap Top 50",
+                "author": "SoundCloud",
+                "kind": "top",
+                "genre_url": "soundcloud%3Agenres%3Ahiphoprap",
+                "limit": 50,
+                "image_url": "../img/rap_top50.jpg"
+            }
+        },
+        {
+            "chart": {
+                "title": "Fresh Hip-hop & Rap",
+                "author": "SoundCloud",
+                "kind": "trending",
+                "genre_url": "soundcloud%3Agenres%3Ahiphoprap",
+                "limit": 50,
+                "image_url": "../img/fresh_rap.jpg"
+            }
+        },
+
+        {
+            "chart": {
+                "title": "R&B & Soul Top 50",
+                "author": "SoundCloud",
+                "kind": "top",
+                "genre_url": "soundcloud%3Agenres%3Asoul",
+                "limit": 50,
+                "image_url": "../img/rb_top50.jpg"
+            }
+        },
+        {
+            "chart": {
+                "title": "Soul Food",
+                "author": "SoundCloud",
+                "kind": "trending",
+                "genre_url": "soundcloud%3Agenres%3Asoul",
+                "limit": 50,
+                "image_url": "../img/soul_food.jpg"
+            }
+        },
+
+        {
+            "chart": {
+                "title": "Reggae Top 50",
+                "author": "SoundCloud",
+                "kind": "top",
+                "genre_url": "soundcloud%3Agenres%3Areggae",
+                "limit": 50,
+                "image_url": "../img/reggae_top50.jpg"
+            }
+        },
+        {
+            "chart": {
+                "title": "Trending Reggae",
+                "author": "SoundCloud",
+                "kind": "trending",
+                "genre_url": "soundcloud%3Agenres%3Areggae",
+                "limit": 50,
+                "image_url": "../img/trending_reggae.jpg"
+            }
+        },
+
+        {
+            "chart": {
+                "title": "Reggaeton Top 50",
+                "author": "SoundCloud",
+                "kind": "top",
+                "genre_url": "soundcloud%3Agenres%3Areggaeton",
+                "limit": 50,
+                "image_url": "../img/reggaeton_top50.jpg"
+            }
+        },
+        {
+            "chart": {
+                "title": "REGGAET☯N",
+                "author": "SoundCloud",
+                "kind": "trending",
+                "genre_url": "soundcloud%3Agenres%3Areggaeton",
+                "limit": 50,
+                "image_url": "../img/reggaeton.jpg"
+            }
+        },
+
+        {
+            "chart": {
+                "title": "Soundtrack Top 50",
+                "author": "SoundCloud",
+                "kind": "top",
+                "genre_url": "soundcloud%3Agenres%3Asoundtrack",
+                "limit": 50,
+                "image_url": "../img/soundtrack_top50.jpg"
+            }
+        },
+        {
+            "chart": {
+                "title": "Movie Hits",
+                "author": "SoundCloud",
+                "kind": "trending",
+                "genre_url": "soundcloud%3Agenres%3Asoundtrack",
+                "limit": 50,
+                "image_url": "../img/movie_hits.jpg"
+            }
+        },
+
+        {
+            "chart": {
+                "title": "Techno Top 50",
+                "author": "SoundCloud",
+                "kind": "top",
+                "genre_url": "soundcloud%3Agenres%3Atechno",
+                "limit": 50,
+                "image_url": "../img/techno_top50.jpg"
+            }
+        },
+        {
+            "chart": {
+                "title": "Ultimate Techno",
+                "author": "SoundCloud",
+                "kind": "trending",
+                "genre_url": "soundcloud%3Agenres%3Atechno",
+                "limit": 50,
+                "image_url": "../img/ultimate_techno.jpg"
+            }
+        },
+
+        {
+            "chart": {
+                "title": "Trap Top 50",
+                "author": "SoundCloud",
+                "kind": "top",
+                "genre_url": "soundcloud%3Agenres%3Atrap",
+                "limit": 50,
+                "image_url": "../img/trap_top50.jpg"
+            }
+        },
+        {
+            "chart": {
+                "title": "Trap Out",
+                "author": "SoundCloud",
+                "kind": "trending",
+                "genre_url": "soundcloud%3Agenres%3Atrap",
+                "limit": 50,
+                "image_url": "../img/trap_out.jpg"
+            }
+        },
+
+        {
+            "chart": {
+                "title": "Triphop Top 50",
+                "author": "SoundCloud",
+                "kind": "top",
+                "genre_url": "soundcloud%3Agenres%3Atriphop",
+                "limit": 50,
+                "image_url": "../img/triphop_top50.jpg"
+            }
+        },
+        {
+            "chart": {
+                "title": "Triphop Session",
+                "author": "SoundCloud",
+                "kind": "trending",
+                "genre_url": "soundcloud%3Agenres%3Atriphop",
+                "limit": 50,
+                "image_url": "../img/triphop_session.jpg"
+            }
+        },
+
+        {
+            "chart": {
+                "title": "World Top 50",
+                "author": "SoundCloud",
+                "kind": "top",
+                "genre_url": "soundcloud%3Agenres%3Aworld",
+                "limit": 50,
+                "image_url": "../img/world_top50.jpg"
+            }
+        },
+        {
+            "chart": {
+                "title": "Worldbeat",
+                "author": "SoundCloud",
+                "kind": "trending",
+                "genre_url": "soundcloud%3Agenres%3Aworld",
+                "limit": 50,
+                "image_url": "../img/worldbeat.jpg"
+            }
+        }
+        
+    ]
+}

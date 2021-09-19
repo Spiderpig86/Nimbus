@@ -62,12 +62,12 @@ var Constants = function () {
     }, {
         key: 'getRelatedWaypoint',
         value: function getRelatedWaypoint() {
-            return 'http://nimbusmusic.000webhostapp.com/related.php';
+            return 'https://nimbusmusicdata.herokuapp.com/related.php';
         }
     }, {
         key: 'getChartsWaypoint',
         value: function getChartsWaypoint() {
-            return 'http://nimbusmusic.000webhostapp.com/charts.php';
+            return 'https://nimbusmusicdata.herokuapp.com/charts.php';
         }
     }, {
         key: 'getChartsJSONWaypoint',
